@@ -1,0 +1,42 @@
+{
+  "dataset": "B1_ANXIETY",
+  "target": "GAD-7 >= 10",
+  "clases": [
+    "No alto (<10)",
+    "Alto (>=10)"
+  ],
+  "modelo": "Regresion Logistica",
+  "protocolo": "Hold-out 80/20",
+  "auc": 0.7645,
+  "f1": 0.4527,
+  "accuracy": 0.7297,
+  "features_numericas": [
+    "swl",
+    "spin",
+    "horas_juego",
+    "edad",
+    "narcisismo",
+    "swl_insatisfecho",
+    "spin_alto"
+  ],
+  "features_categoricas": [
+    "genero",
+    "grado",
+    "ocupacion",
+    "plataforma"
+  ],
+  "semilla": 42,
+  "version": "1.0",
+  "fecha": "2026-10-22 14:06:31",
+  "n": 9302,
+  "distribucion_clases": {
+    "No alto (<10)": 0.827,
+    "Alto (>=10)": 0.173
+  },
+  "variables_influyentes": [
+    "spin (0.27)",
+    "swl (0.24)",
+    "horas_juego (0.15)",
+    "edad (0.08)"
+  ]
+}

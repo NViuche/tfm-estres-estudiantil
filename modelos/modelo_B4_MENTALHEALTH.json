@@ -1,0 +1,45 @@
+{
+  "dataset": "B4_MENTALHEALTH",
+  "target": "Ha buscado tratamiento (Yes/No)",
+  "clases": [
+    "Sin tratamiento",
+    "Con tratamiento"
+  ],
+  "modelo": "XGBoost",
+  "protocolo": "Hold-out 80/20",
+  "auc": 0.7696,
+  "f1": 0.7285,
+  "accuracy": 0.7177,
+  "features_numericas": [
+    "antecedentes",
+    "dias_en_casa",
+    "estres_creciente",
+    "cambios_humor",
+    "vulnerabilidad"
+  ],
+  "features_categoricas": [
+    "genero",
+    "autonomo",
+    "cambio_habitos",
+    "historial_sm",
+    "debilidad_social",
+    "afrontamiento",
+    "interes_trabajo",
+    "entrevista",
+    "conoce_opciones"
+  ],
+  "semilla": 42,
+  "version": "1.0",
+  "fecha": "2026-10-22 14:06:31",
+  "n": 54207,
+  "distribucion_clases": {
+    "Sin tratamiento": 0.506,
+    "Con tratamiento": 0.494
+  },
+  "variables_influyentes": [
+    "antecedentes (0.26)",
+    "conoce_opciones_Yes (0.17)",
+    "vulnerabilidad (0.11)",
+    "conoce_opciones_No (0.06)"
+  ]
+}

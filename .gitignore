@@ -1,0 +1,16 @@
+# Los CSV (originales, capa armonizada y resultados) NO se versionan.
+# Las fuentes están en el README y las fichas en data/datasets/.
+*.csv
+*.csv.bak
+DataSet/
+
+# Notas internas del equipo
+docs/interno/
+
+.ipynb_checkpoints/
+__pycache__/
+.env
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini

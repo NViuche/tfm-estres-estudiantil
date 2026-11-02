@@ -1,0 +1,57 @@
+{
+  "dataset": "B3_DEPSTUDENT",
+  "target": "Depression (Yes/No)",
+  "clases": [
+    "Sin depresion",
+    "Con depresion"
+  ],
+  "modelo": "Regresion Logistica",
+  "protocolo": "CV 5x3",
+  "auc": 0.9984,
+  "f1": 0.9789,
+  "accuracy": 0.9788,
+  "features_numericas": [
+    "edad",
+    "presion",
+    "satisfaccion",
+    "sueno",
+    "dieta",
+    "pens_suicidas",
+    "horas_estudio",
+    "financiero",
+    "antecedentes",
+    "riesgo_alto"
+  ],
+  "features_categoricas": [
+    "genero"
+  ],
+  "semilla": 42,
+  "version": "1.0",
+  "fecha": "2026-10-22 14:06:31",
+  "n": 502,
+  "distribucion_clases": {
+    "Sin depresion": 0.498,
+    "Con depresion": 0.502
+  },
+  "variables_influyentes": [
+    "pens_suicidas (0.22)",
+    "presion (0.22)",
+    "edad (0.11)",
+    "satisfaccion (0.11)"
+  ],
+  "diagnostico": {
+    "auc_por_variable": {
+      "edad": 0.625,
+      "presion": 0.769,
+      "satisfaccion": 0.666,
+      "sueno": 0.528,
+      "dieta": 0.602,
+      "pens_suicidas": 0.733,
+      "horas_estudio": 0.613,
+      "financiero": 0.668,
+      "antecedentes": 0.528
+    },
+    "auc_arbol_prof2": 0.826,
+    "auc_arbol_prof4": 0.9
+  }
+}

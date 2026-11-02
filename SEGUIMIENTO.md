@@ -1,0 +1,46 @@
+# Seguimiento del proyecto
+
+Retroalimentación del tutor en cada entrega, cómo se resolvió, y limitaciones y pendientes.
+
+## Entrega 1: análisis, perfilado y modelo de datos
+
+El tutor valoró el reto de combinar fuentes tan distintas (datos clínicos, encuestas académicas y texto de redes sociales) y la fase de diagnóstico y gobernanza del dato. Señaló cinco aspectos a mejorar, que se resolvieron así:
+
+| Observación del tutor | Cómo se resolvió |
+|---|---|
+| El modelo entidad-relación queda por debajo del nivel de un máster y las claves genéricas `registro_id` son poco legibles | Modelo v2 con claves semánticas (p. ej. `id_encuesta_estres`, `id_respondente_dass`): 7 dimensiones y tablas de hechos por fuente ([`sql/modelo_datos_mysql_v2.sql`](sql/modelo_datos_mysql_v2.sql)) |
+| Sin un identificador común, el TFM corre el riesgo de fragmentarse en 4 o 5 mini-proyectos | Arquitectura hub-and-spoke: 11 tablas de hechos unificadas en la vista `vw_hechos_estres` (UNION ALL) |
+| Hechos ligados solo a dimensiones de metadatos (`dim_bloque`, `dim_dataset`): silos que impiden un filtro global en Power BI | 4 dimensiones conformes: `dim_genero`, `dim_rango_edad`, `dim_nivel_educativo` y `dim_nivel_estres` (miembro «No reportado» con id 0). Verificado con el filtro «mujeres de 18–25 con estrés Alto»: 7.446 casos en 7 fuentes |
+| Usar datasets sintéticos en el modelado restaría validez científica | Student Habits, Social Media/Sleep y Mental Health Lifestyle (15.000 filas) marcados con `uso_modelado = 'excluido'`; solo se usan en la capa descriptiva y como caso de calidad del dato |
+| Falta definir qué se mide o predice en la capa analítica global, con targets tan distintos (binario, continuo, categórico) | Constructo unificado de nivel de estrés Bajo / Moderado / Alto, con el mapeo de cada dataset en `dim_mapeo_estres` (GAD-7 y DASS con sus baremos clínicos) |
+
+El detalle está en la respuesta a la retroalimentación ([`docs/entrega1_objetivo1/`](docs/entrega1_objetivo1/)).
+
+## Entrega 2: ETL, KPIs y modelado
+
+Valoración del tutor: **calidad sobresaliente**. Destacó:
+
+- el rigor técnico y la estructura del proceso ETL;
+- el diseño del Data Warehouse orientado al análisis multidimensional;
+- la justificación de las métricas de evaluación de los modelos;
+- la prevención de fugas de datos;
+- el feature engineering;
+- la serialización del pipeline completo;
+- la trazabilidad de los KPIs históricos;
+- la alineación entre las tablas de hechos unificadas y el esquema en estrella/constelación.
+
+No pidió correcciones.
+
+## Limitaciones conocidas
+
+- Tres tareas de modelado tienen menos de 600 registros, así que sus resultados varían mucho.
+- Varias poblaciones no son estudiantiles (jugadores online, Reddit, población general).
+- No se usó deep learning, búsqueda de hiperparámetros ni ajuste de umbrales.
+- Los modelos son de investigación, no de diagnóstico clínico.
+- Depression Student obtiene un AUC de 0,998, lo que indica una posible etiqueta generada por fórmula. Se reporta con cautela.
+- 67 respondentes del DASS (0,17 %) sin género informado quedaron como «Otro» en lugar de «No reportado» (efecto de 0,02 puntos en la cobertura demográfica).
+
+## Pendiente
+
+- Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
+- Entrega 3: dashboards de Power BI sobre la estrella, los KPIs del DWH y `vw_modelo_resultados`, más el documento de insights.

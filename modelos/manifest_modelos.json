@@ -1,0 +1,507 @@
+{
+  "fecha": "2026-10-22 14:06:31",
+  "booster": "XGBoost",
+  "modelos": [
+    {
+      "dataset": "B1_ACADSTRESS",
+      "target": "Indice de estres academico (1-5)",
+      "clases": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "modelo": "Random Forest",
+      "protocolo": "CV 5x3",
+      "auc": 0.729,
+      "f1": 0.4109,
+      "accuracy": 0.381,
+      "features_numericas": [
+        "etapa",
+        "presion_pares",
+        "presion_hogar",
+        "competencia",
+        "presion_total"
+      ],
+      "features_categoricas": [
+        "entorno",
+        "afrontamiento",
+        "habitos"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 140,
+      "distribucion_clases": {
+        "1": 0.043,
+        "2": 0.064,
+        "3": 0.257,
+        "4": 0.4,
+        "5": 0.236
+      },
+      "variables_influyentes": [
+        "presion_total (0.26)",
+        "competencia (0.23)",
+        "presion_pares (0.14)",
+        "presion_hogar (0.11)"
+      ]
+    },
+    {
+      "dataset": "B1_ANXIETY",
+      "target": "GAD-7 >= 10",
+      "clases": [
+        "No alto (<10)",
+        "Alto (>=10)"
+      ],
+      "modelo": "Regresion Logistica",
+      "protocolo": "Hold-out 80/20",
+      "auc": 0.7645,
+      "f1": 0.4527,
+      "accuracy": 0.7297,
+      "features_numericas": [
+        "swl",
+        "spin",
+        "horas_juego",
+        "edad",
+        "narcisismo",
+        "swl_insatisfecho",
+        "spin_alto"
+      ],
+      "features_categoricas": [
+        "genero",
+        "grado",
+        "ocupacion",
+        "plataforma"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 9302,
+      "distribucion_clases": {
+        "No alto (<10)": 0.827,
+        "Alto (>=10)": 0.173
+      },
+      "variables_influyentes": [
+        "spin (0.27)",
+        "swl (0.24)",
+        "horas_juego (0.15)",
+        "edad (0.08)"
+      ]
+    },
+    {
+      "dataset": "B1_MHSURVEY",
+      "target": "Depresion autoreportada (3 niveles)",
+      "clases": [
+        "Bajo",
+        "Moderado",
+        "Alto"
+      ],
+      "modelo": "XGBoost",
+      "protocolo": "CV 5x3",
+      "auc": 0.7854,
+      "f1": 0.5486,
+      "accuracy": 0.6251,
+      "features_numericas": [
+        "edad",
+        "cgpa",
+        "sueno",
+        "deporte",
+        "satisfaccion",
+        "carga",
+        "presion",
+        "financiero",
+        "relaciones",
+        "aislamiento",
+        "inseguridad",
+        "carga_presion",
+        "bienestar"
+      ],
+      "features_categoricas": [
+        "genero",
+        "nivel",
+        "residencia",
+        "discriminacion",
+        "anio"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 87,
+      "distribucion_clases": {
+        "Bajo": 0.31,
+        "Moderado": 0.241,
+        "Alto": 0.448
+      },
+      "variables_influyentes": [
+        "aislamiento (0.15)",
+        "bienestar (0.13)",
+        "financiero (0.09)",
+        "inseguridad (0.08)"
+      ]
+    },
+    {
+      "dataset": "B2_SMMH",
+      "target": "Se siente deprimido/a >= 4",
+      "clases": [
+        "Bajo (<4)",
+        "Alto (>=4)"
+      ],
+      "modelo": "Random Forest",
+      "protocolo": "CV 5x3",
+      "auc": 0.7966,
+      "f1": 0.7276,
+      "accuracy": 0.7318,
+      "features_numericas": [
+        "edad",
+        "tiempo_diario",
+        "uso_sin_proposito",
+        "distraccion_redes",
+        "inquietud_sin_redes",
+        "distraccion_facil",
+        "preocupacion",
+        "dificultad_concentracion",
+        "comparacion_social",
+        "sentimiento_comparacion",
+        "busqueda_validacion",
+        "problemas_sueno",
+        "uso_ansioso",
+        "impacto_social",
+        "usa_youtube",
+        "usa_facebook",
+        "usa_instagram",
+        "usa_discord",
+        "usa_snapchat",
+        "usa_pinterest",
+        "usa_twitter",
+        "usa_reddit",
+        "usa_tiktok"
+      ],
+      "features_categoricas": [
+        "genero",
+        "relacion",
+        "ocupacion"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 481,
+      "distribucion_clases": {
+        "Bajo (<4)": 0.541,
+        "Alto (>=4)": 0.459
+      },
+      "variables_influyentes": [
+        "preocupacion (0.13)",
+        "uso_ansioso (0.10)",
+        "dificultad_concentracion (0.08)",
+        "edad (0.07)"
+      ]
+    },
+    {
+      "dataset": "B3_DEPSTUDENT",
+      "target": "Depression (Yes/No)",
+      "clases": [
+        "Sin depresion",
+        "Con depresion"
+      ],
+      "modelo": "Regresion Logistica",
+      "protocolo": "CV 5x3",
+      "auc": 0.9984,
+      "f1": 0.9789,
+      "accuracy": 0.9788,
+      "features_numericas": [
+        "edad",
+        "presion",
+        "satisfaccion",
+        "sueno",
+        "dieta",
+        "pens_suicidas",
+        "horas_estudio",
+        "financiero",
+        "antecedentes",
+        "riesgo_alto"
+      ],
+      "features_categoricas": [
+        "genero"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 502,
+      "distribucion_clases": {
+        "Sin depresion": 0.498,
+        "Con depresion": 0.502
+      },
+      "variables_influyentes": [
+        "pens_suicidas (0.22)",
+        "presion (0.22)",
+        "edad (0.11)",
+        "satisfaccion (0.11)"
+      ],
+      "diagnostico": {
+        "auc_por_variable": {
+          "edad": 0.625,
+          "presion": 0.769,
+          "satisfaccion": 0.666,
+          "sueno": 0.528,
+          "dieta": 0.602,
+          "pens_suicidas": 0.733,
+          "horas_estudio": 0.613,
+          "financiero": 0.668,
+          "antecedentes": 0.528
+        },
+        "auc_arbol_prof2": 0.826,
+        "auc_arbol_prof4": 0.9
+      }
+    },
+    {
+      "dataset": "B4_DASS",
+      "target": "Nivel de estres DASS-42 (baremos)",
+      "clases": [
+        "Bajo",
+        "Moderado",
+        "Alto"
+      ],
+      "modelo": "XGBoost",
+      "protocolo": "Hold-out 80/20",
+      "auc": 0.7628,
+      "f1": 0.5836,
+      "accuracy": 0.5779,
+      "features_numericas": [
+        "extraversion",
+        "amabilidad",
+        "responsabilidad",
+        "estab_emocional",
+        "apertura",
+        "edad",
+        "educacion",
+        "familia"
+      ],
+      "features_categoricas": [
+        "genero",
+        "infancia",
+        "ingles_nativo",
+        "estado_civil"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 23039,
+      "distribucion_clases": {
+        "Bajo": 0.288,
+        "Moderado": 0.357,
+        "Alto": 0.355
+      },
+      "variables_influyentes": [
+        "estab_emocional (0.31)",
+        "responsabilidad (0.10)",
+        "extraversion (0.10)",
+        "apertura (0.09)"
+      ]
+    },
+    {
+      "dataset": "B4_MENTALHEALTH",
+      "target": "Ha buscado tratamiento (Yes/No)",
+      "clases": [
+        "Sin tratamiento",
+        "Con tratamiento"
+      ],
+      "modelo": "XGBoost",
+      "protocolo": "Hold-out 80/20",
+      "auc": 0.7696,
+      "f1": 0.7285,
+      "accuracy": 0.7177,
+      "features_numericas": [
+        "antecedentes",
+        "dias_en_casa",
+        "estres_creciente",
+        "cambios_humor",
+        "vulnerabilidad"
+      ],
+      "features_categoricas": [
+        "genero",
+        "autonomo",
+        "cambio_habitos",
+        "historial_sm",
+        "debilidad_social",
+        "afrontamiento",
+        "interes_trabajo",
+        "entrevista",
+        "conoce_opciones"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 54207,
+      "distribucion_clases": {
+        "Sin tratamiento": 0.506,
+        "Con tratamiento": 0.494
+      },
+      "variables_influyentes": [
+        "antecedentes (0.26)",
+        "conoce_opciones_Yes (0.17)",
+        "vulnerabilidad (0.11)",
+        "conoce_opciones_No (0.06)"
+      ]
+    },
+    {
+      "dataset": "B3_DREADDIT",
+      "target": "label estres (0/1)",
+      "clases": [
+        "No estres",
+        "Estres"
+      ],
+      "modelo": "Hibrido (TF-IDF + LIWC) + RegLog",
+      "protocolo": "Train/Test original",
+      "auc": 0.8383,
+      "f1": 0.7625,
+      "accuracy": 0.7483,
+      "features_numericas": [
+        "syntax_ari",
+        "lex_liwc_WC",
+        "lex_liwc_Analytic",
+        "lex_liwc_Clout",
+        "lex_liwc_Authentic",
+        "lex_liwc_Tone",
+        "lex_liwc_WPS",
+        "lex_liwc_Sixltr",
+        "lex_liwc_Dic",
+        "lex_liwc_function",
+        "lex_liwc_pronoun",
+        "lex_liwc_ppron",
+        "lex_liwc_i",
+        "lex_liwc_we",
+        "lex_liwc_you",
+        "lex_liwc_shehe",
+        "lex_liwc_they",
+        "lex_liwc_ipron",
+        "lex_liwc_article",
+        "lex_liwc_prep",
+        "lex_liwc_auxverb",
+        "lex_liwc_adverb",
+        "lex_liwc_conj",
+        "lex_liwc_negate",
+        "lex_liwc_verb",
+        "lex_liwc_adj",
+        "lex_liwc_compare",
+        "lex_liwc_interrog",
+        "lex_liwc_number",
+        "lex_liwc_quant",
+        "lex_liwc_affect",
+        "lex_liwc_posemo",
+        "lex_liwc_negemo",
+        "lex_liwc_anx",
+        "lex_liwc_anger",
+        "lex_liwc_sad",
+        "lex_liwc_social",
+        "lex_liwc_family",
+        "lex_liwc_friend",
+        "lex_liwc_female",
+        "lex_liwc_male",
+        "lex_liwc_cogproc",
+        "lex_liwc_insight",
+        "lex_liwc_cause",
+        "lex_liwc_discrep",
+        "lex_liwc_tentat",
+        "lex_liwc_certain",
+        "lex_liwc_differ",
+        "lex_liwc_percept",
+        "lex_liwc_see",
+        "lex_liwc_hear",
+        "lex_liwc_feel",
+        "lex_liwc_bio",
+        "lex_liwc_body",
+        "lex_liwc_health",
+        "lex_liwc_sexual",
+        "lex_liwc_ingest",
+        "lex_liwc_drives",
+        "lex_liwc_affiliation",
+        "lex_liwc_achieve",
+        "lex_liwc_power",
+        "lex_liwc_reward",
+        "lex_liwc_risk",
+        "lex_liwc_focuspast",
+        "lex_liwc_focuspresent",
+        "lex_liwc_focusfuture",
+        "lex_liwc_relativ",
+        "lex_liwc_motion",
+        "lex_liwc_space",
+        "lex_liwc_time",
+        "lex_liwc_work",
+        "lex_liwc_leisure",
+        "lex_liwc_home",
+        "lex_liwc_money",
+        "lex_liwc_relig",
+        "lex_liwc_death",
+        "lex_liwc_informal",
+        "lex_liwc_swear",
+        "lex_liwc_netspeak",
+        "lex_liwc_assent",
+        "lex_liwc_nonflu",
+        "lex_liwc_filler",
+        "lex_liwc_AllPunc",
+        "lex_liwc_Period",
+        "lex_liwc_Comma",
+        "lex_liwc_Colon",
+        "lex_liwc_SemiC",
+        "lex_liwc_QMark",
+        "lex_liwc_Exclam",
+        "lex_liwc_Dash",
+        "lex_liwc_Quote",
+        "lex_liwc_Apostro",
+        "lex_liwc_Parenth",
+        "lex_liwc_OtherP",
+        "lex_dal_max_pleasantness",
+        "lex_dal_max_activation",
+        "lex_dal_max_imagery",
+        "lex_dal_min_pleasantness",
+        "lex_dal_min_activation",
+        "lex_dal_min_imagery",
+        "lex_dal_avg_activation",
+        "lex_dal_avg_imagery",
+        "lex_dal_avg_pleasantness",
+        "syntax_fk_grade",
+        "sentiment"
+      ],
+      "features_texto": [
+        "text"
+      ],
+      "semilla": 42,
+      "version": "1.0",
+      "fecha": "2026-10-22 14:06:31",
+      "n": 3549,
+      "n_train": 2834,
+      "n_test": 715,
+      "distribucion_clases": {
+        "No estres": 0.484,
+        "Estres": 0.516
+      },
+      "terminos_estres": [
+        "me",
+        "my",
+        "feel",
+        "even",
+        "because",
+        "just",
+        "am",
+        "anxiety",
+        "don",
+        "what to"
+      ],
+      "terminos_no_estres": [
+        "you",
+        "we",
+        "her",
+        "your",
+        "url",
+        "met",
+        "she",
+        "more",
+        "would",
+        "for"
+      ],
+      "recall_estres": 0.783,
+      "especificidad": 0.711
+    }
+  ]
+}

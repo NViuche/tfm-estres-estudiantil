@@ -1,0 +1,57 @@
+{
+  "dataset": "B2_SMMH",
+  "target": "Se siente deprimido/a >= 4",
+  "clases": [
+    "Bajo (<4)",
+    "Alto (>=4)"
+  ],
+  "modelo": "Random Forest",
+  "protocolo": "CV 5x3",
+  "auc": 0.7966,
+  "f1": 0.7276,
+  "accuracy": 0.7318,
+  "features_numericas": [
+    "edad",
+    "tiempo_diario",
+    "uso_sin_proposito",
+    "distraccion_redes",
+    "inquietud_sin_redes",
+    "distraccion_facil",
+    "preocupacion",
+    "dificultad_concentracion",
+    "comparacion_social",
+    "sentimiento_comparacion",
+    "busqueda_validacion",
+    "problemas_sueno",
+    "uso_ansioso",
+    "impacto_social",
+    "usa_youtube",
+    "usa_facebook",
+    "usa_instagram",
+    "usa_discord",
+    "usa_snapchat",
+    "usa_pinterest",
+    "usa_twitter",
+    "usa_reddit",
+    "usa_tiktok"
+  ],
+  "features_categoricas": [
+    "genero",
+    "relacion",
+    "ocupacion"
+  ],
+  "semilla": 42,
+  "version": "1.0",
+  "fecha": "2026-10-22 14:06:31",
+  "n": 481,
+  "distribucion_clases": {
+    "Bajo (<4)": 0.541,
+    "Alto (>=4)": 0.459
+  },
+  "variables_influyentes": [
+    "preocupacion (0.13)",
+    "uso_ansioso (0.10)",
+    "dificultad_concentracion (0.08)",
+    "edad (0.07)"
+  ]
+}
