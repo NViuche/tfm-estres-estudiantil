@@ -57,7 +57,9 @@ Los CSV originales **no se incluyen** en el repositorio. Se descargan desde sus 
 
 Requisitos: Python 3 con Jupyter, y MySQL (probado con XAMPP; base de datos `tfm_estres_estudiantil_2`).
 
-1. Descarga los CSV desde las fuentes de arriba. Antes de ejecutar los notebooks, ajusta las rutas de la primera celda (`BASE` y similares) a tu carpeta local de datos y, si tu MySQL tiene contraseña, `DB_PASS`.
+1. Descarga los CSV desde las fuentes de arriba y colócalos en `data/raw/`, un subdirectorio por bloque con la carpeta de cada dataset (p. ej. `data/raw/Bloque 1/1 Student anxiety dataset/anxiety.csv`; la ruta exacta de cada archivo está en su ficha de `data/datasets/`). Si tu MySQL tiene contraseña, ajusta `DB_PASS`.
+
+   Los notebooks usan rutas relativas a `notebooks/`: leen los datos de `../data/raw` (`BASE`) y escriben lo que generan en `../salidas/objetivo1` o `../salidas/objetivo2` (`ALMC`). Ninguna de las dos carpetas se versiona. Ejecútalos con la carpeta `notebooks/` como directorio de trabajo (es lo habitual en Jupyter y VS Code).
 2. `sql/modelo_datos_mysql_v2.sql`
 3. `sql/esquema_estrella_powerbi_DEFINITIVO.sql`
 4. Ingesta: `notebooks/07_carga_datos_mysql.ipynb` (o la sección B.1 del notebook integrado). Se ejecuta una sola vez; después, `07b_validacion_carga_datos.ipynb` comprueba la carga.

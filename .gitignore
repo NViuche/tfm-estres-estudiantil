@@ -3,6 +3,10 @@
 *.csv
 *.csv.bak
 DataSet/
+data/raw/
+
+# Salidas que regeneran los notebooks (figuras, capa conforme, modelos, CSV)
+salidas/
 
 # Notas internas del equipo
 docs/interno/
