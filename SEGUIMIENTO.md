@@ -8,7 +8,7 @@ El tutor valoró el reto de combinar fuentes tan distintas (datos clínicos, enc
 
 | Observación del tutor | Cómo se resolvió |
 |---|---|
-| El modelo entidad-relación queda por debajo del nivel de un máster y las claves genéricas `registro_id` son poco legibles | Modelo v2 con claves semánticas (p. ej. `id_encuesta_estres`, `id_respondente_dass`): 7 dimensiones y tablas de hechos por fuente ([`sql/modelo_datos_mysql_v2.sql`](sql/modelo_datos_mysql_v2.sql)) |
+| El modelo entidad-relación queda por debajo del nivel de un máster y las claves genéricas `registro_id` son poco legibles | Modelo v2 con claves semánticas (p. ej. `id_encuesta_estres`, `id_respondente_dass`): 7 dimensiones y tablas de hechos por fuente ([`sql/modelo_datos_mysql.sql`](sql/modelo_datos_mysql.sql)). La v1 criticada se conserva en el historial (rama `entrega1/modelo-datos`) |
 | Sin un identificador común, el TFM corre el riesgo de fragmentarse en 4 o 5 mini-proyectos | Arquitectura hub-and-spoke: 11 tablas de hechos unificadas en la vista `vw_hechos_estres` (UNION ALL) |
 | Hechos ligados solo a dimensiones de metadatos (`dim_bloque`, `dim_dataset`): silos que impiden un filtro global en Power BI | 4 dimensiones conformes: `dim_genero`, `dim_rango_edad`, `dim_nivel_educativo` y `dim_nivel_estres` (miembro «No reportado» con id 0). Verificado con el filtro «mujeres de 18–25 con estrés Alto»: 7.446 casos en 7 fuentes |
 | Usar datasets sintéticos en el modelado restaría validez científica | Student Habits, Social Media/Sleep y Mental Health Lifestyle (15.000 filas) marcados con `uso_modelado = 'excluido'`; solo se usan en la capa descriptiva y como caso de calidad del dato |

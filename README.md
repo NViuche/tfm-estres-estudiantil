@@ -31,7 +31,7 @@ tfm-estres-estudiantil/
 | Carpeta | Contenido |
 |---|---|
 | `notebooks/` | `TFM_Notebook_Entrega1_y_Entrega2.ipynb` (notebook integrado de las entregas 1 y 2), EDA 01–04, reglas de calidad 05, armonización 06, ingesta 07, validación de la carga 07b, ETL/KPIs 08 y modelado 09 |
-| `sql/` | `modelo_datos_mysql_v2.sql`, `esquema_estrella_powerbi_DEFINITIVO.sql`, `dwh_estrella.sql` |
+| `sql/` | `modelo_datos_mysql.sql` (modelo v2), `esquema_estrella_powerbi.sql` (capa estrella definitiva) y `dwh_estrella.sql`. Sus diagramas están en `figuras/diagramas/`. Los documentos entregados citan los dos primeros con sus nombres de entonces: `modelo_datos_mysql_v2.sql` y `esquema_estrella_powerbi_DEFINITIVO.sql` |
 | `docs/entrega1_objetivo1/` | Síntesis del Objetivo 1, diccionario de datos (Excel y Markdown), respuesta a la retroalimentación del tutor |
 | `docs/entrega2_objetivo2/` | Síntesis de ETL y KPIs, definición de KPIs, síntesis del modelado |
 | `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (15 tablas, 16 relaciones, 32 medidas) y 5 páginas: panorama general, demografía, lenguaje (Dreaddit), validación psicológica y modelos predictivos |
@@ -75,8 +75,8 @@ Requisitos: Python 3 con Jupyter, y MySQL (probado con XAMPP; base de datos `tfm
 1. Descarga los CSV desde las fuentes de arriba y colócalos en `data/raw/`, un subdirectorio por bloque con la carpeta de cada dataset (p. ej. `data/raw/Bloque 1/1 Student anxiety dataset/anxiety.csv`; la ruta exacta de cada archivo está en su ficha de `data/datasets/`). Si tu MySQL tiene contraseña, ajusta `DB_PASS`.
 
    Los notebooks usan rutas relativas a `notebooks/`: leen los datos de `../data/raw` (`BASE`) y escriben lo que generan en `../salidas/objetivo1` o `../salidas/objetivo2` (`ALMC`). Ninguna de las dos carpetas se versiona. Ejecútalos con la carpeta `notebooks/` como directorio de trabajo (es lo habitual en Jupyter y VS Code).
-2. `sql/modelo_datos_mysql_v2.sql`
-3. `sql/esquema_estrella_powerbi_DEFINITIVO.sql`
+2. `sql/modelo_datos_mysql.sql`
+3. `sql/esquema_estrella_powerbi.sql`
 4. Ingesta: `notebooks/07_carga_datos_mysql.ipynb` (o la sección B.1 del notebook integrado). Se ejecuta una sola vez; después, `07b_validacion_carga_datos.ipynb` comprueba la carga.
 5. `sql/dwh_estrella.sql` (opcional; el notebook 08 crea las tablas si faltan)
 6. ETL y KPIs: `notebooks/08_etl_transformaciones_kpis.ipynb` (o la sección B.2 del notebook integrado)
@@ -88,14 +88,16 @@ El notebook 06 genera la capa armonizada (CSV) que no se versiona; se regenera a
 
 ## Versiones de los notebooks
 
-Los notebooks que pasaron por varias versiones se guardan con un único nombre. Su evolución está en el historial de git: cada versión es un commit en una rama de trabajo, que después se fusionó en `main`.
+Los notebooks y scripts SQL que pasaron por varias versiones se guardan con un único nombre. Su evolución está en el historial de git: cada versión es un commit en una rama de trabajo, que después se fusionó en `main`.
 
 | Rama | Notebook | Versiones (un commit cada una) |
 |---|---|---|
 | `entrega1/eda-calidad` | `01`–`04` EDA y `05_reglas_calidad_dato.ipynb` | inicial → final |
 | `entrega2/etl-kpis` | `08_etl_transformaciones_kpis.ipynb` | v1 (reconstruida) → v2 → v3 → v4 |
 | `notebook-integrado` | `TFM_Notebook_Entrega1_y_Entrega2.ipynb` | EDA de la Entrega 1 → Entregas 1 y 2 → versión final |
-| `entrega3/powerbi` | `powerbi/`, `scripts/` y guía de la Entrega 3 | informe de Power BI → documentación |
+| `entrega1/modelo-datos` | `sql/modelo_datos_mysql.sql` y `figuras/diagramas/modelo_datos_ERD.png` | v1 (Entrega 1) → v2 (tras la retroalimentación del tutor) |
+| `entrega1/modelo-datos` | `sql/esquema_estrella_powerbi.sql` y su diagrama | primera versión → definitiva (base `_2` y `COLLATE`) |
+| `entrega3/powerbi` | `powerbi/`, `scripts/` y guía de la Entrega 3 | informe de Power BI → documentación → capturas |
 
 Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `git show <commit>:notebooks/<archivo>`, o desde la pestaña *History* del archivo en GitHub.
 
