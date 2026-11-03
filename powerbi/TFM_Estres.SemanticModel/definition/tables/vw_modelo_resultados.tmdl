@@ -1,0 +1,191 @@
+table vw_modelo_resultados
+	lineageTag: 97eeee21-2070-5523-9c65-17259fd1d5f1
+
+	measure 'AUC medio' = AVERAGE ( vw_modelo_resultados[auc] )
+		formatString: 0.000
+		displayFolder: 6 Modelos
+		lineageTag: ada04a2d-8c28-5979-bf25-70139943e98a
+
+	measure 'AUC medio sin alertas' = CALCULATE ( AVERAGE ( vw_modelo_resultados[auc] ), vw_modelo_resultados[es_mejor_modelo] = 1, vw_modelo_resultados[alerta] = BLANK () )
+		formatString: 0.000
+		displayFolder: 6 Modelos
+		lineageTag: 23afbdd5-1985-58d8-8f4f-4d7d8ad6e054
+
+	measure 'F1 medio' = AVERAGE ( vw_modelo_resultados[f1] )
+		formatString: 0.000
+		displayFolder: 6 Modelos
+		lineageTag: e1c56402-39de-548e-9277-8ebd8e9e4214
+
+	measure 'Accuracy media' = AVERAGE ( vw_modelo_resultados[accuracy] )
+		formatString: 0.000
+		displayFolder: 6 Modelos
+		lineageTag: 64b3f134-8ee2-52b7-868d-5fe5c1505c0f
+
+	measure 'Modelos con alerta' = CALCULATE ( COUNTROWS ( vw_modelo_resultados ), vw_modelo_resultados[es_mejor_modelo] = 1, vw_modelo_resultados[alerta] <> BLANK () )
+		formatString: 0
+		displayFolder: 6 Modelos
+		lineageTag: b9a23908-f77d-52f8-a262-8393a7dc953e
+
+	column id_resultado_modelo
+		dataType: double
+		isHidden
+		lineageTag: dcd56645-aa94-5a90-8067-ca214af55a7e
+		summarizeBy: sum
+		sourceColumn: id_resultado_modelo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_dataset
+		dataType: double
+		isHidden
+		lineageTag: 6d704db8-965b-54d0-b830-3f76f9577e91
+		summarizeBy: none
+		sourceColumn: id_dataset
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bloque
+		dataType: string
+		isHidden
+		lineageTag: 38b86401-b617-51e4-b0c0-2dc92ae0e0bb
+		summarizeBy: none
+		sourceColumn: bloque
+
+	column dataset
+		dataType: string
+		lineageTag: fc9fa786-da2f-5683-905e-262147e0cbc8
+		summarizeBy: none
+		sourceColumn: dataset
+
+	column calidad
+		dataType: string
+		isHidden
+		lineageTag: 8444531c-0946-51fb-9f68-38b55cc6f171
+		summarizeBy: none
+		sourceColumn: calidad
+
+	column uso_modelado
+		dataType: string
+		isHidden
+		lineageTag: 0fd5e6ad-1699-5b81-9233-11859fe09e87
+		summarizeBy: none
+		sourceColumn: uso_modelado
+
+	column modelo
+		dataType: string
+		lineageTag: e4d4a0af-e8ce-547b-b7b6-1fbf4ed4c843
+		summarizeBy: none
+		sourceColumn: modelo
+
+	column protocolo
+		dataType: string
+		lineageTag: b36b8232-7b4a-517e-bfb7-664cdfc04502
+		summarizeBy: none
+		sourceColumn: protocolo
+
+	column n_registros
+		dataType: double
+		formatString: #,0
+		lineageTag: bc3c1050-bbcd-5f47-bfba-7dffd7b9af70
+		summarizeBy: none
+		sourceColumn: n_registros
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column accuracy
+		dataType: double
+		formatString: 0.000
+		lineageTag: f9d99d41-bb77-5b5f-a2eb-c5a8cf2b4051
+		summarizeBy: none
+		sourceColumn: accuracy
+
+		annotation SummarizationSetBy = User
+
+	column f1
+		dataType: double
+		formatString: 0.000
+		lineageTag: 8f6a6212-e54e-5d27-8839-24f631a7c407
+		summarizeBy: none
+		sourceColumn: f1
+
+		annotation SummarizationSetBy = User
+
+	column auc
+		dataType: double
+		formatString: 0.000
+		lineageTag: a922724f-1e75-5d08-9d39-c1f3264b05d2
+		summarizeBy: none
+		sourceColumn: auc
+
+		annotation SummarizationSetBy = User
+
+	column auc_desv
+		dataType: double
+		formatString: 0.000
+		lineageTag: f961024f-8236-5202-8a48-23eb6b7e7dee
+		summarizeBy: none
+		sourceColumn: auc_desv
+
+		annotation SummarizationSetBy = User
+
+	column brecha_acc
+		dataType: double
+		formatString: 0.000
+		lineageTag: 6533b19a-e3db-52f1-89ee-ac050f18a458
+		summarizeBy: none
+		sourceColumn: brecha_acc
+
+		annotation SummarizationSetBy = User
+
+	column es_mejor_modelo
+		dataType: double
+		lineageTag: 9ea5ac19-30d3-5c64-b29a-bd3cac6171e4
+		summarizeBy: none
+		sourceColumn: es_mejor_modelo
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column target
+		dataType: string
+		lineageTag: 5d4113cc-a5a5-5007-a4ff-5506e6eada8a
+		summarizeBy: none
+		sourceColumn: target
+
+	column lectura_capa_armonizada
+		dataType: string
+		lineageTag: a30e3500-6cb1-5739-b57c-02e012266437
+		summarizeBy: none
+		sourceColumn: lectura_capa_armonizada
+
+	column alerta
+		dataType: string
+		lineageTag: a7fc0d59-94c2-5c7d-9e6e-7ff802dc5eeb
+		summarizeBy: none
+		sourceColumn: alerta
+
+	column fecha_ejecucion
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3f206e02-ade8-573e-9c39-3cf4af806212
+		summarizeBy: none
+		sourceColumn: fecha_ejecucion
+
+		variation Variation
+			isDefault
+			relationship: c3044fdd-b47d-4395-b87d-c676dfc56627
+			defaultHierarchy: LocalDateTable_442b04b3-3707-4e8b-975b-4f51a1c3312d.'Jerarquía de fechas'
+
+	partition vw_modelo_resultados = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_modelo_resultados")
+				in
+					Origen
+

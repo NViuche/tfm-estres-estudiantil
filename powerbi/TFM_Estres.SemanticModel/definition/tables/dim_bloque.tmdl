@@ -1,0 +1,32 @@
+table dim_bloque
+	lineageTag: 7610b567-acd6-5d55-a966-46e8f65ff174
+
+	column id_bloque
+		dataType: double
+		isHidden
+		lineageTag: 5632cd21-712b-544c-9469-7b47e7f7ac63
+		summarizeBy: none
+		sourceColumn: id_bloque
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre
+		dataType: string
+		lineageTag: 08092f32-1220-5035-8a51-9b82b41170e3
+		summarizeBy: none
+		sourceColumn: nombre
+
+	column descripcion
+		dataType: string
+		lineageTag: b8deddbc-712d-5f2a-bfe1-b0dcec8646c7
+		summarizeBy: none
+		sourceColumn: descripcion
+
+	partition dim_bloque = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dim_bloque")
+				in
+					Origen
+
