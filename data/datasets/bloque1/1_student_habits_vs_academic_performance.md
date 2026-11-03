@@ -52,3 +52,7 @@
 | S1007        |    21 | Female   |                   4.3 |                  1   |             2   | Yes             |                    77.7 |           4.6 | Fair           |                    0 | Bachelor                   | Average            |                      8 | No                              |         72.6 |
 | S1008        |    23 | Female   |                   4.4 |                  2.2 |             1.7 | No              |                   100   |           7.1 | Good           |                    3 | Bachelor                   | Good               |                      1 | No                              |         78.9 |
 | S1009        |    18 | Female   |                   4.8 |                  3.1 |             1.3 | No              |                    95.4 |           7.5 | Good           |                    5 | Bachelor                   | Good               |                     10 | Yes                             |        100   |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

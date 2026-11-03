@@ -154,3 +154,7 @@
 | 39090 | anxiety          |       1 |          0.8 |   0.0399767 |           0.76 |
 | 19468 | almosthomeless   |       1 |          1   |   0.0824074 |           0    |
 | 48595 | domesticviolence |       0 |          0.6 |   0.258965  |           0    |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

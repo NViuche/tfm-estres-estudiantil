@@ -681,3 +681,7 @@ Conversión a texto del archivo Excel `Diccionario de datos.xlsx` (una sección 
 | SocialWeakness.1 | str | 261328 | 0 | 0 | 3 |  |  |  | Maybe (93271); No (87946); Yes (80111) | DUPLICADO EXACTO de SocialWeakness (eliminar) |
 | MentalHealthInterview | str | 261328 | 0 | 0 | 3 |  |  |  | No (205477); Maybe (47844); Yes (8007) | Hablaría de salud mental en una entrevista (Yes/No/Maybe) |
 | CareOptions | str | 261328 | 0 | 0 | 3 |  |  |  | No (108972); Yes (84097); Not sure (68259) | Conoce opciones de atención (Yes/No/Not sure) |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Síntesis del Objetivo 1](01_sintesis_objetivo1_final.md) · [Fichas de los datasets](../../data/datasets/00_INDICE.md) · [Pruebas de calidad](../../tests/pruebas.md)

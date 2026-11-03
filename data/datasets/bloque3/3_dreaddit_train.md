@@ -154,3 +154,7 @@
 | 33053 | anxiety          |       1 |          0.8 |  -0.0796296 |           2.68 |
 |  7581 | relationships    |       1 |          0.6 |  -0.272917  |           1.23 |
 |  1517 | assistance       |       1 |          1   |  -0.117262  |           0    |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

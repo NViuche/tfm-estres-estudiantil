@@ -59,3 +59,7 @@ Métricas de los modelos entrenados en `notebooks/09_modelado_objetivo2.ipynb`. 
 | B3_DREADDIT | TF-IDF + SVM lineal | Train/Test original | 3549 | 0.7315 | 0.7447 | 0.8201 |  | 0.265 | label estres (0/1) | 8 |
 | B3_DREADDIT | TF-IDF + Naive Bayes | Train/Test original | 3549 | 0.7189 | 0.766 | 0.8311 |  | 0.225 | label estres (0/1) | 8 |
 | B3_DREADDIT | Hibrido (TF-IDF + LIWC) + RegLog | Train/Test original | 3549 | 0.7483 | 0.7625 | 0.8383 |  | 0.0845 | label estres (0/1) | 8 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](../README.md) · [Síntesis del modelado](../docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) · [Pruebas](../tests/pruebas.md)

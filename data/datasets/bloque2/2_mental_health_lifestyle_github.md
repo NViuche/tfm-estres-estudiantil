@@ -45,3 +45,7 @@
 | Brazil    |    46 | Other    | Low              | Vegetarian  |           6.3 | High           | PTSD                      |                    46 |                           5.6 |                        3.5 |               1.1 |
 | India     |    60 | Male     | High             | Vegetarian  |           4.7 | Low            | Anxiety                   |                    33 |                           6.6 |                        3.7 |               5.2 |
 | Germany   |    19 | Female   | Moderate         | Vegan       |           3.3 | Low            | PTSD                      |                    44 |                           7.7 |                        3   |               7.7 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

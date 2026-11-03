@@ -15,6 +15,9 @@ powerbi_csv/
 # Notas internas del equipo
 docs/interno/
 
+# Configuración local de Obsidian (cada persona abre el repo como bóveda)
+.obsidian/
+
 .ipynb_checkpoints/
 __pycache__/
 .env

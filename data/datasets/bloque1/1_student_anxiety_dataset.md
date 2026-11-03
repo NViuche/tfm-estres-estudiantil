@@ -121,3 +121,7 @@
 |        8 |     42052.2 |      0 |      0 |      0 |      0 |      0 |      0 |      0 | nan                  |      3 |      6 |      4 |      3 |      7 | Other             | Console (PS, Xbox, ...) |      25 | I play for fun | having fun | nan      |             nan |         0 |       0 |       0 |
 |        9 |     42052.2 |      2 |      3 |      2 |      2 |      0 |      1 |      2 | Very difficult       |      2 |      3 |      3 |      3 |      1 | Other             | Console (PS, Xbox, ...) |       2 | I play for fun | winning    | nan      |             nan |         0 |       1 |       1 |
 |       10 |     42052.2 |      2 |      1 |      2 |      2 |      2 |      1 |      0 | Somewhat difficult   |      3 |      3 |      3 |      2 |      2 | World of Warcraft | PC                      |      25 | I play for fun | improving  | -        |             nan |         0 |       1 |       1 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

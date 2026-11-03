@@ -43,3 +43,7 @@
 | Female   |    20 |                   4 |                    1 | More than 8 hours | Healthy          | Yes                                     |             3 |                  4 | Yes                                | Yes          |
 | Female   |    33 |                   1 |                    4 | More than 8 hours | Moderate         | No                                      |            10 |                  3 | No                                 | No           |
 | Male     |    33 |                   4 |                    3 | Less than 5 hours | Unhealthy        | Yes                                     |            10 |                  1 | No                                 | Yes          |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

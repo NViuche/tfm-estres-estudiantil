@@ -408,3 +408,7 @@ La base de datos tfm_estres_estudiantil se implementó en MySQL (vía XAMPP/Mari
 ### Notebooks documentados
 
 Los cinco procesos (cuatro EDA y reglas de calidad) se entregan como notebooks de Jupyter (.ipynb) con celdas de explicación intercaladas: una guía de lectura inicial que describe la plantilla de análisis, y una explicación breve antes de cada celda de código que aclara su función y los comandos empleados, redactada para público técnico y no técnico. Los notebooks utilizan rutas parametrizadas (BASE/ALMC) que apuntan a la estructura local de carpetas del equipo y crean automáticamente los directorios de salida.
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](../../README.md) · [Diccionario de datos](03_diccionario_de_datos.md) · [Respuesta a la retroalimentación](02_respuesta_retroalimentacion_entrega1_v3.md) · [Datasets](../../data/datasets/00_INDICE.md) · [Problema y objetivos](../../investigacion/problema.md)

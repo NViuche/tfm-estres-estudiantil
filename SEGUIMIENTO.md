@@ -55,3 +55,7 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
 
 - Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
 - Entrega 3: documento de insights; migración a Supabase; corregir las tildes de los nombres de bloque en MySQL («Percepcion emocional» → «Percepción emocional»).
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](README.md) · [Problema y objetivos](investigacion/problema.md) · [Respuesta a la Entrega 1](docs/entrega1_objetivo1/02_respuesta_retroalimentacion_entrega1_v3.md) · [Síntesis ETL y KPIs](docs/entrega2_objetivo2/02_sintesis_entrega2_etl_kpis.md) · [Síntesis del modelado](docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) · [Guía de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) · [Pruebas](tests/pruebas.md)

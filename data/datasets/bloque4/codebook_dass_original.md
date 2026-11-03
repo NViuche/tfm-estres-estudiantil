@@ -141,3 +141,7 @@ screensize			1=device with small screen (phone, etc), 2=device with big screen (
 uniquenetworklocation		1=only one survey from user's specific network in dataset, 2=multiple surveys submitted from the network of this user  (2 does not necessarily imply duplicate records for an individual, as it could be different students at a single school or different memebers of the same household; and even if 1 there still could be duplicate records from a single individual e.g. if they took it once on their wifi and once on their phone)
 source			how the user found the test, 1=from the front page of the site hosting the survey, 2=from google, 0=other or unknown
 ```
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md) · [Ficha DASS-42](4_depression_anxiety_stress_scales_responses.md)

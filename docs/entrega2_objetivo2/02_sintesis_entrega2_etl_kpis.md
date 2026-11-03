@@ -54,3 +54,7 @@ El tipo de problema de aprendizaje de cada dataset y el feature engineering se d
 | dwh_estrella_ERD.png | Diagrama del DWH en estrella |
 | KPIs_TFM.docx | Definición de cada KPI |
 | Sintesis_Entrega2_ETL_KPIs.pdf | Este documento |
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](../../README.md) · [Definición de KPIs](03_kpis_definicion.md) · [Síntesis del modelado](01_sintesis_objetivo2_modelado.md) · [Pruebas](../../tests/pruebas.md)

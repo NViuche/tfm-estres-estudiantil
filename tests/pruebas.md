@@ -101,3 +101,7 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | B4.2 MentalHealth | R2: SelfEmployed nulo | 261328 | 4356 | 1.67 | AVISO | Imputar 'No' o categoria 'Desconocido' |
 | B4.2 MentalHealth | R3: Treatment fuera del dominio {Yes,No} | 261328 | 0 | 0.0 | OK | Revisar si >0 |
 | B4.2 MentalHealth | R4: Occupation fuera del dominio esperado | 261328 | 0 | 0.0 | OK | Revisar categorias nuevas si >0 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](../README.md) · [Seguimiento](../SEGUIMIENTO.md) · [Resultados del modelado](../resultados/README.md) · [Diccionario de datos](../docs/entrega1_objetivo1/03_diccionario_de_datos.md) · [Guía de Power BI](../docs/entrega3_objetivo3/guia_power_bi.md)

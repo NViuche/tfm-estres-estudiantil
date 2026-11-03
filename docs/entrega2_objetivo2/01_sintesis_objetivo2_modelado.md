@@ -222,3 +222,7 @@ Orden de ejecución (XAMPP con MySQL en verde). Ya ejecutados: `modelo_datos_mys
 | resultados_modelado_resumen.csv / _completo.csv | Métricas de todos los modelos, con id_dataset como clave de relación con la estrella |
 | figuras_modelado/*.png | Matriz de confusión e importancia por dataset y resumen de AUC |
 | Sintesis_Objetivo2_Modelado.pdf | Este documento |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Síntesis de ETL y KPIs](02_sintesis_entrega2_etl_kpis.md) · [Resultados del modelado](../../resultados/README.md) · [Seguimiento](../../SEGUIMIENTO.md)

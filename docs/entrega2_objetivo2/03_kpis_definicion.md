@@ -57,3 +57,7 @@ Este documento define los seis indicadores clave (KPIs) del proyecto, calculados
 
 ## 3. Almacenamiento y trazabilidad
 Los resultados se guardan en `dwh_kpi_resultados`, relacionada por clave foránea con `dwh_kpi_catalogo` (definición de cada KPI). Cada ejecución del ETL inserta seis filas nuevas (una por KPI) con `fecha_ejecucion`: el valor nunca se sobrescribe, se versiona. Permite en la Entrega 3 tarjetas con el último valor y gráficos de evolución temporal.
+
+---
+<!-- relacionado -->
+**Relacionado:** [Síntesis de ETL y KPIs](02_sintesis_entrega2_etl_kpis.md) · [Guía de Power BI](../entrega3_objetivo3/guia_power_bi.md)

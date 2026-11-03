@@ -159,3 +159,7 @@ El detalle metodológico y los resultados están en el documento de síntesis de
 | 7 | 09_modelado_objetivo2.ipynb | Jupyter | Modelado (8 tareas), serialización y carga de resultados al DWH |
 
 Entregables: `modelo_datos_mysql_v2.sql`; `modelo_datos_ERD_v2.png`; `esquema_estrella_powerbi.sql` y diagrama definitivo; `esquema_constelacion_powerbi.png` y `modelo_dwh_modelos.sql` (resultados del Objetivo 2 como segunda tabla de hechos); `06_armonizacion_dimensiones_conformes.ipynb` y `07_carga_datos_mysql.ipynb`; este documento (trazabilidad observación → acción → entregable → verificación).
+
+---
+<!-- relacionado -->
+**Relacionado:** [Síntesis del Objetivo 1](01_sintesis_objetivo1_final.md) · [Seguimiento](../../SEGUIMIENTO.md)

@@ -58,3 +58,7 @@
 | Male     |    22 | PU           | Undergraduate  | Data Science     | 2nd year        | 3.0-3.5 | Off-Campus           | Yes                     | No Sports           | 4-6 hrs         |                    3 |                    4 |                   4 |                    5 |                      4 |            3 |         2 |           2 |                   4 | Religious Activities, Social Connections, Online Entertainment                     |
 | Male     |    20 | COMSATS      | Undergraduate  | Computer Science | 3rd year        | 2.5-3.0 | Off-Campus           | Yes                     | 1-3 times           | 4-6 hrs         |                    3 |                    4 |                   3 |                    4 |                      2 |            3 |         4 |           3 |                   5 | Religious Activities, Social Connections, Online Entertainment, Outdoor Activities |
 | Male     |    23 | COMSATS      | Undergraduate  | Computer Science | 3rd year        | 2.5-3.0 | Off-Campus           | No                      | No Sports           | 4-6 hrs         |                    3 |                    5 |                   3 |                    5 |                      1 |            5 |         5 |           5 |                   5 | Sports and Fitness                                                                 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

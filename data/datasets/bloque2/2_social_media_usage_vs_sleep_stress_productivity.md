@@ -45,3 +45,7 @@
 |         8 |    26 |                     11.2  |                 7.99 |          3.85 |                 18 |               5.05 |                11.03 | High           | Snapchat   |
 |         9 |    39 |                      6.73 |                 6.79 |          7.47 |                102 |               1.37 |                 9.88 | High           | LinkedIn   |
 |        10 |    39 |                      6.36 |                 4.68 |          4.97 |                 73 |               9.06 |                31.91 | High           | YouTube    |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

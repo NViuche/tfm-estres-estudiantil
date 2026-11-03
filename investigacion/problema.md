@@ -35,3 +35,7 @@ Los datasets se agrupan en cuatro bloques analíticos:
 - **La señal predictiva es real pero moderada:** el AUC va de 0,73 a 0,84 en las fuentes con señal real. Los modelos sirven para investigación, no para diagnóstico clínico.
 
 El desarrollo completo está en [`docs/`](../docs/).
+
+---
+<!-- relacionado -->
+**Relacionado:** [README](../README.md) · [Seguimiento](../SEGUIMIENTO.md) · [Datasets](../data/datasets/00_INDICE.md) · [Síntesis Objetivo 1](../docs/entrega1_objetivo1/01_sintesis_objetivo1_final.md) · [Síntesis del modelado](../docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) · [Guía de Power BI](../docs/entrega3_objetivo3/guia_power_bi.md)

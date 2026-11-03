@@ -40,3 +40,7 @@
 | 24/07/2025 22:10:06 | undergraduate         |               3 |                                  2 | Peaceful            | Social support (friends, family)                   | No                                                                    |                                                                    3 |                                  3 |
 | 24/07/2025 22:11:01 | undergraduate         |               2 |                                  2 | Peaceful            | Analyze the situation and handle it with intellect | No                                                                    |                                                                    2 |                                  2 |
 | 24/07/2025 22:11:19 | undergraduate         |               2 |                                  2 | Peaceful            | Analyze the situation and handle it with intellect | No                                                                    |                                                                    4 |                                  2 |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)

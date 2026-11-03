@@ -40,3 +40,7 @@
 | Female   | USA       | Housewife    | No             | Yes             | Yes         | 15-30 days         | Yes            | Yes                   | Yes                | Medium       | Maybe            | Yes               | Maybe          | Maybe              | No                      | No            |
 | Female   | USA       | Student      | No             | Yes             | Yes         | Go out Every day   | Yes            | Maybe                 | Yes                | Medium       | Maybe            | Yes               | No             | Maybe              | No                      | Yes           |
 | Female   | USA       | Housewife    | No             | Yes             | Yes         | 1-14 days          | Yes            | Yes                   | Yes                | Medium       | Maybe            | Yes               | No             | Maybe              | No                      | Not sure      |
+
+---
+<!-- relacionado -->
+**Relacionado:** [Índice de datasets](../00_INDICE.md)
