@@ -24,7 +24,7 @@ tfm-estres-estudiantil/
 ├── scripts/                exportación de MySQL a CSV para Power BI y generador de las páginas
 ├── tests/
 │   └── pruebas.md          reglas de calidad, validación de la carga y del informe
-├── figuras/                gráficos del EDA y del modelado, y diagramas ERD
+├── figuras/                gráficos del EDA y del modelado, diagramas ERD y capturas del informe
 └── docs/                   documentos de las entregas 1, 2 y 3
 ```
 
@@ -36,7 +36,17 @@ tfm-estres-estudiantil/
 | `docs/entrega2_objetivo2/` | Síntesis de ETL y KPIs, definición de KPIs, síntesis del modelado |
 | `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (15 tablas, 16 relaciones, 32 medidas) y 5 páginas: panorama general, demografía, lenguaje (Dreaddit), validación psicológica y modelos predictivos |
 | `scripts/` | `exportar_mysql_cli.py` (MySQL → 15 CSV para Power BI) y `generar_paginas_pbir.py` (reconstruye los objetos visuales de las páginas) |
-| `docs/entrega3_objetivo3/` | Guía del informe de Power BI: datos, modelo, medidas, páginas y valores de control |
+| `docs/entrega3_objetivo3/` | Guía del informe de Power BI (datos, modelo, medidas, páginas y valores de control) y el informe exportado a PDF |
+
+## Informe de Power BI
+
+Cinco páginas, con menú de navegación y segmentadores por bloque, género, edad y nivel educativo. También puedes ver el [informe completo en PDF](docs/entrega3_objetivo3/informe_powerbi_TFM_Estres.pdf).
+
+| | |
+|---|---|
+| **1 Panorama general**: % de estrés Alto por bloque y por dataset ![Panorama general](figuras/powerbi/p1_panorama.png) | **2 Demografía**: estrés Alto por género, edad y nivel educativo ![Demografía](figuras/powerbi/p2_demografia.png) |
+| **3 Lenguaje (Dreaddit)**: vocabulario de ansiedad (LIWC) por subreddit ![Lenguaje](figuras/powerbi/p3_lenguaje.png) | **4 Validación psicológica**: DASS-42 y búsqueda de tratamiento ![Validación psicológica](figuras/powerbi/p4_validacion.png) |
+| **5 Modelos predictivos**: AUC del mejor modelo por dataset ![Modelos predictivos](figuras/powerbi/p5_modelos.png) | |
 
 ## Fuentes de datos
 
