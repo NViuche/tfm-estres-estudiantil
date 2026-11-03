@@ -1,6 +1,6 @@
 # Pruebas y validación
 
-El proyecto no es una aplicación con tests unitarios: sus pruebas son **comprobaciones sobre los datos y sobre la carga en MySQL**. Hay dos niveles.
+El proyecto no es una aplicación con tests unitarios: sus pruebas son **comprobaciones sobre los datos, sobre la carga en MySQL y sobre el informe de Power BI**. Hay tres niveles.
 
 ## 1. Reglas de calidad del dato (antes de la carga)
 
@@ -24,6 +24,29 @@ Notebook: [`notebooks/07b_validacion_carga_datos.ipynb`](../notebooks/07b_valida
 El notebook de ETL (`08_etl_transformaciones_kpis.ipynb`) añade dos controles: 14 relaciones hecho-dimensión con 0 claves huérfanas, y el cuadre 334.318 − 15.000 sintéticos = 319.318.
 
 **Limitación conocida:** 67 de los 39.767 respondentes del DASS (0,17 %) no contestaron el género y quedaron como «Otro» en lugar de «No reportado» (efecto de 0,02 puntos en la cobertura demográfica).
+
+## 3. Validación del informe de Power BI
+
+Comprobaciones hechas antes de dar por bueno el informe ([`powerbi/`](../powerbi/)):
+
+| Comprobación | Resultado |
+|---|---|
+| Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 15 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
+| Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 15 tablas |
+| Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 32 medidas, sin conflictos de nombres ni referencias DAX rotas |
+| Campos usados por los 40 objetos visuales | Todos existen en el modelo |
+
+Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
+
+| Medida | Valor |
+|---|---|
+| Registros (9 fuentes incluidas) | 319.318 |
+| % Estrés Alto | 33,7 % |
+| Cobertura demográfica | 17,0 % |
+| Brecha de género en ansiedad (DASS) | 2,89 |
+| % Búsqueda de tratamiento | 49,4 % |
+| AUC medio del mejor modelo, sin alertas | 0,786 |
+| Datasets con alerta | 2 |
 
 ## Detalle de las 49 reglas
 
