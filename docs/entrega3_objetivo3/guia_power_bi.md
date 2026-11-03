@@ -4,7 +4,7 @@ El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): mo
 
 ## 1. Preparar los datos
 
-1. En MySQL (XAMPP) deben existir las vistas `vw_*` (`sql/esquema_estrella_powerbi_DEFINITIVO.sql`), las tablas `dwh_*` (`sql/dwh_estrella.sql` + notebook 08) y los resultados del modelado (notebook 09: `dwh_modelo_resultados` y `vw_modelo_resultados`).
+1. En MySQL (XAMPP) deben existir las vistas `vw_*` (`sql/esquema_estrella_powerbi.sql`), las tablas `dwh_*` (`sql/dwh_estrella.sql` + notebook 08) y los resultados del modelado (notebook 09: `dwh_modelo_resultados` y `vw_modelo_resultados`).
 2. Con MySQL encendido: `python scripts\exportar_mysql_cli.py`. Genera los 15 CSV en `powerbi_csv/` (UTF-8, coma, punto decimal, nulos como celda vacía). Solo necesita Python y el `mysql.exe` de XAMPP. Hay que repetirlo cada vez que cambien los datos en MySQL.
 
 ¿Por qué CSV y no MySQL directo? El origen `MySQL` del modelo existe (parámetro `Fuente = "MySQL"`), pero no funciona con el MySQL de XAMPP. Al conectar sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite (error *No se puede encontrar el valor solicitado 'None'*).
