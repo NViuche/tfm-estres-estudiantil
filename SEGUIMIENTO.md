@@ -31,6 +31,17 @@ Valoración del tutor: **calidad sobresaliente**. Destacó:
 
 No pidió correcciones.
 
+## Entrega 3: Power BI e insights
+
+Pendiente de entrega y de retroalimentación del tutor. Avance:
+
+- **Informe de Power BI** ([`powerbi/`](powerbi/)) con 5 páginas: panorama general, demografía, lenguaje (Dreaddit), validación psicológica y modelos predictivos.
+  - Tiene segmentadores por bloque, género, edad y nivel educativo, y menú de navegación entre páginas.
+  - Usa como métrica transversal la dimensión `dim_nivel_estres`, y los resultados del modelado (`vw_modelo_resultados`) como segunda tabla de hechos.
+- **Cifras validadas:** cada valor de control del informe coincide con el calculado en SQL sobre MySQL (ver [`tests/pruebas.md`](tests/pruebas.md)).
+- **Fuente de datos:** el informe lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
+- **Pendientes:** el documento de insights y la migración de la base de datos a la nube (Supabase), para conectar el informe sin pasar por CSV.
+
 ## Limitaciones conocidas
 
 - Tres tareas de modelado tienen menos de 600 registros, así que sus resultados varían mucho.
@@ -43,4 +54,4 @@ No pidió correcciones.
 ## Pendiente
 
 - Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
-- Entrega 3: dashboards de Power BI sobre la estrella, los KPIs del DWH y `vw_modelo_resultados`, más el documento de insights.
+- Entrega 3: documento de insights; migración a Supabase; corregir las tildes de los nombres de bloque en MySQL («Percepcion emocional» → «Percepción emocional»).

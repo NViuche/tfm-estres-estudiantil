@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "b40858217b6c4cc54f1e",
+  "position": {
+    "x": 16,
+    "y": 674,
+    "z": 40,
+    "height": 38,
+    "width": 1248,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Dreaddit no incluye género ni edad: esta página no usa filtros demográficos. Un ratio > 1 indica más vocabulario de ansiedad en los posts con estrés.",
+                    "textStyle": {
+                      "fontSize": "9pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,78 @@
+table dwh_brecha_tratamiento
+	lineageTag: 060e3d8c-5087-57a6-8ccc-7422e92fc76b
+
+	measure '% Búsqueda de tratamiento' = DIVIDE ( SUM ( dwh_brecha_tratamiento[n_con_tratamiento] ), SUM ( dwh_brecha_tratamiento[n_total] ) )
+		formatString: 0.0%
+		displayFolder: 4 Validación psicológica
+		lineageTag: 80ad5bba-8ad4-58f7-8cf0-9e959a576a17
+
+	measure '% Tratamiento con antecedentes' = CALCULATE ( [% Búsqueda de tratamiento], dwh_brecha_tratamiento[antecedentes_familiares] = "Yes" )
+		formatString: 0.0%
+		displayFolder: 4 Validación psicológica
+		lineageTag: ee185f3f-a4c0-5856-a495-4fdb5c957ea2
+
+	measure '% Tratamiento sin antecedentes' = CALCULATE ( [% Búsqueda de tratamiento], dwh_brecha_tratamiento[antecedentes_familiares] = "No" )
+		formatString: 0.0%
+		displayFolder: 4 Validación psicológica
+		lineageTag: 9e3afb6a-75ae-524b-a501-e5c049be1e09
+
+	column id_brecha
+		dataType: double
+		isHidden
+		lineageTag: 260f5dbc-b1e3-5516-afe3-53d94b809b55
+		summarizeBy: sum
+		sourceColumn: id_brecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nivel_estres
+		dataType: double
+		isHidden
+		lineageTag: 86b0d619-945e-59de-badc-84ba3f913c0e
+		summarizeBy: none
+		sourceColumn: id_nivel_estres
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column antecedentes_familiares
+		dataType: string
+		lineageTag: 578a8b8b-07a5-5833-8f8a-1faca00fbfe8
+		summarizeBy: none
+		sourceColumn: antecedentes_familiares
+
+	column n_total
+		dataType: double
+		lineageTag: c47900c5-b080-5c3e-a094-05ebb1960f4f
+		summarizeBy: sum
+		sourceColumn: n_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_con_tratamiento
+		dataType: double
+		lineageTag: b20ca13a-3f23-5418-b728-ca5a2e9d37f8
+		summarizeBy: sum
+		sourceColumn: n_con_tratamiento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_tratamiento
+		dataType: double
+		lineageTag: 4c41edb8-b033-5646-9fee-1a22f9ed020d
+		summarizeBy: none
+		sourceColumn: pct_tratamiento
+
+	partition dwh_brecha_tratamiento = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_brecha_tratamiento")
+				in
+					Origen
+

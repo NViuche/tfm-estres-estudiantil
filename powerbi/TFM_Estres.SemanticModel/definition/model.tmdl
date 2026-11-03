@@ -1,0 +1,43 @@
+model Model
+	culture: es-ES
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: es-ES
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup Parametros
+
+	annotation PBI_QueryGroupOrder = 0
+
+queryGroup Funciones
+
+	annotation PBI_QueryGroupOrder = 1
+
+annotation PBI_QueryOrder = ["vw_hechos_estres","vw_dim_dataset","vw_dim_genero","vw_dim_rango_edad","vw_dim_nivel_educativo","vw_dim_nivel_estres","dim_bloque","dim_subreddit","dwh_agg_prevalencia","dwh_nlp_senales","dwh_dass_severidad","dwh_brecha_tratamiento","dwh_kpi_catalogo","dwh_kpi_resultados","vw_modelo_resultados","Fuente","Servidor","BaseDatos","RutaCSV","fnTabla"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table vw_hechos_estres
+ref table vw_dim_dataset
+ref table vw_dim_genero
+ref table vw_dim_rango_edad
+ref table vw_dim_nivel_educativo
+ref table vw_dim_nivel_estres
+ref table dim_bloque
+ref table dim_subreddit
+ref table dwh_agg_prevalencia
+ref table dwh_nlp_senales
+ref table dwh_dass_severidad
+ref table dwh_brecha_tratamiento
+ref table dwh_kpi_catalogo
+ref table dwh_kpi_resultados
+ref table vw_modelo_resultados
+ref table DateTableTemplate_4f504011-ec10-4567-ba03-a966d15e1ed1
+ref table LocalDateTable_57346907-6e3c-4748-8d1e-6e2a525d4334
+ref table LocalDateTable_442b04b3-3707-4e8b-975b-4f51a1c3312d
+
+ref cultureInfo es-ES
+

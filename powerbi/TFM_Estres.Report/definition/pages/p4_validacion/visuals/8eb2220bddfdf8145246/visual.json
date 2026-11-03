@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "8eb2220bddfdf8145246",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 110,
+    "width": 900,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Brecha de género en ansiedad (puntos)"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Brecha de género en ansiedad (puntos)",
+              "nativeQueryRef": "Brecha de género en ansiedad (puntos)",
+              "displayName": "Brecha ansiedad M − H (pts)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "% Estrés severo DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.% Estrés severo DASS",
+              "nativeQueryRef": "% Estrés severo DASS",
+              "displayName": "% estrés severo DASS"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_brecha_tratamiento"
+                    }
+                  },
+                  "Property": "% Búsqueda de tratamiento"
+                }
+              },
+              "queryRef": "dwh_brecha_tratamiento.% Búsqueda de tratamiento",
+              "nativeQueryRef": "% Búsqueda de tratamiento",
+              "displayName": "% búsqueda de tratamiento"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

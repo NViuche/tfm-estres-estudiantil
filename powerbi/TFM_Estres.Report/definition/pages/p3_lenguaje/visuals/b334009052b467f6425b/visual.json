@@ -1,0 +1,120 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "b334009052b467f6425b",
+  "position": {
+    "x": 812,
+    "y": 194,
+    "z": 31,
+    "height": 472,
+    "width": 452,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_subreddit"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "dim_subreddit.nombre",
+              "nativeQueryRef": "nombre",
+              "displayName": "Subreddit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Ratio discriminante LIWC"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Ratio discriminante LIWC",
+              "nativeQueryRef": "Ratio discriminante LIWC",
+              "displayName": "Ratio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Posts analizados"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Posts analizados",
+              "nativeQueryRef": "Posts analizados",
+              "displayName": "Posts"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Sentimiento medio"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Sentimiento medio",
+              "nativeQueryRef": "Sentimiento medio",
+              "displayName": "Sentimiento"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Detalle por subreddit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

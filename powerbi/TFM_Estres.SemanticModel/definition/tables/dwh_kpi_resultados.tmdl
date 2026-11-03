@@ -1,0 +1,73 @@
+table dwh_kpi_resultados
+	lineageTag: ae83cba0-ec8c-5b2a-b97c-50aff1ced0b3
+
+	measure 'Última ejecución KPI' = MAX ( dwh_kpi_resultados[fecha_ejecucion] )
+		formatString: yyyy-mm-dd hh:nn
+		displayFolder: 5 KPIs guardados
+		lineageTag: 85f57a37-341d-52a3-8c77-bae0658721d3
+
+	measure 'Valor KPI (última ejecución)' = VAR f = [Última ejecución KPI] RETURN CALCULATE ( MAX ( dwh_kpi_resultados[valor] ), dwh_kpi_resultados[fecha_ejecucion] = f )
+		formatString: #,0.00
+		displayFolder: 5 KPIs guardados
+		lineageTag: f964611e-c952-50c6-baef-97f1ebf5bcb8
+
+	column id_resultado
+		dataType: double
+		isHidden
+		lineageTag: c0a739a6-8187-50ed-b163-414782bfde54
+		summarizeBy: sum
+		sourceColumn: id_resultado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_kpi
+		dataType: double
+		isHidden
+		lineageTag: b21a297b-bdae-5356-bd32-f0eec61fac5e
+		summarizeBy: none
+		sourceColumn: id_kpi
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo
+		dataType: string
+		lineageTag: 43cb3440-b80b-5988-a838-ee0b3c3efaa7
+		summarizeBy: none
+		sourceColumn: codigo
+
+	column valor
+		dataType: double
+		lineageTag: 83e8afcd-c627-5077-8da5-58823cbbad1e
+		summarizeBy: sum
+		sourceColumn: valor
+
+		annotation SummarizationSetBy = Automatic
+
+	column detalle
+		dataType: string
+		lineageTag: 788f3198-be27-5553-a476-22e56f9106a1
+		summarizeBy: none
+		sourceColumn: detalle
+
+	column fecha_ejecucion
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 7c678393-1e5c-5c7a-b909-8085d578c2a9
+		summarizeBy: none
+		sourceColumn: fecha_ejecucion
+
+		variation Variation
+			isDefault
+			relationship: b475623c-16c8-4d7b-9ec0-2532ad728c3b
+			defaultHierarchy: LocalDateTable_57346907-6e3c-4748-8d1e-6e2a525d4334.'Jerarquía de fechas'
+
+	partition dwh_kpi_resultados = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_kpi_resultados")
+				in
+					Origen
+

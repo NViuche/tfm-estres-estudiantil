@@ -1,0 +1,27 @@
+table vw_dim_nivel_educativo
+	lineageTag: b6b082bb-72f0-529e-9882-cecd3541653d
+
+	column id_nivel_educativo
+		dataType: double
+		isHidden
+		lineageTag: d6cc7530-3d88-54ab-b42d-3ea1c61bbaa7
+		summarizeBy: none
+		sourceColumn: id_nivel_educativo
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nivel
+		dataType: string
+		lineageTag: 2f9e09ca-524c-5c29-bb58-efbbf0c7224c
+		summarizeBy: none
+		sourceColumn: nivel
+		sortByColumn: id_nivel_educativo
+
+	partition vw_dim_nivel_educativo = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_dim_nivel_educativo")
+				in
+					Origen
+

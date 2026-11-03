@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "1c55c319d8ef0c239117",
+  "position": {
+    "x": 16,
+    "y": 164,
+    "z": 20,
+    "height": 100,
+    "width": 1248,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Registros"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Registros",
+              "nativeQueryRef": "Registros",
+              "displayName": "Registros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Alto"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Alto",
+              "nativeQueryRef": "% Estrés Alto",
+              "displayName": "% estrés Alto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Alto global (sin filtros)"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Alto global (sin filtros)",
+              "nativeQueryRef": "% Estrés Alto global (sin filtros)",
+              "displayName": "% estrés Alto global"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Cobertura demográfica"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Cobertura demográfica",
+              "nativeQueryRef": "Cobertura demográfica",
+              "displayName": "Cobertura demográfica"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Fuentes en la selección"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Fuentes en la selección",
+              "nativeQueryRef": "Fuentes en la selección",
+              "displayName": "Fuentes"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

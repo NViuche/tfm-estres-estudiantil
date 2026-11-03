@@ -1,0 +1,127 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "b9d98fa729f01628feb9",
+  "position": {
+    "x": 16,
+    "y": 194,
+    "z": 30,
+    "height": 472,
+    "width": 780,
+    "tabOrder": 30
+  },
+  "visual": {
+    "visualType": "clusteredBarChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dim_subreddit"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "dim_subreddit.nombre",
+              "nativeQueryRef": "nombre",
+              "active": true,
+              "displayName": "Subreddit"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "LIWC ansiedad (estrés Alto)"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.LIWC ansiedad (estrés Alto)",
+              "nativeQueryRef": "LIWC ansiedad (estrés Alto)",
+              "displayName": "Con estrés"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "LIWC ansiedad (estrés Bajo)"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.LIWC ansiedad (estrés Bajo)",
+              "nativeQueryRef": "LIWC ansiedad (estrés Bajo)",
+              "displayName": "Sin estrés"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "dwh_nlp_senales"
+                  }
+                },
+                "Property": "LIWC ansiedad (estrés Alto)"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Vocabulario de ansiedad (LIWC) por subreddit'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

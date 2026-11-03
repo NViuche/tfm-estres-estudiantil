@@ -1,0 +1,33 @@
+table vw_dim_nivel_estres
+	lineageTag: 63e58ac2-9052-5034-a930-92fa8c901fa8
+
+	column id_nivel_estres
+		dataType: double
+		isHidden
+		lineageTag: d9bd49b7-463f-510d-9baa-ba1b1db85c2b
+		summarizeBy: none
+		sourceColumn: id_nivel_estres
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nivel
+		dataType: string
+		lineageTag: b3e41712-df39-5170-bc62-80810a658473
+		summarizeBy: none
+		sourceColumn: nivel
+		sortByColumn: id_nivel_estres
+
+	column descripcion
+		dataType: string
+		lineageTag: e0e61adc-fab2-5f2f-9fd2-a94496441f29
+		summarizeBy: none
+		sourceColumn: descripcion
+
+	partition vw_dim_nivel_estres = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_dim_nivel_estres")
+				in
+					Origen
+

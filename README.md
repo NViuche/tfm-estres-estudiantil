@@ -1,6 +1,6 @@
 # TFM — Análisis multidimensional del estrés estudiantil
 
-Trabajo Final de Máster en Business Analytics e Inteligencia Artificial (UNIE / INESDI). Analiza el estrés estudiantil a partir de 12 datasets públicos organizados en 4 bloques: factores internos, hábitos digitales, percepción emocional y validación psicológica. Cada fuente se estudia por separado y todas se comparan a través de un constructo común de nivel de estrés (Bajo / Moderado / Alto), sobre un modelo en estrella en MySQL, notebooks de Python y Power BI (pendiente).
+Trabajo Final de Máster en Business Analytics e Inteligencia Artificial (UNIE / INESDI). Analiza el estrés estudiantil a partir de 12 datasets públicos organizados en 4 bloques: factores internos, hábitos digitales, percepción emocional y validación psicológica. Cada fuente se estudia por separado y todas se comparan a través de un constructo común de nivel de estrés (Bajo / Moderado / Alto), sobre un modelo en estrella en MySQL, notebooks de Python y un informe de Power BI.
 
 **Equipo:** Raúl Cervantes Iglesias, Santiago Nicolas Viuche Pinilla, Obed Isaí Alvarado Núñez, Roberto Mario Brochero López, Andrés Francisco García Grajales.
 
@@ -20,10 +20,12 @@ tfm-estres-estudiantil/
 ├── notebooks/              EDA, calidad, armonización, ingesta, ETL/KPIs y modelado
 ├── modelos/                modelos entrenados (.pkl) con su metadata (.json)
 ├── resultados/             métricas del modelado
+├── powerbi/                informe de Power BI (proyecto PBIP: modelo TMDL, medidas DAX, 5 páginas, tema)
+├── scripts/                exportación de MySQL a CSV para Power BI y generador de las páginas
 ├── tests/
-│   └── pruebas.md          reglas de calidad del dato y validación de la carga
+│   └── pruebas.md          reglas de calidad, validación de la carga y del informe
 ├── figuras/                gráficos del EDA y del modelado, y diagramas ERD
-└── docs/                   documentos entregados (Entrega 1 y Entrega 2)
+└── docs/                   documentos de las entregas 1, 2 y 3
 ```
 
 | Carpeta | Contenido |
@@ -32,6 +34,9 @@ tfm-estres-estudiantil/
 | `sql/` | `modelo_datos_mysql_v2.sql`, `esquema_estrella_powerbi_DEFINITIVO.sql`, `dwh_estrella.sql` |
 | `docs/entrega1_objetivo1/` | Síntesis del Objetivo 1, diccionario de datos (Excel y Markdown), respuesta a la retroalimentación del tutor |
 | `docs/entrega2_objetivo2/` | Síntesis de ETL y KPIs, definición de KPIs, síntesis del modelado |
+| `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (15 tablas, 16 relaciones, 32 medidas) y 5 páginas: panorama general, demografía, lenguaje (Dreaddit), validación psicológica y modelos predictivos |
+| `scripts/` | `exportar_mysql_cli.py` (MySQL → 15 CSV para Power BI) y `generar_paginas_pbir.py` (reconstruye los objetos visuales de las páginas) |
+| `docs/entrega3_objetivo3/` | Guía del informe de Power BI: datos, modelo, medidas, páginas y valores de control |
 
 ## Fuentes de datos
 
@@ -66,6 +71,8 @@ Requisitos: Python 3 con Jupyter, y MySQL (probado con XAMPP; base de datos `tfm
 5. `sql/dwh_estrella.sql` (opcional; el notebook 08 crea las tablas si faltan)
 6. ETL y KPIs: `notebooks/08_etl_transformaciones_kpis.ipynb` (o la sección B.2 del notebook integrado)
 7. Modelado: `notebooks/09_modelado_objetivo2.ipynb`
+8. Datos para Power BI: `python scripts/exportar_mysql_cli.py`. Escribe 15 CSV en `powerbi_csv/`, que no se versiona.
+9. Informe: abre `powerbi/TFM_Estres.pbip` en Power BI Desktop. En *Transformar datos → Parámetros*, pon en `RutaCSV` la ruta absoluta de tu carpeta `powerbi_csv/` y pulsa *Actualizar*. Detalles en [la guía](docs/entrega3_objetivo3/guia_power_bi.md).
 
 El notebook 06 genera la capa armonizada (CSV) que no se versiona; se regenera al ejecutarlo.
 
@@ -78,10 +85,11 @@ Los notebooks que pasaron por varias versiones se guardan con un único nombre. 
 | `entrega1/eda-calidad` | `01`–`04` EDA y `05_reglas_calidad_dato.ipynb` | inicial → final |
 | `entrega2/etl-kpis` | `08_etl_transformaciones_kpis.ipynb` | v1 (reconstruida) → v2 → v3 → v4 |
 | `notebook-integrado` | `TFM_Notebook_Entrega1_y_Entrega2.ipynb` | EDA de la Entrega 1 → Entregas 1 y 2 → versión final |
+| `entrega3/powerbi` | `powerbi/`, `scripts/` y guía de la Entrega 3 | informe de Power BI → documentación |
 
 Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `git show <commit>:notebooks/<archivo>`, o desde la pestaña *History* del archivo en GitHub.
 
 ## Estado
 
 - **Entrega 1 (EDA, calidad, modelo de datos) y Entrega 2 (ingesta, ETL, KPIs, modelado):** completadas. Se cargaron 334.318 filas; 319.318 pertenecen a las 9 fuentes incluidas en el modelado.
-- **Entrega 3 (Power BI e insights):** pendiente.
+- **Entrega 3 (Power BI e insights):** informe de Power BI terminado (5 páginas, cifras validadas contra MySQL). Pendientes: el documento de insights y la migración de la base de datos a la nube (Supabase).

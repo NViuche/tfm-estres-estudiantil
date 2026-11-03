@@ -8,6 +8,10 @@ data/raw/
 # Salidas que regeneran los notebooks (figuras, capa conforme, modelos, CSV)
 salidas/
 
+# Power BI: CSV que lee el informe y caché local (cache.abf contiene los datos importados)
+powerbi_csv/
+**/.pbi/
+
 # Notas internas del equipo
 docs/interno/
 

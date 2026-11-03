@@ -1,0 +1,49 @@
+table vw_dim_rango_edad
+	lineageTag: acd19bd6-8275-5350-bf4e-5608ec13e51d
+
+	column id_rango_edad
+		dataType: double
+		isHidden
+		lineageTag: 32373517-c2dd-515f-930d-e9229dc521c2
+		summarizeBy: none
+		sourceColumn: id_rango_edad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rango
+		dataType: string
+		lineageTag: b7dab8ab-2efd-5f5b-9e2d-17f32996af3d
+		summarizeBy: none
+		sourceColumn: rango
+		sortByColumn: id_rango_edad
+
+	column edad_min
+		dataType: double
+		isHidden
+		lineageTag: 8458d48d-db7e-5e95-90ba-ec3075fd624b
+		summarizeBy: sum
+		sourceColumn: edad_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column edad_max
+		dataType: double
+		isHidden
+		lineageTag: 1fc775a2-d030-5ec4-9fed-2806f3943870
+		summarizeBy: sum
+		sourceColumn: edad_max
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_dim_rango_edad = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_dim_rango_edad")
+				in
+					Origen
+

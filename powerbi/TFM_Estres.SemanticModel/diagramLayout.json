@@ -1,0 +1,217 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 564,
+        "y": 10
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 50,
+            "y": 1622.9493442972321
+          },
+          "nodeIndex": "dim_bloque",
+          "nodeLineageTag": "7610b567-acd6-5d55-a966-46e8f65ff174",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 338.44642359090523,
+            "y": 1501.9070376227269
+          },
+          "nodeIndex": "dim_subreddit",
+          "nodeLineageTag": "802c4ea2-975a-5e60-a2e3-7626b6f4b4bf",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 593.51137090018085,
+            "y": 1147.9388756841906
+          },
+          "nodeIndex": "dwh_agg_prevalencia",
+          "nodeLineageTag": "2574e299-4629-5080-a268-55fb65c97cdc",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1726.6542488116791,
+            "y": 607.113281164985
+          },
+          "nodeIndex": "dwh_brecha_tratamiento",
+          "nodeLineageTag": "060e3d8c-5087-57a6-8ccc-7422e92fc76b",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1449.0395320292414,
+            "y": 1323.0066276642465
+          },
+          "nodeIndex": "dwh_dass_severidad",
+          "nodeLineageTag": "71afca35-4897-59cd-999c-e7ee46f57916",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2597.2235665385851,
+            "y": 750.474672148616
+          },
+          "nodeIndex": "dwh_kpi_catalogo",
+          "nodeLineageTag": "2144a9bf-be66-538a-b49c-b6c42b84e2c7",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2313.2235665385851,
+            "y": 726.474672148616
+          },
+          "nodeIndex": "dwh_kpi_resultados",
+          "nodeLineageTag": "ae83cba0-ec8c-5b2a-b97c-50aff1ced0b3",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2029.2235665385854,
+            "y": 874.582779194894
+          },
+          "nodeIndex": "dwh_nlp_senales",
+          "nodeLineageTag": "04714290-6eb1-5467-96ac-1fbdb93db478",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 972.16597546237381,
+            "y": 306.98043913631682
+          },
+          "nodeIndex": "vw_dim_dataset",
+          "nodeLineageTag": "a2890148-3298-5753-b46c-ec6fb71cf4fd",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1163.6471932731306,
+            "y": 1119.5047093581832
+          },
+          "nodeIndex": "vw_dim_genero",
+          "nodeLineageTag": "e4a9da61-43c2-5f01-8401-757f6cbd3913",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1738.9162398161748,
+            "y": 1164.5114227576778
+          },
+          "nodeIndex": "vw_dim_nivel_educativo",
+          "nodeLineageTag": "b6b082bb-72f0-529e-9882-cecd3541653d",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1584.4613631400998,
+            "y": 958.850926660572
+          },
+          "nodeIndex": "vw_dim_nivel_estres",
+          "nodeLineageTag": "63e58ac2-9052-5034-a930-92fa8c901fa8",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 875.85686257107011,
+            "y": 915.95907953333835
+          },
+          "nodeIndex": "vw_dim_rango_edad",
+          "nodeLineageTag": "acd19bd6-8275-5350-bf4e-5608ec13e51d",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1165.8210536497616,
+            "y": 636.01700135476881
+          },
+          "nodeIndex": "vw_hechos_estres",
+          "nodeLineageTag": "ea53f1bd-207d-5b54-94d3-ba08bd29f0e1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 758.11522054040086,
+            "y": -50
+          },
+          "nodeIndex": "vw_modelo_resultados",
+          "nodeLineageTag": "97eeee21-2070-5523-9c65-17259fd1d5f1",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas las tablas",
+      "zoomValue": 50,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas las tablas",
+  "defaultDiagram": "Todas las tablas"
+}
