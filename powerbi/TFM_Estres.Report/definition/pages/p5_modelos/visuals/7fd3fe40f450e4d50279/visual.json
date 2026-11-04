@@ -61,6 +61,24 @@
               }
             }
           }
+        },
+        {
+          "selector": {
+            "metadata": "vw_modelo_resultados.Modelos con alerta"
+          },
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E76F51'"
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       ]
     }

@@ -1,4 +1,4 @@
-"""Genera los objetos visuales de las 5 páginas del informe (formato PBIR) y ajusta el modelo.
+"""Genera las 7 páginas del informe (formato PBIR: visuals, page.json y pages.json) y ajusta el modelo.
 
 Uso (con Power BI Desktop CERRADO):
     python generar_paginas_pbir.py
@@ -103,11 +103,16 @@ def contenedor(nombre, x, y, w, h, z, visual, filtros=None, titulo=None):
     return v
 
 
-def tarjetas(campos):
+def tarjetas(campos, colores=None):
+    """colores: lista de (campo, "#RRGGBB") para colorear el valor de medidas concretas de la tarjeta."""
     # labelDisplayUnits = 1: número completo (319.318) en lugar de la abreviatura automática (319 mil)
+    valor = [{"properties": {"labelDisplayUnits": lit("1D")}}]
+    for campo, hex_ in colores or []:
+        valor.append({"selector": {"metadata": proy(campo)["queryRef"]},
+                      "properties": {"fontColor": color(hex_)}})
     return {"visualType": "cardVisual",
             "query": {"queryState": {"Data": {"projections": [proy(c, n) for c, n in campos]}}},
-            "objects": {"value": [{"properties": {"labelDisplayUnits": lit("1D")}}]}}
+            "objects": {"value": valor}}
 
 
 def segmentador(campo, nombre):
@@ -116,42 +121,110 @@ def segmentador(campo, nombre):
             "objects": {"data": [{"properties": {"mode": txt("Dropdown")}}]}}
 
 
-def barras(categoria, nombre_cat, medidas, serie=None, tipo="clusteredBarChart", orden=None):
+def eje_largo(objetos, margen=40):
+    """Etiquetas de categoría largas (nombres de dataset): más espacio para el eje (maxMarginFactor, %)
+    y sin el título del eje, que repite el título del objeto visual."""
+    objetos["categoryAxis"] = [{"properties": {"maxMarginFactor": lit(f"{margen}L"),
+                                               "showAxisTitle": lit("false")}}]
+    return objetos
+
+
+def barras(categoria, nombre_cat, medidas, serie=None, tipo="clusteredBarChart", orden=None, largo=False):
     estado = {"Category": {"projections": [proy(categoria, nombre_cat)]},
               "Y": {"projections": [proy(c, n) for c, n in medidas]}}
     if serie:
         estado["Series"] = {"projections": [proy(*serie)]}
     v = {"visualType": tipo, "query": {"queryState": estado},
          "objects": {"labels": [{"properties": {"show": lit("true")}}]}}
+    if largo:
+        eje_largo(v["objects"], 40 if largo is True else largo)
     campo_orden = orden if orden is not None else medidas[0][0]
     v["query"]["sortDefinition"] = {"sort": [{"field": campo_orden,
                                               "direction": "Ascending" if orden is not None else "Descending"}]}
     return v
 
 
-def tabla(campos, totales=False):
+def barras100(categoria, nombre_cat, medida, serie, colores_serie):
+    """Barras horizontales apiladas al 100 %; colores_serie: {valor de la serie: "#RRGGBB"}."""
+    col_serie = serie[0]["Column"]
+    puntos = [{"properties": {"fill": color(hex_)},
+               "selector": {"data": [{"scopeId": {"Comparison": {
+                   "ComparisonKind": 0,
+                   "Left": {"Column": col_serie},
+                   "Right": {"Literal": {"Value": f"'{valor}'"}}}}}]}}
+              for valor, hex_ in colores_serie.items()]
+    return {"visualType": "hundredPercentStackedBarChart",
+            "query": {"queryState": {"Category": {"projections": [proy(categoria, nombre_cat)]},
+                                     "Series": {"projections": [proy(*serie)]},
+                                     "Y": {"projections": [proy(*medida)]}}},
+            "objects": eje_largo({
+                # 1 decimal en las etiquetas (10,7 % en lugar de 10,71 %)
+                "labels": [{"properties": {"show": lit("true"), "labelPrecision": lit("1L")}}],
+                "dataPoint": puntos,
+                # el eje de valores (0-100 %) sobra: cada tramo ya muestra su porcentaje, y sin él caben
+                # los 9 datasets sin barra de desplazamiento
+                "valueAxis": [{"properties": {"show": lit("false"), "showAxisTitle": lit("false")}}]})}
+
+
+def tabla(campos, totales=False, anchos=None):
+    """anchos: {campo: px}. Con anchos fijos y ajuste de texto, la tabla cabe sin barra horizontal."""
     v = {"visualType": "tableEx",
-         "query": {"queryState": {"Values": {"projections": [proy(c, n) for c, n in campos]}}}}
+         "query": {"queryState": {"Values": {"projections": [proy(c, n) for c, n in campos]}}},
+         "objects": {}}
     if not totales:
-        v["objects"] = {"total": [{"properties": {"totals": lit("false")}}]}
+        v["objects"]["total"] = [{"properties": {"totals": lit("false")}}]
+    if anchos:
+        v["objects"]["columnHeaders"] = [{"properties": {"autoSizeColumnWidth": lit("false"),
+                                                         "wordWrap": lit("true")}}]
+        v["objects"]["values"] = [{"properties": {"wordWrap": lit("true")}}]
+        v["objects"]["columnWidth"] = [{"selector": {"metadata": proy(c)["queryRef"]},
+                                        "properties": {"value": lit(f"{px}D")}} for c, px in anchos]
     return v
 
 
-def matriz(filas, columnas, valores):
-    return {"visualType": "pivotTable",
-            "query": {"queryState": {
-                "Rows": {"projections": [proy(*filas)]},
-                "Columns": {"projections": [proy(*columnas)]},
-                "Values": {"projections": [proy(c, n) for c, n in valores]}}}}
+def matriz(filas, columnas, valores, totales=True, ancho_valor=None):
+    """totales=False quita la fila y la columna «Total»; ancho_valor fija el ancho (px) de cada columna de valor."""
+    v = {"visualType": "pivotTable",
+         "query": {"queryState": {
+             "Rows": {"projections": [proy(*filas)]},
+             "Columns": {"projections": [proy(*columnas)]},
+             "Values": {"projections": [proy(c, n) for c, n in valores]}}}}
+    obj = {}
+    if not totales:
+        obj["subTotals"] = [{"properties": {"rowSubtotals": lit("false"), "columnSubtotals": lit("false")}}]
+    if ancho_valor:
+        obj["columnHeaders"] = [{"properties": {"autoSizeColumnWidth": lit("false"), "wordWrap": lit("true")}}]
+        obj["columnWidth"] = [{"selector": {"metadata": proy(c)["queryRef"]},
+                               "properties": {"value": lit(f"{ancho_valor}D")}} for c, _ in valores]
+    if obj:
+        v["objects"] = obj
+    return v
 
 
-def texto(parrafos):
-    """parrafos: lista de (texto, tamaño_pt, negrita)."""
+def texto(parrafos, color=None):
+    """parrafos: lista de (texto, tamaño_pt, negrita); color opcional para todo el texto (#RRGGBB)."""
     return {"visualType": "textbox",
             "objects": {"general": [{"properties": {"paragraphs": [
                 {"textRuns": [{"value": t, "textStyle": {"fontSize": f"{pt}pt",
-                                                         **({"fontWeight": "bold"} if b else {})}}]}
+                                                         **({"fontWeight": "bold"} if b else {}),
+                                                         **({"color": color} if color else {})}}]}
                 for t, pt, b in parrafos]}}]}}
+
+
+def color(hex_):
+    return {"solid": {"color": {"expr": {"Literal": {"Value": f"'{hex_}'"}}}}}
+
+
+def banda(visual, fondo=None):
+    """Fondo de color sólido (o transparente si fondo=None), sin borde ni sombra del tema."""
+    fondo_obj = ({"show": lit("true"), "color": color(fondo), "transparency": lit("0D")} if fondo
+                 else {"show": lit("false")})
+    visual.setdefault("visualContainerObjects", {}).update({
+        "background": [{"properties": fondo_obj}],
+        "border": [{"properties": {"show": lit("false")}}],
+        "dropShadow": [{"properties": {"show": lit("false")}}],
+    })
+    return visual
 
 
 def navegador():
@@ -165,14 +238,18 @@ NLP, SUB, DASS, TRAT = "dwh_nlp_senales", "dim_subreddit", "dwh_dass_severidad",
 KPI, KPIC, MOD = "dwh_kpi_resultados", "dwh_kpi_catalogo", "vw_modelo_resultados"
 
 
+BANDA = "#2A7F7F"  # teal del tema «Bienestar» (TFM_Estres_tema_bienestar.json)
+
+
 def cabecera(pid, titulo, subtitulo):
-    # Título de 480 px para dejar ~150 px por botón al navegador (nombres de página completos);
-    # 66 px de alto para que título (16 pt) y subtítulo (9 pt) quepan sin barra de desplazamiento
+    # La caja del título ocupa todo el ancho como banda de color (68 px: título 16 pt + subtítulo 9 pt
+    # sin barra de desplazamiento); el navegador va encima, a la derecha, con ~150 px por botón
     x_nav = M + 480 + 12
     return [
-        contenedor(_id(pid, "titulo"), M, 4, 480, 66, 0,
-                   texto([(titulo, 16, True), (subtitulo, 9, False)])),
-        contenedor(_id(pid, "nav"), x_nav, 14, ANCHO - x_nav - M, 46, 1, navegador()),
+        contenedor(_id(pid, "titulo"), 0, 0, ANCHO, 68, 0,
+                   banda(texto([(titulo, 16, True), (subtitulo, 9, False)], color="#FFFFFF"), BANDA)),
+        # Navegador sin el recuadro blanco que le da el tema: los botones quedan sobre la banda
+        contenedor(_id(pid, "nav"), x_nav, 11, ANCHO - x_nav - M, 46, 1, banda(navegador())),
     ]
 
 
@@ -183,6 +260,84 @@ def segmentadores(pid, y=72):
     # 80 px de alto: con menos, el título del segmentador tapa el desplegable
     return [contenedor(_id(pid, "seg", n), M + i * (w + 12), y, w, 80, 10 + i, segmentador(c, n))
             for i, (c, n) in enumerate(campos)]
+
+
+# Etiquetas de ≤ 18 caracteres: las tarjetas miden ~200 px y cortaban los nombres largos
+KPIS = [("KPI_ESTRES_ALTO", "Estrés Alto (%)"), ("KPI_BRECHA_GENERO", "Brecha M − H (pts)"),
+        ("KPI_RIESGO_CRITICO", "Riesgo crítico (%)"), ("KPI_TASA_TRATAMIENTO", "Tratamiento (%)"),
+        ("KPI_DISCRIMINANTE_LIWC", "Ratio LIWC"), ("KPI_COBERTURA_DEMO", "Cobertura (%)")]
+
+
+def pagina0():
+    p = "p0"
+    v = cabecera(p, "Análisis multidimensional del estrés estudiantil",
+                 "TFM Business Analytics e IA · UNIE / INESDI")
+    v.append(contenedor(_id(p, "intro"), M, 84, 600, 212, 10, texto([
+        ("Qué analiza este informe", 13, True),
+        ("12 datasets públicos organizados en 4 bloques analíticos. Cada fuente se estudia por separado y se "
+         "compara con las demás mediante un nivel de estrés común (Bajo / Moderado / Alto) y dimensiones "
+         "conformes de género, edad y nivel educativo.", 10, False),
+        ("319.318 registros en las 9 fuentes con señal real; los 3 datasets sintéticos quedan fuera de las medidas.",
+         10, False),
+        ("Navega con el menú superior. Las tarjetas de la derecha son los 6 KPIs guardados en el DWH "
+         "(última ejecución).", 10, False)])))
+    w = (632 - 2 * 12) / 3
+    for i, (codigo, nombre) in enumerate(KPIS):
+        x, y = 648 + (i % 3) * (w + 12), 84 + (i // 3) * 112
+        v.append(contenedor(_id(p, "kpi", codigo), x, y, w, 100, 20 + i,
+                            tarjetas([(med(KPI, "Valor KPI (última ejecución)"), nombre)]),
+                            filtros=[incluir(KPIC, "codigo", [codigo])]))
+    bloques = [
+        ("1 · Factores internos", "Academic Stress, Student Anxiety (GAD-7), Student Mental Health Survey. "
+         "Student Habits es sintético.", "Panorama y Demografía"),
+        ("2 · Hábitos digitales", "Social Media and Mental Health. Social Media vs Sleep y Mental Health "
+         "Lifestyle son sintéticos.", "Panorama y Demografía"),
+        ("3 · Percepción emocional", "Dreaddit (train y test), texto de Reddit con NLP; Depression Student.",
+         "Lenguaje"),
+        ("4 · Validación psicológica", "DASS-42 y Mental Health Dataset (búsqueda de tratamiento).",
+         "Validación")]
+    wb = (ANCHO - 2 * M - 3 * 12) / 4
+    for i, (titulo, fuentes, pagina) in enumerate(bloques):
+        v.append(contenedor(_id(p, "bloque", titulo), M + i * (wb + 12), 312, wb, 200, 30 + i, texto([
+            (titulo, 12, True), (fuentes, 10, False), ("Página principal: " + pagina, 10, True)])))
+    v.append(contenedor(_id(p, "nota"), M, 528, ANCHO - 2 * M, 138, 40, texto([
+        ("Cómo leer el informe", 12, True),
+        ("Cada fuente define «Alto» con su propio criterio nativo, mapeado a un constructo común (GAD-7 y DASS con "
+         "baremos clínicos): compara tendencias, no niveles absolutos entre fuentes.", 10, False),
+        ("Los segmentadores de Panorama y Demografía filtran por bloque, género, edad y nivel educativo. "
+         "Solo el 17 % de los registros informa a la vez género y edad. Modelos y KPIs cubren los cuatro bloques.",
+         10, False),
+        ("Advertencias: Depression Student (AUC ≈ 1, posible etiqueta generada por fórmula) y Academic Stress "
+         "(n = 140) se leen con cautela.", 10, False)])))
+    return v
+
+
+def pagina6():
+    p = "p6"
+    # La nota de reproducibilidad va en el subtítulo de la banda: así las barras ganan alto y no se desplazan
+    # Subtítulo corto: el navegador tapa todo lo que pase de ~380 px
+    v = cabecera(p, "KPIs y niveles de estrés", "3 ejecuciones con valores idénticos: cálculo reproducible")
+    w_h = 560                         # nombre del KPI (~210 px) + 3 ejecuciones de 100 px
+    w_c = ANCHO - 2 * M - 16 - w_h    # 672 px
+    alto = 298                        # 6 filas de 2 líneas en el catálogo sin barra vertical
+    v.append(contenedor(_id(p, "historico"), M, 84, w_h, alto, 20,
+                        matriz((col(KPIC, "nombre"), "KPI"), (col(KPI, "fecha_ejecucion"), "Ejecución"),
+                               [(med(KPI, "Valor KPI (última ejecución)"), "Valor")],
+                               totales=False, ancho_valor=100),
+                        titulo="Histórico de los KPIs por ejecución"))
+    v.append(contenedor(_id(p, "catalogo"), M + w_h + 16, 84, w_c, alto, 21,
+                        tabla([(col(KPIC, "nombre"), "KPI"), (col(KPIC, "unidad"), "Unidad"),
+                               (col(KPIC, "descripcion"), "Definición")],
+                              anchos=[(col(KPIC, "nombre"), 168), (col(KPIC, "unidad"), 64),
+                                      (col(KPIC, "descripcion"), 395)]),
+                        titulo="Catálogo de KPIs"))
+    v.append(contenedor(_id(p, "niveles"), M, 84 + alto + 12, ANCHO - 2 * M, 704 - (84 + alto + 12), 30,
+                        barras100(col(DS, "dataset"), "Dataset", (med(H, "Registros"), "Registros"),
+                                  (col(NE, "nivel"), "Nivel de estrés"),
+                                  {"Bajo": "#2A9D8F", "Moderado": "#E9C46A", "Alto": "#E76F51"}),
+                        filtros=[incluir(NE, "nivel", ["Bajo", "Moderado", "Alto"])],
+                        titulo="Distribución del nivel de estrés por dataset (% de registros)"))
+    return v
 
 
 def pagina1():
@@ -200,7 +355,7 @@ def pagina1():
                         barras(col(DS, "bloque"), "Bloque", [(med(H, "% Estrés Alto"), "% estrés Alto")]),
                         titulo="% de estrés Alto por bloque analítico"))
     v.append(contenedor(_id(p, "dataset"), M + w + 16, 276, w, 390, 31,
-                        barras(col(DS, "dataset"), "Dataset", [(med(H, "% Estrés Alto"), "% estrés Alto")]),
+                        barras(col(DS, "dataset"), "Dataset", [(med(H, "% Estrés Alto"), "% estrés Alto")], largo=True),
                         titulo="% de estrés Alto por dataset"))
     v.append(contenedor(_id(p, "nota"), M, 674, ANCHO - 2 * M, 38, 40, texto([(
         "Cada fuente define «Alto» con su propio criterio (escala nativa mapeada a Bajo / Moderado / Alto en "
@@ -304,7 +459,8 @@ def pagina5():
                  "Mejor modelo por dataset · CV 5x3 u hold-out según tamaño")
     v.append(contenedor(_id(p, "kpis"), M, 72, 620, 110, 20, tarjetas([
         (med(MOD, "AUC medio sin alertas"), "AUC medio (sin alertas)"),
-        (med(MOD, "Modelos con alerta"), "Datasets con alerta")])))
+        (med(MOD, "Modelos con alerta"), "Datasets con alerta")],
+        colores=[(med(MOD, "Modelos con alerta"), "#E76F51")])))  # coral del tema: es una advertencia
     v.append(contenedor(_id(p, "nota"), M + 636, 72, ANCHO - 2 * M - 636, 110, 21, texto([
         ("Alertas", 11, True),
         ("Academic Stress: n = 140, el accuracy no supera al baseline (exploratorio).", 10, False),
@@ -312,7 +468,7 @@ def pagina5():
     mejores = [incluir(MOD, "es_mejor_modelo", [1], tipo="num")]
     # La columna «alerta» no va en la tabla: su texto es largo y las alertas ya están en la nota de arriba
     v.append(contenedor(_id(p, "auc"), M, 194, 380, 472, 30,
-                        barras(col(MOD, "dataset"), "Dataset", [(med(MOD, "AUC medio"), "AUC")]),
+                        barras(col(MOD, "dataset"), "Dataset", [(med(MOD, "AUC medio"), "AUC")], largo=55),
                         filtros=mejores, titulo="AUC del mejor modelo por dataset"))
     v.append(contenedor(_id(p, "tabla"), M + 396, 194, ANCHO - 2 * M - 396, 472, 31,
                         tabla([(col(MOD, "dataset"), "Dataset"), (col(MOD, "modelo"), "Modelo"),
@@ -351,6 +507,12 @@ def ajustar_modelo():
 
         t = patron.sub(arreglar, t)
     open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    # Fecha de ejecución de los KPIs sin segundos (22/10/2026 13:36 en lugar de 22/10/2026 13:36:30)
+    ruta = os.path.join(TABLAS, "dwh_kpi_resultados.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    t = re.sub(r"(\tcolumn fecha_ejecucion\n\t\tdataType: dateTime\n\t\tformatString: )[^\n]*",
+               r"\1dd/mm/yyyy hh:nn", t, count=1)
+    open(ruta, "w", encoding="utf-8", newline="\n").write(t)
 
 
 # ---------------------------------------------------------------- escritura
@@ -384,9 +546,29 @@ def escribir(pagina, visuales):
     print(f"  {pagina}: {len(visuales)} objetos visuales")
 
 
+ESQUEMA_PAGINA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json"
+ESQUEMA_PAGINAS = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json"
+# (carpeta, nombre en el menú, función). Nombres cortos: con 7 páginas el navegador da ~108 px por botón
+PAGINAS_INFORME = [("p0_inicio", "Inicio", pagina0), ("p1_panorama", "1 Panorama", pagina1),
+                   ("p2_demografia", "2 Demografía", pagina2), ("p3_lenguaje", "3 Lenguaje", pagina3),
+                   ("p4_validacion", "4 Validación", pagina4), ("p5_modelos", "5 Modelos", pagina5),
+                   ("p6_kpis", "6 KPIs", pagina6)]
+
+
+def escribir_paginas():
+    for carpeta, nombre, _ in PAGINAS_INFORME:
+        os.makedirs(os.path.join(PAGINAS, carpeta), exist_ok=True)
+        with open(os.path.join(PAGINAS, carpeta, "page.json"), "w", encoding="utf-8", newline="\n") as f:
+            json.dump({"$schema": ESQUEMA_PAGINA, "name": carpeta, "displayName": nombre,
+                       "displayOption": "FitToPage", "height": ALTO, "width": ANCHO}, f, ensure_ascii=False, indent=2)
+    with open(os.path.join(PAGINAS, "pages.json"), "w", encoding="utf-8", newline="\n") as f:
+        json.dump({"$schema": ESQUEMA_PAGINAS, "pageOrder": [c for c, _, _ in PAGINAS_INFORME],
+                   "activePageName": PAGINAS_INFORME[0][0]}, f, ensure_ascii=False, indent=2)
+
+
 if __name__ == "__main__":
-    for pagina, f in [("p1_panorama", pagina1), ("p2_demografia", pagina2), ("p3_lenguaje", pagina3),
-                      ("p4_validacion", pagina4), ("p5_modelos", pagina5)]:
+    escribir_paginas()
+    for pagina, _, f in PAGINAS_INFORME:
         escribir(pagina, f())
     ajustar_modelo()
     print("Modelo ajustado (orden de categorías y resumen de métricas).")

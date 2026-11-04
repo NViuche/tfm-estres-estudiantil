@@ -11,7 +11,7 @@
       "type": "SharedResources"
     },
     "customTheme": {
-      "name": "TFM_Estr_s_Estudiantil25732137609493.json",
+      "name": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
       "reportVersionAtImport": {
         "visual": "2.14.0",
         "report": "3.4.0",
@@ -52,8 +52,8 @@
       "type": "RegisteredResources",
       "items": [
         {
-          "name": "TFM_Estr_s_Estudiantil25732137609493.json",
-          "path": "TFM_Estr_s_Estudiantil25732137609493.json",
+          "name": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
+          "path": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
           "type": "CustomTheme"
         }
       ]

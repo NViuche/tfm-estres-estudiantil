@@ -28,7 +28,6 @@
               },
               "queryRef": "vw_modelo_resultados.dataset",
               "nativeQueryRef": "dataset",
-              "active": true,
               "displayName": "Dataset"
             }
           ]
@@ -79,6 +78,26 @@
               "expr": {
                 "Literal": {
                   "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "maxMarginFactor": {
+              "expr": {
+                "Literal": {
+                  "Value": "55L"
+                }
+              }
+            },
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
