@@ -6,7 +6,7 @@
     "y": 194,
     "z": 30,
     "height": 370,
-    "width": 616,
+    "width": 616.0,
     "tabOrder": 30
   },
   "visual": {
@@ -28,27 +28,7 @@
               },
               "queryRef": "vw_dim_nivel_estres.nivel",
               "nativeQueryRef": "nivel",
-              "active": true,
               "displayName": "Nivel de estrés"
-            }
-          ]
-        },
-        "Series": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dwh_brecha_tratamiento"
-                    }
-                  },
-                  "Property": "antecedentes_familiares"
-                }
-              },
-              "queryRef": "dwh_brecha_tratamiento.antecedentes_familiares",
-              "nativeQueryRef": "antecedentes_familiares",
-              "displayName": "Antecedentes familiares"
             }
           ]
         },
@@ -68,6 +48,25 @@
               "queryRef": "dwh_brecha_tratamiento.% Búsqueda de tratamiento",
               "nativeQueryRef": "% Búsqueda de tratamiento",
               "displayName": "% busca tratamiento"
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_brecha_tratamiento"
+                    }
+                  },
+                  "Property": "antecedentes_familiares"
+                }
+              },
+              "queryRef": "dwh_brecha_tratamiento.antecedentes_familiares",
+              "nativeQueryRef": "antecedentes_familiares",
+              "displayName": "Antecedentes familiares"
             }
           ]
         }

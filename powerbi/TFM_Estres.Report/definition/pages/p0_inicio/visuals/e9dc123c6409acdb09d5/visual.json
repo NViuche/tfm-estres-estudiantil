@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "e9dc123c6409acdb09d5",
+  "position": {
+    "x": 16,
+    "y": 528,
+    "z": 40,
+    "height": 138,
+    "width": 1248,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cómo leer el informe",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Cada fuente define «Alto» con su propio criterio nativo, mapeado a un constructo común (GAD-7 y DASS con baremos clínicos): compara tendencias, no niveles absolutos entre fuentes.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Los segmentadores de Panorama y Demografía filtran por bloque, género, edad y nivel educativo. Solo el 17 % de los registros informa a la vez género y edad. Modelos y KPIs cubren los cuatro bloques.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Advertencias: Depression Student (AUC ≈ 1, posible etiqueta generada por fórmula) y Academic Stress (n = 140) se leen con cautela.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

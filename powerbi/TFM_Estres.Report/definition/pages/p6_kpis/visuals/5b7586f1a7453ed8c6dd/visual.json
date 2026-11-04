@@ -1,0 +1,156 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "5b7586f1a7453ed8c6dd",
+  "position": {
+    "x": 16,
+    "y": 84,
+    "z": 20,
+    "height": 298,
+    "width": 560,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "pivotTable",
+    "query": {
+      "queryState": {
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_kpi_catalogo"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "dwh_kpi_catalogo.nombre",
+              "nativeQueryRef": "nombre",
+              "displayName": "KPI"
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_kpi_resultados"
+                    }
+                  },
+                  "Property": "fecha_ejecucion"
+                }
+              },
+              "queryRef": "dwh_kpi_resultados.fecha_ejecucion",
+              "nativeQueryRef": "fecha_ejecucion",
+              "displayName": "Ejecución"
+            }
+          ]
+        },
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_kpi_resultados"
+                    }
+                  },
+                  "Property": "Valor KPI (última ejecución)"
+                }
+              },
+              "queryRef": "dwh_kpi_resultados.Valor KPI (última ejecución)",
+              "nativeQueryRef": "Valor KPI (última ejecución)",
+              "displayName": "Valor"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "subTotals": [
+        {
+          "properties": {
+            "rowSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "columnSubtotals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "selector": {
+            "metadata": "dwh_kpi_resultados.Valor KPI (última ejecución)"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "100D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Histórico de los KPIs por ejecución'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

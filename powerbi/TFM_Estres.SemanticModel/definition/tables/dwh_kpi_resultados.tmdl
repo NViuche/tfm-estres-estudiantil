@@ -53,7 +53,7 @@ table dwh_kpi_resultados
 
 	column fecha_ejecucion
 		dataType: dateTime
-		formatString: General Date
+		formatString: dd/mm/yyyy hh:nn
 		lineageTag: 7c678393-1e5c-5c7a-b909-8085d578c2a9
 		summarizeBy: none
 		sourceColumn: fecha_ejecucion

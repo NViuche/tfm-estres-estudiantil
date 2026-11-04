@@ -1,6 +1,6 @@
 # Guía Power BI — Entrega 3 (Objetivo 3)
 
-El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 32 medidas DAX, tema de colores y 5 páginas. Los datos se leen de 15 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
+El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 32 medidas DAX, tema de colores «Bienestar» y 7 páginas (Inicio + 6 de análisis). Los datos se leen de 15 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
 
 ## 1. Preparar los datos
 
@@ -22,7 +22,7 @@ Para ver los números con formato español (319.318 y 33,7 %): *Archivo → Opci
 
 ## 3. Regenerar las páginas
 
-Los objetos visuales de las 5 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR. Además fija en el modelo el orden de rangos de edad y niveles y quita la suma automática de las métricas de los modelos.
+Los objetos visuales de las 7 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR, junto con `pages.json` (orden del menú, Inicio como página de apertura). Además fija en el modelo el orden de rangos de edad y niveles, quita la suma automática de las métricas de los modelos y muestra `fecha_ejecucion` de los KPIs sin segundos (`dd/mm/yyyy hh:nn`).
 
 - Ejecútalo **con Power BI cerrado**: `python scripts\generar_paginas_pbir.py`.
 - **Rehace todos los objetos visuales desde cero:** los ajustes manuales hechos en Desktop se pierden. Úsalo solo para reconstruir el informe.
@@ -72,15 +72,17 @@ Modelos con alerta = CALCULATE ( COUNTROWS ( vw_modelo_resultados ), vw_modelo_r
 
 ## 6. Páginas
 
-Tamaño 1280 × 720. En todas: título con subtítulo y navegador de páginas como menú.
+Tamaño 1280 × 720. En todas: banda superior con título y subtítulo y navegador de páginas como menú. Tema `TFM_Estres_tema_bienestar.json` (teal, arena y coral sobre fondo crema; tarjetas blancas con borde redondeado y sombra). Las tablas tienen anchos fijos con ajuste de texto para que todo se lea sin barras de desplazamiento.
 
 | Página | Contenido |
 |---|---|
+| **Inicio** (menú principal) | Qué analiza el informe; los 6 KPIs del DWH en tarjetas (última ejecución); un recuadro por bloque con sus fuentes y su página principal; nota de lectura con las advertencias |
 | **1 Panorama general** | Segmentadores (bloque, género, rango de edad, nivel educativo); tarjetas de registros, % estrés Alto, % global, cobertura y fuentes; % estrés Alto por bloque y por dataset |
 | **2 Demografía** | Mismos segmentadores; % estrés Alto por género, edad y estudios (sin «No reportado»); matriz Género × Edad con % Alto y registros; nota de lectura |
 | **3 Lenguaje (Dreaddit)** | Ratio LIWC, sentimiento y posts; vocabulario de ansiedad con y sin estrés por subreddit; tabla por subreddit. Sin filtros demográficos: Dreaddit no tiene género ni edad |
 | **4 Validación psicológica** | Brecha de ansiedad M − H, % estrés severo DASS, % búsqueda de tratamiento y KPI 3; tratamiento por nivel de estrés × antecedentes familiares; estrés severo DASS por estudios × género; advertencia sobre Depression Student |
 | **5 Modelos predictivos** | AUC medio sin alertas y datasets con alerta; AUC del mejor modelo por dataset; tabla del mejor modelo (protocolo, n, AUC, F1, accuracy) |
+| **6 KPIs** | Histórico de los 6 KPIs por ejecución (matriz; las 3 ejecuciones del 22/10/2026 dan los mismos valores: cálculo reproducible); catálogo con unidad y definición; distribución Bajo / Moderado / Alto por dataset (barras al 100 %) |
 
 Valores de control sin filtros (calculados también en SQL):
 
@@ -94,12 +96,13 @@ Valores de control sin filtros (calculados también en SQL):
 | % Tratamiento | 49,4 % |
 | AUC medio sin alertas | 0,786 |
 | Datasets con alerta | 2 |
+| KPI riesgo crítico (última ejecución) | 72,69 % |
 
 ## 7. Mejoras posibles (no hechas)
 
 1. `dwh_modelo_resultados` no guarda el baseline de accuracy (está en `resultados/`). Para mostrarlo habría que añadir la columna `acc_baseline` a esa tabla.
 2. Las medidas de T3 y T4 ponderan medias ya redondeadas, así que la segunda decimal puede variar ligeramente. Para exactitud, habría que guardar numerador y denominador por grupo.
-3. Los nombres de los bloques llegan sin tildes desde MySQL («Percepcion emocional»…). Se corregirían en `dim_bloque` / `dim_dataset`.
+3. Los nombres de los bloques y de los KPIs llegan sin tildes desde MySQL («Percepcion emocional», «Tasa de estres…»), y los antecedentes familiares como «No / Yes». Se corregirán en los datos al migrar a Supabase (`dim_bloque`, `dim_dataset`, `dwh_kpi_catalogo`, `dwh_brecha_tratamiento`).
 
 ## 8. Correcciones aplicadas al proyecto original
 

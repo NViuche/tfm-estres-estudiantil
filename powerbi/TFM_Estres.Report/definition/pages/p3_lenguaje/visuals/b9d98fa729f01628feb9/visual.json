@@ -28,7 +28,6 @@
               },
               "queryRef": "dim_subreddit.nombre",
               "nativeQueryRef": "nombre",
-              "active": true,
               "displayName": "Subreddit"
             }
           ]

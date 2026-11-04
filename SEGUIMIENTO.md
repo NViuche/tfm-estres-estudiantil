@@ -35,8 +35,9 @@ No pidió correcciones.
 
 Pendiente de entrega y de retroalimentación del tutor. Avance:
 
-- **Informe de Power BI** ([`powerbi/`](powerbi/)) con 5 páginas: panorama general, demografía, lenguaje (Dreaddit), validación psicológica y modelos predictivos.
+- **Informe de Power BI** ([`powerbi/`](powerbi/)) con 7 páginas: inicio (menú principal), panorama general, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos y KPIs.
   - Tiene segmentadores por bloque, género, edad y nivel educativo, y menú de navegación entre páginas.
+  - Las páginas Inicio y KPIs responden a la rúbrica de la Entrega 3: menú principal, los 6 KPIs del DWH visibles con su histórico y su definición, y la distribución completa del nivel de estrés por dataset.
   - Usa como métrica transversal la dimensión `dim_nivel_estres`, y los resultados del modelado (`vw_modelo_resultados`) como segunda tabla de hechos.
 - **Cifras validadas:** cada valor de control del informe coincide con el calculado en SQL sobre MySQL (ver [`tests/pruebas.md`](tests/pruebas.md)).
 - **Fuente de datos:** el informe lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
@@ -54,7 +55,7 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
 ## Pendiente
 
 - Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
-- Entrega 3: documento de insights; migración a Supabase; corregir las tildes de los nombres de bloque en MySQL («Percepcion emocional» → «Percepción emocional»).
+- Entrega 3: documento de insights; migración a Supabase; corregir en los datos las tildes de los nombres de bloque y de KPI («Percepcion emocional» → «Percepción emocional») y traducir «No / Yes» de los antecedentes familiares.
 
 ---
 <!-- relacionado -->
