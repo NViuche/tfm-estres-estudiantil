@@ -34,7 +34,9 @@ Comprobaciones hechas antes de dar por bueno el informe ([`powerbi/`](../powerbi
 | Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 15 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
 | Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 15 tablas |
 | Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 32 medidas, sin conflictos de nombres ni referencias DAX rotas |
-| Campos usados por los 40 objetos visuales | Todos existen en el modelo |
+| Campos usados por los 59 objetos visuales de las 7 páginas | Todos existen en el modelo |
+| Posición de los objetos visuales | Todos caben en 1280 × 720 y no se solapan (salvo el menú sobre la banda superior) |
+| KPIs de la página Inicio frente a `dwh_kpi_resultados` | Coinciden con la última ejecución; las 3 ejecuciones guardadas dan los mismos valores |
 
 Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 
