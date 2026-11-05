@@ -1,0 +1,105 @@
+table dwh_nlp_senales
+	lineageTag: 04714290-6eb1-5467-96ac-1fbdb93db478
+
+	measure 'LIWC ansiedad (estrés Alto)' = CALCULATE ( DIVIDE ( SUMX ( dwh_nlp_senales, dwh_nlp_senales[liwc_ansiedad_medio] * dwh_nlp_senales[n_posts] ), SUM ( dwh_nlp_senales[n_posts] ) ), vw_dim_nivel_estres[nivel] = "Alto" )
+		formatString: 0.00
+		displayFolder: 3 Lenguaje
+		lineageTag: a2689dff-5b90-5b19-af20-03b2f918b9e8
+
+	measure 'LIWC ansiedad (estrés Bajo)' = CALCULATE ( DIVIDE ( SUMX ( dwh_nlp_senales, dwh_nlp_senales[liwc_ansiedad_medio] * dwh_nlp_senales[n_posts] ), SUM ( dwh_nlp_senales[n_posts] ) ), vw_dim_nivel_estres[nivel] = "Bajo" )
+		formatString: 0.00
+		displayFolder: 3 Lenguaje
+		lineageTag: 164a7926-bdc5-5e0e-a52f-1e1ed1622cc0
+
+	measure 'Ratio discriminante LIWC' = DIVIDE ( [LIWC ansiedad (estrés Alto)], [LIWC ansiedad (estrés Bajo)] )
+		formatString: 0.00
+		displayFolder: 3 Lenguaje
+		lineageTag: eb77abf1-a350-50c0-975c-8c68b87dc47f
+
+	measure 'Sentimiento medio' = DIVIDE ( SUMX ( dwh_nlp_senales, dwh_nlp_senales[sentimiento_medio] * dwh_nlp_senales[n_posts] ), SUM ( dwh_nlp_senales[n_posts] ) )
+		formatString: 0.000
+		displayFolder: 3 Lenguaje
+		lineageTag: bb3ac07b-199d-525a-9e46-dd0b4cbd1a9b
+
+	measure 'Posts analizados' = SUM ( dwh_nlp_senales[n_posts] )
+		formatString: #,0
+		displayFolder: 3 Lenguaje
+		lineageTag: 85f2a645-5ca0-5d61-ba44-4e2fcf9b9a53
+
+	column id_senal
+		dataType: double
+		isHidden
+		lineageTag: c08bac7a-178e-528c-b68e-88a33653b26e
+		summarizeBy: sum
+		sourceColumn: id_senal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_subreddit
+		dataType: double
+		isHidden
+		lineageTag: ff702d1e-9cf1-512a-88a7-3c0ff030c2b4
+		summarizeBy: none
+		sourceColumn: id_subreddit
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nivel_estres
+		dataType: double
+		isHidden
+		lineageTag: aff060bb-cb38-53f7-98fe-0007bf83233a
+		summarizeBy: none
+		sourceColumn: id_nivel_estres
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_posts
+		dataType: double
+		lineageTag: 93a59b9b-ddd6-50ec-8de6-55e31150eaf0
+		summarizeBy: sum
+		sourceColumn: n_posts
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column sentimiento_medio
+		dataType: double
+		lineageTag: b6c22267-2a4b-58a4-866e-ad222152bf8b
+		summarizeBy: none
+		sourceColumn: sentimiento_medio
+
+	column liwc_ansiedad_medio
+		dataType: double
+		lineageTag: c449efca-e320-5c4b-b863-e378e8050bd5
+		summarizeBy: none
+		sourceColumn: liwc_ansiedad_medio
+
+	column liwc_emo_neg_medio
+		dataType: double
+		lineageTag: 2c508312-3bf1-55ff-b656-985eec85ec41
+		summarizeBy: none
+		sourceColumn: liwc_emo_neg_medio
+
+	column liwc_emo_pos_medio
+		dataType: double
+		lineageTag: 7d5c2192-0618-5b81-8614-c97e64f4cbff
+		summarizeBy: none
+		sourceColumn: liwc_emo_pos_medio
+
+	column longitud_media_palabras
+		dataType: double
+		lineageTag: 0eb3370a-c60c-5499-849b-10f0416b6ef0
+		summarizeBy: none
+		sourceColumn: longitud_media_palabras
+
+	partition dwh_nlp_senales = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_nlp_senales")
+				in
+					Origen
+

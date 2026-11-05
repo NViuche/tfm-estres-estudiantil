@@ -1,0 +1,35 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "589dafa1444a0defda14",
+  "position": {
+    "x": 16,
+    "y": 674,
+    "z": 40,
+    "height": 38,
+    "width": 1248,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cada fuente define «Alto» con su propio criterio (escala nativa mapeada a Bajo / Moderado / Alto en dim_mapeo_estres; GAD-7 y DASS con baremos clínicos). Compara tendencias, no niveles absolutos entre fuentes.",
+                    "textStyle": {
+                      "fontSize": "9pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

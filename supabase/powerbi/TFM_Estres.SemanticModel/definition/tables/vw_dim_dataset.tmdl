@@ -1,0 +1,71 @@
+table vw_dim_dataset
+	lineageTag: a2890148-3298-5753-b46c-ec6fb71cf4fd
+
+	column id_dataset
+		dataType: double
+		isHidden
+		lineageTag: 4c085608-09cb-5865-96d7-50597a208476
+		summarizeBy: none
+		sourceColumn: id_dataset
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo
+		dataType: string
+		lineageTag: 0633b36b-cadb-5cca-b44e-ee220b2eb4a6
+		summarizeBy: none
+		sourceColumn: codigo
+
+	column dataset
+		dataType: string
+		lineageTag: b1adc03d-d96b-51ae-96e6-86da72185723
+		summarizeBy: none
+		sourceColumn: dataset
+
+	column id_bloque
+		dataType: double
+		isHidden
+		lineageTag: 39124c22-dffa-5bca-9633-2404658b6bf7
+		summarizeBy: sum
+		sourceColumn: id_bloque
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bloque
+		dataType: string
+		lineageTag: 3949fc84-b6c3-5021-84bf-ac065c75fc76
+		summarizeBy: none
+		sourceColumn: bloque
+
+	column calidad
+		dataType: string
+		lineageTag: 5a9efaeb-d052-584f-979a-026e5320fd8b
+		summarizeBy: none
+		sourceColumn: calidad
+
+	column uso_modelado
+		dataType: string
+		lineageTag: c935f513-7620-5c10-a038-c4dfc5a92863
+		summarizeBy: none
+		sourceColumn: uso_modelado
+
+	column n_filas
+		dataType: double
+		lineageTag: b152495f-200a-5f1e-a6d1-e70a9966e9d1
+		summarizeBy: sum
+		sourceColumn: n_filas
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition vw_dim_dataset = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_dim_dataset")
+				in
+					Origen
+

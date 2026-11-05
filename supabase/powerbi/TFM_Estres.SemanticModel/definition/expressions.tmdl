@@ -1,0 +1,56 @@
+expression Fuente = "Supabase" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 85fdbe20-4046-545e-a0e0-ba40c142eb9d
+	queryGroup: Parametros
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression Servidor = "aws-0-<region>.pooler.supabase.com:5432" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: da8d6915-d210-579a-9fd0-f46ff3d91862
+	queryGroup: Parametros
+
+	annotation PBI_ResultType = Text
+
+expression BaseDatos = "postgres" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 362d87b2-f176-55f8-8871-f83ac9967318
+	queryGroup: Parametros
+
+	annotation PBI_ResultType = Text
+
+expression RutaCSV = "C:\TFM\tfm-estres-estudiantil\powerbi_csv" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 434fc76a-84e3-5a1d-a4d4-7988d4d5b674
+	queryGroup: Parametros
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Text
+
+expression fnTabla =
+		(nombre as text) as table =>
+		let
+			TextoCols = {"codigo","nombre","dataset","bloque","calidad","uso_modelado","rango","nivel","descripcion","unidad","fuente_calculo","detalle","tabla_origen","objetivo_nativo","modelo","protocolo","target","lectura_capa_armonizada","alerta","antecedentes_familiares","tarea_modelado"},
+			Resultado =
+				if Fuente = "Supabase" then
+					let
+						Pg = PostgreSQL.Database(Servidor, BaseDatos),
+						Datos = Pg{[Schema = "tfm", Item = nombre]}[Data],
+						Tipos = List.Transform(Table.ColumnNames(Datos), each {_, if _ = "fecha_ejecucion" then type datetime else if List.Contains(TextoCols, _) then type text else type number}),
+						Final = Table.TransformColumnTypes(Datos, Tipos)
+					in
+						Final
+				else if Fuente = "MySQL" then
+					MySQL.Database(Servidor, BaseDatos){[Schema = BaseDatos, Item = nombre]}[Data]
+				else
+					let
+						Csv = Csv.Document(File.Contents(RutaCSV & "\" & nombre & ".csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+						Cab = Table.PromoteHeaders(Csv, [PromoteAllScalars = true]),
+						Tipos = List.Transform(Table.ColumnNames(Cab), each {_, if _ = "fecha_ejecucion" then type datetime else if List.Contains(TextoCols, _) then type text else type number}),
+						Final = Table.TransformColumnTypes(Cab, Tipos, "en-US")
+					in
+						Final
+		in
+			Resultado
+	lineageTag: 6f33b162-244d-5e1d-b687-76e121c89305
+	queryGroup: Funciones
+

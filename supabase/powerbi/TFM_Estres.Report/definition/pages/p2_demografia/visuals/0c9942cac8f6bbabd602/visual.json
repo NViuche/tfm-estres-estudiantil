@@ -1,0 +1,53 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "0c9942cac8f6bbabd602",
+  "position": {
+    "x": 16.0,
+    "y": 72,
+    "z": 10,
+    "height": 80,
+    "width": 303.0,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "bloque"
+                }
+              },
+              "queryRef": "vw_dim_dataset.bloque",
+              "nativeQueryRef": "bloque",
+              "displayName": "Bloque"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

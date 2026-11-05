@@ -1,0 +1,56 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "9cdbc202f571c21cdb84",
+  "position": {
+    "x": 16,
+    "y": 576,
+    "z": 40,
+    "height": 90,
+    "width": 1248,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Lectura",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "La búsqueda de tratamiento depende de los antecedentes familiares (≈72 % con antecedentes frente a ≈35 % sin ellos), no del nivel de estrés percibido: brecha entre malestar y ayuda.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Advertencia: el KPI 3 se calcula sobre Depression Student, cuyo modelo obtuvo AUC 0,998 (posible etiqueta generada por fórmula). Interpretar con cautela.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

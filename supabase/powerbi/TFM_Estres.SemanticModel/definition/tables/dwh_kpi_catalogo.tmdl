@@ -1,0 +1,50 @@
+table dwh_kpi_catalogo
+	lineageTag: 2144a9bf-be66-538a-b49c-b6c42b84e2c7
+
+	column id_kpi
+		dataType: double
+		isHidden
+		lineageTag: 7ab1d462-504d-518f-ac58-eeb818bc5e16
+		summarizeBy: none
+		sourceColumn: id_kpi
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo
+		dataType: string
+		lineageTag: 1d5bb999-cdd3-595f-9dc8-d62cf27ab9c9
+		summarizeBy: none
+		sourceColumn: codigo
+
+	column nombre
+		dataType: string
+		lineageTag: 2f5f7083-e669-59a2-8797-550a1c66fb81
+		summarizeBy: none
+		sourceColumn: nombre
+
+	column descripcion
+		dataType: string
+		lineageTag: 68afbafc-9358-54dc-9262-2aee5b666dee
+		summarizeBy: none
+		sourceColumn: descripcion
+
+	column unidad
+		dataType: string
+		lineageTag: 757688ac-98f2-5c2b-b85e-e4fac5b4474c
+		summarizeBy: none
+		sourceColumn: unidad
+
+	column fuente_calculo
+		dataType: string
+		lineageTag: 481b48ce-13fc-5517-a633-0014736777ee
+		summarizeBy: none
+		sourceColumn: fuente_calculo
+
+	partition dwh_kpi_catalogo = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_kpi_catalogo")
+				in
+					Origen
+

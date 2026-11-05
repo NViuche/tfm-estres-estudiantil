@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "ac246ee46029112b2ebd",
+  "position": {
+    "x": 16,
+    "y": 84,
+    "z": 10,
+    "height": 212,
+    "width": 600,
+    "tabOrder": 10
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Qué analiza este informe",
+                    "textStyle": {
+                      "fontSize": "13pt",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "12 datasets públicos organizados en 4 bloques analíticos. Cada fuente se estudia por separado y se compara con las demás mediante un nivel de estrés común (Bajo / Moderado / Alto) y dimensiones conformes de género, edad y nivel educativo.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "319.318 registros en las 9 fuentes con señal real; los 3 datasets sintéticos quedan fuera de las medidas.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Navega con el menú superior. Las tarjetas de la derecha son los 6 KPIs guardados en el DWH (última ejecución).",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "TFM_Estres"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "e7941d57-210f-4b20-a54d-2af409392fb6"
+  }
+}

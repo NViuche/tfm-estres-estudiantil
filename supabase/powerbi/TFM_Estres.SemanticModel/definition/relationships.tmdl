@@ -1,0 +1,74 @@
+relationship 1fd406d7-bb3a-5c59-b932-d0bff1509088
+	fromColumn: vw_hechos_estres.id_dataset
+	toColumn: vw_dim_dataset.id_dataset
+
+relationship bd89e9eb-e666-50eb-9cc1-6a72141fcae8
+	fromColumn: vw_hechos_estres.id_genero
+	toColumn: vw_dim_genero.id_genero
+
+relationship 91b7a6d0-e2f5-5619-a7d0-04a0b09cbcc4
+	fromColumn: vw_hechos_estres.id_rango_edad
+	toColumn: vw_dim_rango_edad.id_rango_edad
+
+relationship a2582f41-32db-5599-9329-2372b944a43e
+	fromColumn: vw_hechos_estres.id_nivel_educativo
+	toColumn: vw_dim_nivel_educativo.id_nivel_educativo
+
+relationship 61f6c412-d533-58dd-a8b8-7fc5c3c57244
+	fromColumn: vw_hechos_estres.id_nivel_estres
+	toColumn: vw_dim_nivel_estres.id_nivel_estres
+
+relationship 273cb180-d71f-50c4-8d85-afd1c5952905
+	fromColumn: dwh_agg_prevalencia.id_bloque
+	toColumn: dim_bloque.id_bloque
+
+relationship e9a3f406-639e-559d-a188-fe86cc0bc435
+	fromColumn: dwh_agg_prevalencia.id_genero
+	toColumn: vw_dim_genero.id_genero
+
+relationship 5cc6de2f-ddb7-5b0b-a313-52fb22c8144a
+	fromColumn: dwh_agg_prevalencia.id_rango_edad
+	toColumn: vw_dim_rango_edad.id_rango_edad
+
+relationship 051c369b-716d-5227-80b5-e6e260030e5c
+	fromColumn: dwh_nlp_senales.id_subreddit
+	toColumn: dim_subreddit.id_subreddit
+
+relationship 349bd641-171b-5c6e-81b7-aa8a32cc9c89
+	fromColumn: dwh_nlp_senales.id_nivel_estres
+	toColumn: vw_dim_nivel_estres.id_nivel_estres
+
+relationship 1e270238-8da4-5e42-9169-d7c90525c627
+	fromColumn: dwh_dass_severidad.id_genero
+	toColumn: vw_dim_genero.id_genero
+
+relationship d3dd89e8-79d7-55f4-a4ac-c2b028945d03
+	fromColumn: dwh_dass_severidad.id_rango_edad
+	toColumn: vw_dim_rango_edad.id_rango_edad
+
+relationship 6c067008-4379-5b7f-9d43-62357ee12954
+	fromColumn: dwh_dass_severidad.id_nivel_educativo
+	toColumn: vw_dim_nivel_educativo.id_nivel_educativo
+
+relationship 7f69b55f-e51d-5d6e-96cc-e889e35250e9
+	fromColumn: dwh_brecha_tratamiento.id_nivel_estres
+	toColumn: vw_dim_nivel_estres.id_nivel_estres
+
+relationship 19ad6632-8e8c-531d-a8ea-52c98020d7b7
+	fromColumn: dwh_kpi_resultados.id_kpi
+	toColumn: dwh_kpi_catalogo.id_kpi
+
+relationship f46a7b61-7514-5a6d-9ff4-a99a1a880e06
+	fromColumn: vw_modelo_resultados.id_dataset
+	toColumn: vw_dim_dataset.id_dataset
+
+relationship b475623c-16c8-4d7b-9ec0-2532ad728c3b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: dwh_kpi_resultados.fecha_ejecucion
+	toColumn: LocalDateTable_57346907-6e3c-4748-8d1e-6e2a525d4334.Date
+
+relationship c3044fdd-b47d-4395-b87d-c676dfc56627
+	joinOnDateBehavior: datePartOnly
+	fromColumn: vw_modelo_resultados.fecha_ejecucion
+	toColumn: LocalDateTable_442b04b3-3707-4e8b-975b-4f51a1c3312d.Date
+
