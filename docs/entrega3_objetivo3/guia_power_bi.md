@@ -133,3 +133,14 @@ Para abrir el informe de Supabase:
 3. Si falla la conexión por el certificado: *Archivo → Opciones y configuración → Configuración del origen de datos → Editar permisos* y desmarca *Cifrar conexiones*. El conector de Power BI no valida el certificado del pooler de Supabase; el usuario es de solo lectura y los datos son agregados de datasets públicos.
 
 Si cambia el informe local: ejecuta el generador de páginas y después `preparar_powerbi_supabase.py` (con Power BI cerrado). Si cambian los datos en MySQL: vuelve a ejecutar `migrar_mysql_a_supabase.py`, que rehace el esquema desde cero.
+
+## 10. Ficheros de entrega (.pbix)
+
+La rúbrica pide un fichero Power BI. Los proyectos `.pbip` son carpetas con muchos archivos, así que para entregar se guardan como `.pbix` (un único archivo con los datos dentro):
+
+| Fichero | Carpeta | Uso |
+|---|---|---|
+| `TFM_Estres_supabase.pbix` | `supabase/powerbi/Entrega/` | **Entregable de la Entrega 3.** Versión final, textos corregidos; *Actualizar* pide el usuario `tfm_lector` |
+| `TFM_Estres_local.pbix` | `powerbi/Entrega/` (local: `local_xampp/powerbi/Entrega/`) | Respaldo; *Actualizar* necesita los CSV de `RutaCSV` |
+
+Para generarlos: abre el `.pbip`, *Inicio → Actualizar* y *Archivo → Guardar como → Archivos de Power BI (*.pbix)* en la carpeta `Entrega`. El `.pbix` es una copia fija: si el informe cambia, hay que volver a guardarlo. No se suben al repositorio (`*.pbix` está en `.gitignore`) porque llevan los datos dentro; se entregan aparte.

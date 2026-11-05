@@ -11,6 +11,8 @@ salidas/
 # Power BI: CSV que lee el informe y caché local (cache.abf contiene los datos importados)
 powerbi_csv/
 **/.pbi/
+# Ficheros .pbix de entrega (llevan los datos dentro): se entregan aparte, no se versionan
+*.pbix
 
 # Notas internas del equipo
 docs/interno/
