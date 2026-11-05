@@ -1,0 +1,100 @@
+table dwh_agg_prevalencia
+	lineageTag: 2574e299-4629-5080-a268-55fb65c97cdc
+
+	measure '% Estrés Alto (agregado T2)' = DIVIDE ( SUM ( dwh_agg_prevalencia[n_estres_alto] ), SUM ( dwh_agg_prevalencia[n_total] ) )
+		formatString: 0.0%
+		displayFolder: 2 Prevalencia
+		lineageTag: a4b7aa41-7ab2-5c96-aa71-bd46a4dec9d2
+
+	column id_agg
+		dataType: double
+		isHidden
+		lineageTag: 6b4421b1-62c6-5b14-a6a8-36cb34e5e8e8
+		summarizeBy: sum
+		sourceColumn: id_agg
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_bloque
+		dataType: double
+		isHidden
+		lineageTag: 8c670d2d-f893-5574-b04f-499580374ce9
+		summarizeBy: none
+		sourceColumn: id_bloque
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_genero
+		dataType: double
+		isHidden
+		lineageTag: 87daf298-ea69-5de9-bbdd-00de4de48d6d
+		summarizeBy: none
+		sourceColumn: id_genero
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_rango_edad
+		dataType: double
+		isHidden
+		lineageTag: 47711a79-9ed1-5e7d-b313-98cf0794d0cd
+		summarizeBy: none
+		sourceColumn: id_rango_edad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_total
+		dataType: double
+		lineageTag: 1ebaba70-9025-5e60-a9de-9358f0bdeebd
+		summarizeBy: sum
+		sourceColumn: n_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_estres_alto
+		dataType: double
+		lineageTag: 3ea54f7e-6588-5bb0-93c6-50510931db36
+		summarizeBy: sum
+		sourceColumn: n_estres_alto
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_estres_moderado
+		dataType: double
+		lineageTag: 967a166b-64a7-508d-9786-6f09831961e6
+		summarizeBy: sum
+		sourceColumn: n_estres_moderado
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_estres_bajo
+		dataType: double
+		lineageTag: 6cc38879-d89a-54d1-bbf0-79cf28cfe6c5
+		summarizeBy: sum
+		sourceColumn: n_estres_bajo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column pct_estres_alto
+		dataType: double
+		lineageTag: 2ae75da2-6ce4-531d-ab7c-b8955482568b
+		summarizeBy: none
+		sourceColumn: pct_estres_alto
+
+	partition dwh_agg_prevalencia = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_agg_prevalencia")
+				in
+					Origen
+

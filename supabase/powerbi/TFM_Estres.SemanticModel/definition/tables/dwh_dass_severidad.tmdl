@@ -1,0 +1,108 @@
+table dwh_dass_severidad
+	lineageTag: 71afca35-4897-59cd-999c-e7ee46f57916
+
+	measure 'Ansiedad media DASS (mujeres)' = CALCULATE ( DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[ansiedad_media] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) ), vw_dim_genero[id_genero] = 2 )
+		formatString: 0.0
+		displayFolder: 4 Validación psicológica
+		lineageTag: eca9d4f7-76ad-5308-aa95-9326aa90feb4
+
+	measure 'Ansiedad media DASS (hombres)' = CALCULATE ( DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[ansiedad_media] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) ), vw_dim_genero[id_genero] = 1 )
+		formatString: 0.0
+		displayFolder: 4 Validación psicológica
+		lineageTag: c5d11279-10ac-5e5a-9e15-c0609c292153
+
+	measure 'Brecha de género en ansiedad (puntos)' = [Ansiedad media DASS (mujeres)] - [Ansiedad media DASS (hombres)]
+		formatString: 0.00
+		displayFolder: 4 Validación psicológica
+		lineageTag: 4237b724-fbda-5dd8-94bb-57354bb75e3b
+
+	measure '% Estrés severo DASS' = DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[pct_estres_severo] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) ) / 100
+		formatString: 0.0%
+		displayFolder: 4 Validación psicológica
+		lineageTag: 9a8b3ce1-569f-5c57-9527-b50c33ab91fa
+
+	measure 'Respondentes DASS 18-25' = SUM ( dwh_dass_severidad[n_respondentes] )
+		formatString: #,0
+		displayFolder: 4 Validación psicológica
+		lineageTag: 21874b00-7ab2-5d9b-8641-e3c99e92c36e
+
+	column id_dass_sev
+		dataType: double
+		isHidden
+		lineageTag: eb9f1d27-897a-5201-a848-8b2b0d28cd2b
+		summarizeBy: sum
+		sourceColumn: id_dass_sev
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_genero
+		dataType: double
+		isHidden
+		lineageTag: 44436aec-cf94-5ec2-b7bb-d1b0bdf33a36
+		summarizeBy: none
+		sourceColumn: id_genero
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_rango_edad
+		dataType: double
+		isHidden
+		lineageTag: b80afbff-5218-53a0-85a7-2a5ecffb8d30
+		summarizeBy: none
+		sourceColumn: id_rango_edad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nivel_educativo
+		dataType: double
+		isHidden
+		lineageTag: d3c2ce22-a1f5-5951-94ac-4a135de3b519
+		summarizeBy: none
+		sourceColumn: id_nivel_educativo
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column n_respondentes
+		dataType: double
+		lineageTag: 0324f840-5305-5b11-bd91-014f2371ac3b
+		summarizeBy: sum
+		sourceColumn: n_respondentes
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column depresion_media
+		dataType: double
+		lineageTag: ab1ec437-6220-5519-b5cc-95ebec8c99b3
+		summarizeBy: none
+		sourceColumn: depresion_media
+
+	column ansiedad_media
+		dataType: double
+		lineageTag: 2ccbb3c2-a900-599f-8a8e-a4de1db2ce36
+		summarizeBy: none
+		sourceColumn: ansiedad_media
+
+	column estres_medio
+		dataType: double
+		lineageTag: a0956251-1bcd-5bfd-b683-0dce82c7a880
+		summarizeBy: none
+		sourceColumn: estres_medio
+
+	column pct_estres_severo
+		dataType: double
+		lineageTag: 7641da05-fa05-58d6-9882-37b2cb66d120
+		summarizeBy: none
+		sourceColumn: pct_estres_severo
+
+	partition dwh_dass_severidad = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_dass_severidad")
+				in
+					Origen
+

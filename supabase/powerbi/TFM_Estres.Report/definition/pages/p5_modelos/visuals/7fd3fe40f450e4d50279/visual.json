@@ -1,0 +1,86 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "7fd3fe40f450e4d50279",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 110,
+    "width": 620,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_modelo_resultados"
+                    }
+                  },
+                  "Property": "AUC medio sin alertas"
+                }
+              },
+              "queryRef": "vw_modelo_resultados.AUC medio sin alertas",
+              "nativeQueryRef": "AUC medio sin alertas",
+              "displayName": "AUC medio (sin alertas)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_modelo_resultados"
+                    }
+                  },
+                  "Property": "Modelos con alerta"
+                }
+              },
+              "queryRef": "vw_modelo_resultados.Modelos con alerta",
+              "nativeQueryRef": "Modelos con alerta",
+              "displayName": "Datasets con alerta"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_modelo_resultados.Modelos con alerta"
+          },
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#E76F51'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

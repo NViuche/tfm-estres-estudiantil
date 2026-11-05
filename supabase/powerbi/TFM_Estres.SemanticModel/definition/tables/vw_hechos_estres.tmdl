@@ -1,0 +1,138 @@
+table vw_hechos_estres
+	lineageTag: ea53f1bd-207d-5b54-94d3-ba08bd29f0e1
+
+	measure Registros = CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_dim_dataset[uso_modelado] = "incluido" )
+		formatString: #,0
+		displayFolder: 1 Volumen
+		lineageTag: ef064fc1-f62d-5e4a-a79b-f4095add8061
+
+	measure 'Registros estrés Alto' = CALCULATE ( [Registros], vw_dim_nivel_estres[nivel] = "Alto" )
+		formatString: #,0
+		displayFolder: 1 Volumen
+		lineageTag: 8fc51c2e-21ce-50c0-ad9b-dddff40c325b
+
+	measure 'Registros estrés Moderado' = CALCULATE ( [Registros], vw_dim_nivel_estres[nivel] = "Moderado" )
+		formatString: #,0
+		displayFolder: 1 Volumen
+		lineageTag: cff7e176-228c-56cb-a83b-556f125a3af8
+
+	measure 'Registros estrés Bajo' = CALCULATE ( [Registros], vw_dim_nivel_estres[nivel] = "Bajo" )
+		formatString: #,0
+		displayFolder: 1 Volumen
+		lineageTag: 96fd01e7-567f-57e7-bdfb-7282566ccfc0
+
+	measure '% Estrés Alto' = DIVIDE ( [Registros estrés Alto], [Registros] )
+		formatString: 0.0%
+		displayFolder: 2 Prevalencia
+		lineageTag: a8b71dc4-1a46-5d66-a12c-a120eb9d5a3e
+
+	measure '% Estrés Moderado' = DIVIDE ( [Registros estrés Moderado], [Registros] )
+		formatString: 0.0%
+		displayFolder: 2 Prevalencia
+		lineageTag: 61e023f0-0343-5558-9567-0e432069e51e
+
+	measure '% Estrés Bajo' = DIVIDE ( [Registros estrés Bajo], [Registros] )
+		formatString: 0.0%
+		displayFolder: 2 Prevalencia
+		lineageTag: 6aa9c76f-f2da-5574-b313-5bc8e0e5bcc1
+
+	measure '% Estrés Alto global (sin filtros)' = CALCULATE ( [% Estrés Alto], ALL ( vw_dim_genero ), ALL ( vw_dim_rango_edad ), ALL ( vw_dim_nivel_educativo ), ALL ( vw_dim_dataset[bloque] ), ALL ( vw_dim_dataset[dataset] ) )
+		formatString: 0.0%
+		displayFolder: 2 Prevalencia
+		lineageTag: 08579f51-fe1f-5eaf-91c9-c220761a05c3
+
+	measure 'Diferencia vs global (pp)' = ([% Estrés Alto] - [% Estrés Alto global (sin filtros)]) * 100
+		formatString: +0.0;-0.0;0.0
+		displayFolder: 2 Prevalencia
+		lineageTag: 919bc926-a4fa-5875-ab3d-952f5470b24d
+
+	measure 'Cobertura demográfica' = DIVIDE ( CALCULATE ( [Registros], vw_dim_genero[id_genero] <> 0, vw_dim_rango_edad[id_rango_edad] <> 0 ), [Registros] )
+		formatString: 0.0%
+		displayFolder: 3 Calidad del dato
+		lineageTag: 0c145ee4-799d-5838-9306-31a9016e9e29
+
+	measure 'Fuentes en la selección' = CALCULATE ( DISTINCTCOUNT ( vw_hechos_estres[id_dataset] ), vw_dim_dataset[uso_modelado] = "incluido" )
+		formatString: 0
+		displayFolder: 3 Calidad del dato
+		lineageTag: 5f5f9ca9-accc-53d0-a2ba-7888d7c0b797
+
+	column id_registro
+		dataType: double
+		isHidden
+		lineageTag: bbfb1777-46ed-53dd-8f28-c621b86f2a6f
+		summarizeBy: sum
+		sourceColumn: id_registro
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column tabla_origen
+		dataType: string
+		lineageTag: d2234e07-c704-518b-ab1b-b9269437d409
+		summarizeBy: none
+		sourceColumn: tabla_origen
+
+	column id_dataset
+		dataType: double
+		isHidden
+		lineageTag: 7a82b970-2a38-5606-b16d-951f01654154
+		summarizeBy: none
+		sourceColumn: id_dataset
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_genero
+		dataType: double
+		isHidden
+		lineageTag: ba6cc1bc-7b56-540a-b115-e9cdf52e7537
+		summarizeBy: none
+		sourceColumn: id_genero
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_rango_edad
+		dataType: double
+		isHidden
+		lineageTag: 14db8217-9e4d-59a4-905e-33b9dc3b3e26
+		summarizeBy: none
+		sourceColumn: id_rango_edad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nivel_educativo
+		dataType: double
+		isHidden
+		lineageTag: 219698ba-1e26-59f9-b12b-de478bbb86b8
+		summarizeBy: none
+		sourceColumn: id_nivel_educativo
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_nivel_estres
+		dataType: double
+		isHidden
+		lineageTag: 28eb5dd9-5dc9-5348-a4dc-4aea140dd765
+		summarizeBy: none
+		sourceColumn: id_nivel_estres
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column objetivo_nativo
+		dataType: string
+		lineageTag: e0c2429c-e07f-5ae7-8fc4-6433f1f52184
+		summarizeBy: none
+		sourceColumn: objetivo_nativo
+
+	partition vw_hechos_estres = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_hechos_estres")
+				in
+					Origen
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,906 @@
+cultureInfo es-ES
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "vw_dim_dataset.dataset": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_dataset",
+			          "ConceptualProperty": "dataset"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dataset": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_dim_dataset.bloque": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_dataset",
+			          "ConceptualProperty": "bloque"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Bloque": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.estrés_alto": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% Estrés Alto"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% estrés Alto": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "% Alto": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.registros": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "Registros"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Registros": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.estrés_alto_global_sin_filtros": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% Estrés Alto global (sin filtros)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% estrés Alto global": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.cobertura_demográfica": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "Cobertura demográfica"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cobertura demográfica": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.fuentes_en_la_selección": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "Fuentes en la selección"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Fuentes": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_dim_rango_edad.rango": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_rango_edad",
+			          "ConceptualProperty": "rango"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rango de edad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_dim_nivel_educativo.nivel": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_nivel_educativo",
+			          "ConceptualProperty": "nivel"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivel educativo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_dim_genero.nombre": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_genero",
+			          "ConceptualProperty": "nombre"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Género": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_nlp_senales.ratio_discriminante_liwc": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_nlp_senales",
+			          "ConceptualProperty": "Ratio discriminante LIWC"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ratio LIWC ansiedad (Alto / Bajo)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ratio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_nlp_senales.sentimiento_medio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_nlp_senales",
+			          "ConceptualProperty": "Sentimiento medio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sentimiento medio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Sentimiento": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_nlp_senales.posts_analizados": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_nlp_senales",
+			          "ConceptualProperty": "Posts analizados"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Posts analizados": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Posts": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_nlp_senales.liwc_ansiedad_estrés_alto": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_nlp_senales",
+			          "ConceptualProperty": "LIWC ansiedad (estrés Alto)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Con estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_nlp_senales.liwc_ansiedad_estrés_bajo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_nlp_senales",
+			          "ConceptualProperty": "LIWC ansiedad (estrés Bajo)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sin estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dim_subreddit.nombre": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dim_subreddit",
+			          "ConceptualProperty": "nombre"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Subreddit": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_dass_severidad.estrés_severo_dass": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_dass_severidad",
+			          "ConceptualProperty": "% Estrés severo DASS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% estrés severo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "% estrés severo DASS": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_dass_severidad.brecha_de_género_en_ansiedad_puntos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_dass_severidad",
+			          "ConceptualProperty": "Brecha de género en ansiedad (puntos)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Brecha ansiedad M − H (pts)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_dim_nivel_estres.nivel": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_dim_nivel_estres",
+			          "ConceptualProperty": "nivel"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivel de estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_brecha_tratamiento.búsqueda_de_tratamiento": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_brecha_tratamiento",
+			          "ConceptualProperty": "% Búsqueda de tratamiento"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% busca tratamiento": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "% búsqueda de tratamiento": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_brecha_tratamiento.antecedentes_familiares": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_brecha_tratamiento",
+			          "ConceptualProperty": "antecedentes_familiares"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Antecedentes familiares": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_kpi_resultados.valor_kpi_última_ejecución": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_kpi_resultados",
+			          "ConceptualProperty": "Valor KPI (última ejecución)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Cobertura demográfica (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Riesgo crítico (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Poder discriminante LIWC (ratio)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Estrés Alto global (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Brecha de género en ansiedad (pts)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Búsqueda de tratamiento (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Riesgo crítico, KPI 3 (%)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Valor": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.dataset": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "dataset"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dataset": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.auc_medio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "AUC medio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AUC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.modelo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "modelo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Modelo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.protocolo": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "protocolo"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Protocolo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.n_registros": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "n_registros"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "n": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.auc": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "auc"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AUC": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.f1": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "f1"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "F1": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.accuracy": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "accuracy"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Accuracy": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.alerta": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "alerta"
+			        }
+			      },
+			      "State": "Generated"
+			    },
+			    "vw_modelo_resultados.auc_medio_sin_alertas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "AUC medio sin alertas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "AUC medio (sin alertas)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.modelos_con_alerta": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "Modelos con alerta"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Datasets con alerta": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_kpi_resultados.fecha_ejecucion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_kpi_resultados",
+			          "ConceptualProperty": "fecha_ejecucion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ejecución": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_kpi_catalogo.nombre": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_kpi_catalogo",
+			          "ConceptualProperty": "nombre"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "KPI": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_kpi_catalogo.unidad": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_kpi_catalogo",
+			          "ConceptualProperty": "unidad"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Unidad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_kpi_catalogo.descripcion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_kpi_catalogo",
+			          "ConceptualProperty": "descripcion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Definición": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

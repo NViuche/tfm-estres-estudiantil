@@ -1,0 +1,83 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "368fe8a0f77a4471dc99",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 110,
+    "width": 1248,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Ratio discriminante LIWC"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Ratio discriminante LIWC",
+              "nativeQueryRef": "Ratio discriminante LIWC",
+              "displayName": "Ratio LIWC ansiedad (Alto / Bajo)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Sentimiento medio"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Sentimiento medio",
+              "nativeQueryRef": "Sentimiento medio",
+              "displayName": "Sentimiento medio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_nlp_senales"
+                    }
+                  },
+                  "Property": "Posts analizados"
+                }
+              },
+              "queryRef": "dwh_nlp_senales.Posts analizados",
+              "nativeQueryRef": "Posts analizados",
+              "displayName": "Posts analizados"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

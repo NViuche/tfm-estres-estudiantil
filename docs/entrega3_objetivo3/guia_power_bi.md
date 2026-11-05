@@ -2,6 +2,7 @@
 
 El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 32 medidas DAX, tema de colores «Bienestar» y 7 páginas (Inicio + 6 de análisis). Los datos se leen de 15 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
 
+
 ## 1. Preparar los datos
 
 1. En MySQL (XAMPP) deben existir las vistas `vw_*` (`sql/esquema_estrella_powerbi.sql`), las tablas `dwh_*` (`sql/dwh_estrella.sql` + notebook 08) y los resultados del modelado (notebook 09: `dwh_modelo_resultados` y `vw_modelo_resultados`).
@@ -102,7 +103,7 @@ Valores de control sin filtros (calculados también en SQL):
 
 1. `dwh_modelo_resultados` no guarda el baseline de accuracy (está en `resultados/`). Para mostrarlo habría que añadir la columna `acc_baseline` a esa tabla.
 2. Las medidas de T3 y T4 ponderan medias ya redondeadas, así que la segunda decimal puede variar ligeramente. Para exactitud, habría que guardar numerador y denominador por grupo.
-3. Los nombres de los bloques y de los KPIs llegan sin tildes desde MySQL («Percepcion emocional», «Tasa de estres…»), y los antecedentes familiares como «No / Yes». Se corregirán en los datos al migrar a Supabase (`dim_bloque`, `dim_dataset`, `dwh_kpi_catalogo`, `dwh_brecha_tratamiento`).
+3. Los nombres de los bloques y de los KPIs llegan sin tildes desde MySQL («Percepcion emocional», «Tasa de estres…»), y los antecedentes familiares como «No / Yes». **Resuelto en la versión Supabase** (sección 9); el informe local con CSV los mantiene como en MySQL.
 
 ## 8. Correcciones aplicadas al proyecto original
 
@@ -111,3 +112,24 @@ El proyecto inicial no abría en Desktop. Se corrigió lo siguiente:
 - medidas `AUC`, `F1` y `Accuracy` que chocaban con columnas del mismo nombre (renombradas a `AUC medio`, `F1 medio` y `Accuracy media`);
 - `MySql.Database` en lugar de `MySQL.Database`;
 - `Modelos con alerta` contaba los 4 modelos de cada dataset con alerta: ahora cuenta solo el mejor.
+
+## 9. Versión en la nube (Supabase)
+
+La base de datos también está en Supabase (PostgreSQL), en el esquema `tfm`. Los archivos están en `supabase/`.
+
+| Paso | Archivo | Qué hace |
+|---|---|---|
+| Esquema | `sql/01_esquema.sql` | Traduce a PostgreSQL las 8 dimensiones, las 8 tablas `dwh_*` y los hechos de `vw_hechos_estres`, que se guardan como tabla `hechos_estres` (las tablas originales `b1_*`…`b4_*` se quedan en MySQL) |
+| Vistas | `sql/02_vistas.sql` | Vuelve a crear las 7 vistas `vw_*` con los mismos nombres y columnas |
+| Correcciones | `sql/03_correcciones_datos.sql` | Pone las tildes en bloques, KPIs, modelos y descripciones, y cambia «Yes» por «Sí» en los antecedentes familiares. Solo en Supabase: MySQL queda igual |
+| Migración | `scripts/migrar_mysql_a_supabase.py` | Ejecuta los tres SQL, copia los datos desde MySQL, crea el usuario de solo lectura `tfm_lector` y valida contra MySQL (17/17 tablas y 7/7 cifras de control) |
+| Power BI | `scripts/preparar_powerbi_supabase.py` | Genera `supabase/powerbi/` a partir del Power BI local: `Fuente = "Supabase"`, conector PostgreSQL y la medida de antecedentes con «Sí» |
+
+Credenciales: en `supabase/.env` (no se versiona; plantilla en `.env.ejemplo`). El esquema `tfm` no está expuesto en la API REST de Supabase.
+
+Para abrir el informe de Supabase:
+1. Abre `supabase/powerbi/TFM_Estres.pbip` y pulsa *Actualizar*.
+2. Credenciales de PostgreSQL, pestaña *Base de datos*: usuario `tfm_lector.<ref del proyecto>` y la contraseña de solo lectura.
+3. Si falla la conexión por el certificado: *Archivo → Opciones y configuración → Configuración del origen de datos → Editar permisos* y desmarca *Cifrar conexiones*. El conector de Power BI no valida el certificado del pooler de Supabase; el usuario es de solo lectura y los datos son agregados de datasets públicos.
+
+Si cambia el informe local: ejecuta el generador de páginas y después `preparar_powerbi_supabase.py` (con Power BI cerrado). Si cambian los datos en MySQL: vuelve a ejecutar `migrar_mysql_a_supabase.py`, que rehace el esquema desde cero.

@@ -1,0 +1,650 @@
+<title>Análisis del estrés estudiantil</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: banda teal con menú de 7 páginas (como el Power BI) + rejilla de tarjetas blancas sobre fondo crema.
+   Tema «Bienestar» del informe de Power BI (TFM_Estres_tema_bienestar.json). */
+:root {
+  --bg: #FAF6F0; --surface: #FFFFFF; --line: #E6DED3; --ink: #264653; --ink-2: #4F5D63; --muted: #7A868A;
+  --band: #2A7F7F; --band-ink: #FFFFFF; --nav: #FFFFFF; --nav-ink: #264653; --nav-on: #264653; --nav-on-ink: #FFFFFF;
+  --head: #2A7F7F; --head-ink: #FFFFFF; --zebra: #F2F8F7; --grid: #EFE9E1; --shadow: rgba(38,70,83,.10);
+  --bajo: #2A9D8F; --mod: #E9C46A; --alto: #E76F51; --h-dim: #56676C; --h-cat: #8A9499; --serie1: #2A9D8F; --serie2: #E76F51; --alerta: #D35A3D;
+  --font: "Segoe UI", "Segoe UI Variable", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --font-strong: "Segoe UI Semibold", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111A1A; --surface: #1A2626; --line: #2C3B3A; --ink: #E4EDEC; --ink-2: #B6C4C2; --muted: #8B9C9A;
+  --band: #1E5E5E; --band-ink: #FFFFFF; --nav: #2A6E6E; --nav-ink: #EAF4F3; --nav-on: #0D1515; --nav-on-ink: #FFFFFF;
+  --head: #1E5E5E; --head-ink: #FFFFFF; --zebra: #1F2D2D; --grid: #263534; --shadow: rgba(0,0,0,.35);
+  --alerta: #F08A6E; --h-dim: #4C5E61; --h-cat: #5E6B6D; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111A1A; --surface: #1A2626; --line: #2C3B3A; --ink: #E4EDEC; --ink-2: #B6C4C2; --muted: #8B9C9A;
+  --band: #1E5E5E; --band-ink: #FFFFFF; --nav: #2A6E6E; --nav-ink: #EAF4F3; --nav-on: #0D1515; --nav-on-ink: #FFFFFF;
+  --head: #1E5E5E; --head-ink: #FFFFFF; --zebra: #1F2D2D; --grid: #263534; --shadow: rgba(0,0,0,.35);
+  --alerta: #F08A6E; --h-dim: #4C5E61; --h-cat: #5E6B6D; color-scheme: dark }
+
+* { box-sizing: border-box }
+[hidden] { display: none !important }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14px; line-height: 1.45 }
+table { font-size: inherit; color: inherit }
+h1, h2, h3 { font-family: var(--font-strong); font-weight: 600; margin: 0; text-wrap: balance }
+p { margin: 0 }
+.tab { font-variant-numeric: tabular-nums }
+
+/* Banda superior */
+.banda { background: var(--band); color: var(--band-ink) }
+.banda-in { max-width: 1280px; margin: 0 auto; padding-block: 12px; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); display: flex; gap: 12px 24px; align-items: center; flex-wrap: wrap }
+.banda h1 { font-size: 21px; line-height: 1.2 }
+.banda .sub { font-size: 12.5px; opacity: .9 }
+.banda .titulo { flex: 1 1 320px; min-width: 0 }
+nav { display: flex; flex-wrap: wrap; gap: 6px }
+nav a { display: inline-block; padding: 9px 14px; min-width: 92px; text-align: center; border-radius: 4px; background: var(--nav);
+  color: var(--nav-ink); text-decoration: none; font-size: 13px; border: 1px solid transparent }
+nav a:hover { border-color: var(--band-ink) }
+nav a[aria-current="page"] { background: var(--nav-on); color: var(--nav-on-ink); font-family: var(--font-strong); font-weight: 600 }
+a:focus-visible, select:focus-visible, .bar-hit:focus-visible { outline: 2px solid var(--alto); outline-offset: 2px }
+
+main { max-width: 1280px; margin: 0 auto; padding-block: 16px 28px; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 14px }
+.fila { display: grid; gap: 14px; grid-template-columns: repeat(var(--c, 2), minmax(0, 1fr)) }
+@media (max-width: 900px) { .fila { grid-template-columns: minmax(0, 1fr) !important } }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 4px 14px var(--shadow);
+  padding: 14px 16px; min-width: 0 }
+.card h2 { font-size: 16px; margin-bottom: 10px }
+.card h3 { font-size: 14.5px; margin-bottom: 4px }
+.nota { font-size: 12.5px; color: var(--ink-2) }
+.nota p + p, .texto p + p { margin-top: 4px }
+.texto { color: var(--ink-2); font-size: 13.5px; max-width: 75ch }
+
+/* Filtros */
+.filtros { display: grid; gap: 14px; grid-template-columns: repeat(4, minmax(0, 1fr)) }
+@media (max-width: 900px) { .filtros { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.filtros label { display: block; font-family: var(--font-strong); font-weight: 600; color: var(--head); font-size: 14px; margin-bottom: 6px }
+:root[data-theme="dark"] .filtros label { color: var(--ink) }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .filtros label { color: var(--ink) } }
+.filtros select { width: 100%; padding: 6px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface);
+  color: var(--ink); font: inherit; font-size: 13px }
+
+/* Tarjetas numéricas */
+.kpis { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) }
+.kpi { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; min-width: 0 }
+.kpi .et { font-size: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.kpi .v { font-family: var(--font-strong); font-weight: 600; font-size: 30px; line-height: 1.15; font-variant-numeric: tabular-nums }
+.kpi .v.alerta { color: var(--alerta) }
+
+/* Gráficos de barras (HTML, a escala) */
+.leyenda { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12.5px; color: var(--ink-2); margin-bottom: 8px }
+.leyenda b { color: var(--ink); font-family: var(--font-strong); font-weight: 600 }
+.leyenda i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 5px; vertical-align: -1px }
+.hb { display: grid; grid-template-columns: minmax(90px, max-content) minmax(0, 1fr); gap: 6px 10px; align-items: center; font-size: 12.5px }
+.hb .lab { color: var(--ink-2); text-align: right; overflow-wrap: anywhere }
+.pista, .eje { margin-right: 46px }  /* hueco para la etiqueta de valor de la barra más larga */
+.pista { position: relative; min-height: 22px }
+.pista .g { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--grid) }
+.barra { position: relative; height: 18px; border-radius: 0 4px 4px 0; display: flex; align-items: center }
+.barra + .barra { margin-top: 2px }
+.barra span { position: absolute; left: calc(100% + 6px); white-space: nowrap; color: var(--ink-2); font-size: 11.5px; font-variant-numeric: tabular-nums }
+.eje { position: relative; height: 16px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums }
+.eje span { position: absolute; transform: translateX(-50%) }
+.titulo-eje { text-align: center; font-size: 12px; color: var(--ink-2); font-family: var(--font-strong); font-weight: 600; margin-top: 2px }
+
+.cols { display: flex; align-items: flex-end; gap: 10px; height: 180px; padding-top: 18px; border-bottom: 1px solid var(--line); position: relative }
+.cols .grp { flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 2px; height: 100%; min-width: 0 }
+.col { position: relative; width: min(56px, 42%); border-radius: 4px 4px 0 0 }
+.col span { position: absolute; bottom: calc(100% + 3px); left: 50%; transform: translateX(-50%); font-size: 11.5px; color: var(--ink-2);
+  white-space: nowrap; font-variant-numeric: tabular-nums }
+.cols-lab { display: flex; gap: 10px; font-size: 12px; color: var(--ink-2); margin-top: 4px }
+.cols-lab div { flex: 1; text-align: center; min-width: 0; overflow-wrap: anywhere }
+
+.apilada { display: flex; height: 22px; gap: 2px }
+.apilada div { display: flex; align-items: center; justify-content: center; font-size: 11.5px; color: #FFFFFF; overflow: hidden;
+  font-variant-numeric: tabular-nums; min-width: 0 }
+.apilada div.claro { color: #264653 }
+.apilada div:last-child { border-radius: 0 4px 4px 0 }
+
+/* Tablas */
+.tabla-env { overflow-x: auto }
+table.t { border-collapse: collapse; width: 100%; font-size: 12.5px }
+.t th { background: var(--head); color: var(--head-ink); text-align: left; font-family: var(--font-strong); font-weight: 600; padding: 6px 8px; vertical-align: bottom }
+.t td { padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: top }
+.t tbody tr:nth-child(even) td { background: var(--zebra) }
+.t .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap }
+.t tr.total td { font-family: var(--font-strong); font-weight: 600; border-top: 1px solid var(--ink-2) }
+
+.bloque a { color: var(--ink); font-family: var(--font-strong); font-weight: 600 }
+.vacio { color: var(--muted); font-size: 13px; padding: 12px 0 }
+footer { max-width: 1280px; margin: 0 auto; padding-block: 0 24px; padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px)); font-size: 12px; color: var(--muted) }
+
+/* Arquitectura */
+.flujo { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px }
+.paso { flex: 1 1 130px; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; min-width: 0; background: var(--zebra) }
+.paso b { display: block; font-family: var(--font-strong); font-weight: 600; font-size: 13px }
+.paso span { font-size: 12px; color: var(--ink-2) }
+.paso.nube { border-color: var(--band); background: var(--surface) }
+.flecha { align-self: center; color: var(--muted); font-size: 18px }
+@media (max-width: 700px) { .flecha { display: none } }
+.capas { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px }
+.capas button { font: inherit; font-size: 13px; padding: 7px 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--surface);
+  color: var(--ink); cursor: pointer }
+.capas button[aria-pressed="true"] { background: var(--band); color: var(--band-ink); border-color: var(--band) }
+.capas button:focus-visible, .tbl:focus-visible { outline: 2px solid var(--alto); outline-offset: 2px }
+.diagrama { display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr) }
+.lienzo { overflow-x: auto }
+.lienzo svg { display: block; width: 100%; min-width: 640px; height: auto }
+.lienzo text { font-family: var(--font); fill: var(--ink) }
+.tbl { cursor: pointer }
+.tbl:hover rect.cuerpo, .tbl.sel rect.cuerpo { stroke: var(--ink); stroke-width: 2 }
+.ficha h3 { font-size: 15px; margin-bottom: 2px; overflow-wrap: anywhere }
+.ficha .meta { font-size: 12.5px; color: var(--ink-2); margin-bottom: 8px }
+.ficha ul { list-style: none; margin: 0; padding: 0; font-size: 12.5px; columns: 3 200px; column-gap: 24px }
+.ficha li { break-inside: avoid; padding: 3px 0; border-bottom: 1px solid var(--grid); display: flex; gap: 8px; align-items: baseline }
+.chip { font-size: 10.5px; font-family: var(--font-strong); font-weight: 600; padding: 0 5px; border-radius: 3px; min-width: 22px; text-align: center }
+.chip.PK { background: var(--band); color: var(--band-ink) }
+.chip.FK { background: var(--alto); color: #FFFFFF }
+.leyenda-arq { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--ink-2); margin-top: 8px }
+.leyenda-arq i { display: inline-block; width: 12px; height: 12px; border-radius: 2px; margin-right: 5px; vertical-align: -2px }
+.correccion { border-left: 3px solid var(--alto); padding-left: 10px }
+
+#tip { position: fixed; z-index: 20; pointer-events: none; background: var(--ink); color: var(--bg); font-size: 12px; padding: 5px 8px;
+  border-radius: 4px; max-width: 260px; box-shadow: 0 4px 12px var(--shadow) }
+@media (prefers-reduced-motion: no-preference) { .barra, .col, .apilada div { transition: width .25s ease, height .25s ease } }
+</style>
+
+<header class="banda">
+  <div class="banda-in">
+    <div class="titulo"><h1 id="titulo">Análisis multidimensional del estrés estudiantil</h1><p class="sub" id="subtitulo"></p></div>
+    <nav id="menu" aria-label="Páginas del informe"></nav>
+  </div>
+</header>
+
+<main>
+  <section id="filtros" class="card filtros" aria-label="Filtros" hidden>
+    <div><label for="f-bloque">Bloque</label><select id="f-bloque"></select></div>
+    <div><label for="f-genero">Género</label><select id="f-genero"></select></div>
+    <div><label for="f-edad">Rango de edad</label><select id="f-edad"></select></div>
+    <div><label for="f-educ">Nivel educativo</label><select id="f-educ"></select></div>
+  </section>
+  <div id="vista" style="display: grid; gap: 14px"></div>
+</main>
+<footer id="pie"></footer>
+<div id="tip" role="tooltip" hidden></div>
+
+<script id="datos" type="application/json">{"fuente":"Supabase (PostgreSQL, esquema tfm)","exportado":"05/11/2026","datasets":[{"id":1,"nombre":"Academic Stress","bloque":"Factores internos","id_bloque":1},{"id":2,"nombre":"Student Anxiety GAD-7","bloque":"Factores internos","id_bloque":1},{"id":3,"nombre":"Student Mental Health Survey","bloque":"Factores internos","id_bloque":1},{"id":6,"nombre":"Social Media and Mental Health","bloque":"Hábitos digitales","id_bloque":2},{"id":8,"nombre":"Dreaddit train","bloque":"Percepción emocional","id_bloque":3},{"id":9,"nombre":"Dreaddit test","bloque":"Percepción emocional","id_bloque":3},{"id":10,"nombre":"Depression Student Dataset","bloque":"Percepción emocional","id_bloque":3},{"id":11,"nombre":"DASS-42","bloque":"Validación psicológica","id_bloque":4},{"id":12,"nombre":"Mental Health Dataset","bloque":"Validación psicológica","id_bloque":4}],"generos":{"0":"No reportado","1":"Masculino","2":"Femenino","3":"Otro"},"edades":[{"id":0,"nombre":"No reportado"},{"id":1,"nombre":"<18"},{"id":2,"nombre":"18-25"},{"id":3,"nombre":"26-35"},{"id":4,"nombre":"36-50"},{"id":5,"nombre":">50"}],"educacion":[{"id":0,"nombre":"No reportado"},{"id":1,"nombre":"Secundaria o menos"},{"id":2,"nombre":"Grado universitario"},{"id":3,"nombre":"Posgrado"}],"niveles":{"0":"No aplica","1":"Bajo","2":"Moderado","3":"Alto"},"cubo":[[1,0,0,1,1,3],[1,0,0,1,2,6],[1,0,0,1,3,20],[1,0,0,2,1,12],[1,0,0,2,2,26],[1,0,0,2,3,62],[1,0,0,3,2,4],[1,0,0,3,3,7],[2,1,2,0,1,836],[2,1,2,0,2,424],[2,1,2,0,3,271],[2,1,2,1,1,4312],[2,1,2,1,2,2176],[2,1,2,1,3,1326],[2,1,2,2,1,1164],[2,1,2,2,2,514],[2,1,2,2,3,293],[2,1,2,3,1,178],[2,1,2,3,2,81],[2,1,2,3,3,38],[2,1,3,0,1,42],[2,1,3,0,2,12],[2,1,3,0,3,9],[2,1,3,1,1,154],[2,1,3,1,2,66],[2,1,3,1,3,57],[2,1,3,2,1,323],[2,1,3,2,2,109],[2,1,3,2,3,62],[2,1,3,3,1,134],[2,1,3,3,2,44],[2,1,3,3,3,22],[2,1,4,0,1,3],[2,1,4,0,2,1],[2,1,4,0,3,2],[2,1,4,1,1,4],[2,1,4,1,2,3],[2,1,4,1,3,4],[2,1,4,2,1,13],[2,1,4,2,2,7],[2,1,4,3,1,11],[2,1,4,3,2,2],[2,1,5,0,3,1],[2,1,5,2,1,1],[2,2,2,0,1,12],[2,2,2,0,2,23],[2,2,2,0,3,23],[2,2,2,1,1,133],[2,2,2,1,2,121],[2,2,2,1,3,157],[2,2,2,2,1,65],[2,2,2,2,2,47],[2,2,2,2,3,39],[2,2,2,3,1,8],[2,2,2,3,2,3],[2,2,2,3,3,5],[2,2,3,0,1,1],[2,2,3,1,1,5],[2,2,3,1,2,6],[2,2,3,1,3,5],[2,2,3,2,1,19],[2,2,3,2,2,13],[2,2,3,2,3,8],[2,2,3,3,1,10],[2,2,3,3,2,3],[2,2,3,3,3,5],[2,2,4,2,1,1],[2,2,4,3,3,1],[2,3,2,0,1,4],[2,3,2,0,2,2],[2,3,2,0,3,3],[2,3,2,1,1,3],[2,3,2,1,2,5],[2,3,2,1,3,18],[2,3,2,2,1,3],[2,3,2,2,2,1],[2,3,2,2,3,1],[2,3,2,3,1,1],[2,3,3,1,1,2],[2,3,3,1,2,2],[2,3,3,1,3,1],[2,3,3,2,1,3],[2,3,3,2,2,1],[2,3,4,0,1,1],[2,3,4,0,3,1],[3,1,1,2,3,1],[3,1,2,2,1,22],[3,1,2,2,2,17],[3,1,2,2,3,20],[3,1,2,3,2,1],[3,1,3,2,3,1],[3,1,3,3,3,1],[3,2,1,2,3,2],[3,2,2,2,1,5],[3,2,2,2,2,3],[3,2,2,2,3,14],[6,1,1,0,1,7],[6,1,1,0,2,2],[6,1,1,0,3,4],[6,1,2,0,1,30],[6,1,2,0,2,41],[6,1,2,0,3,58],[6,1,3,0,1,6],[6,1,3,0,2,8],[6,1,3,0,3,11],[6,1,4,0,1,26],[6,1,4,0,2,7],[6,1,4,0,3,3],[6,1,5,0,1,6],[6,1,5,0,2,2],[6,2,0,0,3,1],[6,2,1,0,1,1],[6,2,1,0,2,1],[6,2,1,0,3,3],[6,2,2,0,1,36],[6,2,2,0,2,46],[6,2,2,0,3,110],[6,2,3,0,1,16],[6,2,3,0,2,4],[6,2,3,0,3,23],[6,2,4,0,1,13],[6,2,4,0,2,5],[6,2,4,0,3,3],[6,2,5,0,1,1],[6,3,1,0,2,1],[6,3,2,0,1,1],[6,3,2,0,3,4],[6,3,5,0,3,1],[8,0,0,0,1,1348],[8,0,0,0,3,1486],[9,0,0,0,1,346],[9,0,0,0,3,369],[10,1,2,0,1,44],[10,1,2,0,3,72],[10,1,3,0,1,85],[10,1,3,0,3,66],[10,2,2,0,1,48],[10,2,2,0,3,65],[10,2,3,0,1,73],[10,2,3,0,3,49],[11,1,1,0,1,5],[11,1,1,0,2,4],[11,1,1,0,3,5],[11,1,1,1,1,433],[11,1,1,1,2,471],[11,1,1,1,3,522],[11,1,1,2,2,1],[11,1,1,2,3,2],[11,1,1,3,2,3],[11,1,2,0,1,20],[11,1,2,0,2,18],[11,1,2,0,3,16],[11,1,2,1,1,862],[11,1,2,1,2,885],[11,1,2,1,3,686],[11,1,2,2,1,728],[11,1,2,2,2,657],[11,1,2,2,3,475],[11,1,2,3,1,130],[11,1,2,3,2,140],[11,1,2,3,3,84],[11,1,3,0,1,10],[11,1,3,0,2,3],[11,1,3,0,3,4],[11,1,3,1,1,132],[11,1,3,1,2,129],[11,1,3,1,3,96],[11,1,3,2,1,341],[11,1,3,2,2,225],[11,1,3,2,3,171],[11,1,3,3,1,184],[11,1,3,3,2,147],[11,1,3,3,3,100],[11,1,4,0,1,4],[11,1,4,0,2,4],[11,1,4,0,3,3],[11,1,4,1,1,85],[11,1,4,1,2,64],[11,1,4,1,3,74],[11,1,4,2,1,135],[11,1,4,2,2,76],[11,1,4,2,3,61],[11,1,4,3,1,96],[11,1,4,3,2,63],[11,1,4,3,3,35],[11,1,5,0,1,9],[11,1,5,0,2,4],[11,1,5,0,3,2],[11,1,5,1,1,57],[11,1,5,1,2,40],[11,1,5,1,3,29],[11,1,5,2,1,72],[11,1,5,2,2,41],[11,1,5,2,3,17],[11,1,5,3,1,89],[11,1,5,3,2,26],[11,1,5,3,3,13],[11,2,1,0,1,6],[11,2,1,0,2,31],[11,2,1,0,3,28],[11,2,1,1,1,916],[11,2,1,1,2,1758],[11,2,1,1,3,2783],[11,2,1,2,1,1],[11,2,1,2,2,9],[11,2,1,2,3,9],[11,2,1,3,2,1],[11,2,1,3,3,3],[11,2,2,0,1,60],[11,2,2,0,2,76],[11,2,2,0,3,74],[11,2,2,1,1,1775],[11,2,2,1,2,2583],[11,2,2,1,3,2957],[11,2,2,2,1,2489],[11,2,2,2,2,3224],[11,2,2,2,3,3185],[11,2,2,3,1,525],[11,2,2,3,2,559],[11,2,2,3,3,583],[11,2,3,0,1,27],[11,2,3,0,2,35],[11,2,3,0,3,24],[11,2,3,1,1,178],[11,2,3,1,2,248],[11,2,3,1,3,312],[11,2,3,2,1,774],[11,2,3,2,2,751],[11,2,3,2,3,696],[11,2,3,3,1,600],[11,2,3,3,2,537],[11,2,3,3,3,440],[11,2,4,0,1,7],[11,2,4,0,2,7],[11,2,4,0,3,6],[11,2,4,1,1,132],[11,2,4,1,2,136],[11,2,4,1,3,149],[11,2,4,2,1,297],[11,2,4,2,2,200],[11,2,4,2,3,164],[11,2,4,3,1,238],[11,2,4,3,2,139],[11,2,4,3,3,99],[11,2,5,0,1,7],[11,2,5,0,2,3],[11,2,5,0,3,3],[11,2,5,1,1,72],[11,2,5,1,2,58],[11,2,5,1,3,50],[11,2,5,2,1,112],[11,2,5,2,2,57],[11,2,5,2,3,34],[11,2,5,3,1,84],[11,2,5,3,2,30],[11,2,5,3,3,20],[11,3,1,0,1,1],[11,3,1,0,2,2],[11,3,1,0,3,4],[11,3,1,1,1,28],[11,3,1,1,2,87],[11,3,1,1,3,155],[11,3,1,2,2,1],[11,3,2,0,3,1],[11,3,2,1,1,29],[11,3,2,1,2,49],[11,3,2,1,3,78],[11,3,2,2,1,17],[11,3,2,2,2,31],[11,3,2,2,3,28],[11,3,2,3,1,4],[11,3,2,3,2,5],[11,3,2,3,3,6],[11,3,3,0,1,1],[11,3,3,0,2,1],[11,3,3,1,1,4],[11,3,3,1,2,8],[11,3,3,1,3,8],[11,3,3,2,1,9],[11,3,3,2,2,7],[11,3,3,2,3,11],[11,3,3,3,1,4],[11,3,3,3,2,7],[11,3,3,3,3,5],[11,3,4,1,1,2],[11,3,4,1,2,2],[11,3,4,1,3,3],[11,3,4,2,2,2],[11,3,4,2,3,3],[11,3,4,3,2,1],[11,3,4,3,3,1],[11,3,5,1,1,1],[11,3,5,1,2,2],[11,3,5,2,1,2],[11,3,5,2,2,1],[11,3,5,3,1,3],[11,3,5,3,2,2],[11,3,5,3,3,2],[12,1,0,0,1,72964],[12,1,0,0,2,81455],[12,1,0,0,3,76195],[12,2,0,0,1,9244],[12,2,0,0,2,9242],[12,2,0,0,3,12228]],"subreddits":{"8":"almosthomeless","3":"anxiety","5":"assistance","4":"domesticviolence","10":"food_pantry","7":"homeless","1":"ptsd","2":"relationships","9":"stress","6":"survivorsofabuse"},"nlp":[{"sub":1,"nivel":1,"posts":297,"sent":0.0984,"liwc":0.5815},{"sub":1,"nivel":3,"posts":413,"sent":-0.0197,"liwc":1.2794},{"sub":2,"nivel":1,"posts":387,"sent":0.0926,"liwc":0.4054},{"sub":2,"nivel":3,"posts":307,"sent":-0.0055,"liwc":0.9188},{"sub":3,"nivel":1,"posts":234,"sent":0.1117,"liwc":1.2696},{"sub":3,"nivel":3,"posts":415,"sent":-0.0221,"liwc":2.4252},{"sub":4,"nivel":1,"posts":137,"sent":0.0757,"liwc":0.2835},{"sub":4,"nivel":3,"posts":249,"sent":-0.0384,"liwc":0.8325},{"sub":5,"nivel":1,"posts":229,"sent":0.1385,"liwc":0.1534},{"sub":5,"nivel":3,"posts":126,"sent":0.0187,"liwc":0.6543},{"sub":6,"nivel":1,"posts":172,"sent":0.1184,"liwc":0.5476},{"sub":6,"nivel":3,"posts":143,"sent":-0.043,"liwc":1.1218},{"sub":7,"nivel":1,"posts":139,"sent":0.0975,"liwc":0.281},{"sub":7,"nivel":3,"posts":81,"sent":0.0191,"liwc":0.6491},{"sub":8,"nivel":1,"posts":40,"sent":0.1068,"liwc":0.2782},{"sub":8,"nivel":3,"posts":59,"sent":0.0541,"liwc":0.502},{"sub":9,"nivel":1,"posts":33,"sent":0.0885,"liwc":0.3006},{"sub":9,"nivel":3,"posts":45,"sent":-0.0233,"liwc":1.4511},{"sub":10,"nivel":1,"posts":26,"sent":0.0906,"liwc":0.2023},{"sub":10,"nivel":3,"posts":17,"sent":-0.0045,"liwc":0.9006}],"dass":[{"g":1,"e":2,"ed":0,"n":54,"ans":28.37,"sev":29.63},{"g":1,"e":2,"ed":1,"n":2433,"ans":28.36,"sev":28.2},{"g":1,"e":2,"ed":2,"n":1860,"ans":27.91,"sev":25.54},{"g":1,"e":2,"ed":3,"n":354,"ans":27.54,"sev":23.73},{"g":2,"e":2,"ed":0,"n":210,"ans":31.47,"sev":35.24},{"g":2,"e":2,"ed":1,"n":7315,"ans":31.71,"sev":40.42},{"g":2,"e":2,"ed":2,"n":8898,"ans":30.61,"sev":35.79},{"g":2,"e":2,"ed":3,"n":1667,"ans":30.04,"sev":34.97},{"g":3,"e":2,"ed":0,"n":1,"ans":31.0,"sev":100.0},{"g":3,"e":2,"ed":1,"n":156,"ans":33.75,"sev":50.0},{"g":3,"e":2,"ed":2,"n":76,"ans":30.47,"sev":36.84},{"g":3,"e":2,"ed":3,"n":15,"ans":30.0,"sev":40.0}],"tratamiento":[{"nivel":1,"ant":"No","n":8376,"trat":2990},{"nivel":2,"ant":"No","n":13096,"trat":4534},{"nivel":3,"ant":"No","n":11962,"trat":4211},{"nivel":1,"ant":"Sí","n":5557,"trat":4070},{"nivel":2,"ant":"Sí","n":7734,"trat":5553},{"nivel":3,"ant":"Sí","n":7482,"trat":5424}],"kpi_catalogo":[{"codigo":"KPI_ESTRES_ALTO","nombre":"Tasa de estrés Alto global","descripcion":"Porcentaje de registros en nivel de estrés Alto sobre el total de las 9 fuentes con señal real.","unidad":"%"},{"codigo":"KPI_BRECHA_GENERO","nombre":"Brecha de género en ansiedad (DASS)","descripcion":"Diferencia entre la ansiedad media de mujeres y hombres en la escala DASS-42 (18-25 años).","unidad":"puntos"},{"codigo":"KPI_RIESGO_CRITICO","nombre":"Índice de riesgo crítico","descripcion":"Porcentaje de estudiantes con pensamientos suicidas que además presentan depresión.","unidad":"%"},{"codigo":"KPI_TASA_TRATAMIENTO","nombre":"Tasa de búsqueda de tratamiento","descripcion":"Porcentaje de estudiantes que han buscado tratamiento psicológico.","unidad":"%"},{"codigo":"KPI_DISCRIMINANTE_LIWC","nombre":"Poder discriminante LIWC","descripcion":"Ratio entre la densidad media de palabras de ansiedad (LIWC) de la clase estrés y la de no-estrés en Dreaddit.","unidad":"ratio"},{"codigo":"KPI_COBERTURA_DEMO","nombre":"Cobertura demográfica","descripcion":"Porcentaje de registros con género y edad reportados sobre el total unificado.","unidad":"%"}],"kpi_resultados":[{"codigo":"KPI_ESTRES_ALTO","valor":33.6812,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_BRECHA_GENERO","valor":2.8922,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_RIESGO_CRITICO","valor":72.6923,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_TASA_TRATAMIENTO","valor":49.4069,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_DISCRIMINANTE_LIWC","valor":2.5796,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_COBERTURA_DEMO","valor":17.005,"fecha":"2026-10-22 13:36:30"},{"codigo":"KPI_ESTRES_ALTO","valor":33.6812,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_BRECHA_GENERO","valor":2.8922,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_RIESGO_CRITICO","valor":72.6923,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_TASA_TRATAMIENTO","valor":49.4069,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_DISCRIMINANTE_LIWC","valor":2.5796,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_COBERTURA_DEMO","valor":17.005,"fecha":"2026-10-22 15:00:18"},{"codigo":"KPI_ESTRES_ALTO","valor":33.6812,"fecha":"2026-10-22 15:29:21"},{"codigo":"KPI_BRECHA_GENERO","valor":2.8922,"fecha":"2026-10-22 15:29:21"},{"codigo":"KPI_RIESGO_CRITICO","valor":72.6923,"fecha":"2026-10-22 15:29:21"},{"codigo":"KPI_TASA_TRATAMIENTO","valor":49.4069,"fecha":"2026-10-22 15:29:21"},{"codigo":"KPI_DISCRIMINANTE_LIWC","valor":2.5796,"fecha":"2026-10-22 15:29:21"},{"codigo":"KPI_COBERTURA_DEMO","valor":17.005,"fecha":"2026-10-22 15:29:21"}],"modelos":[{"dataset":"Academic Stress","modelo":"Random Forest","protocolo":"CV 5x3","n":140,"auc":0.729,"f1":0.4109,"acc":0.381,"alerta":"n=140: resultado exploratorio (el Accuracy no supera al baseline)"},{"dataset":"Student Anxiety GAD-7","modelo":"Regresión Logística","protocolo":"Hold-out 80/20","n":9302,"auc":0.7645,"f1":0.4527,"acc":0.7297,"alerta":null},{"dataset":"Student Mental Health Survey","modelo":"XGBoost","protocolo":"CV 5x3","n":87,"auc":0.7854,"f1":0.5486,"acc":0.6251,"alerta":null},{"dataset":"Social Media and Mental Health","modelo":"Random Forest","protocolo":"CV 5x3","n":481,"auc":0.7966,"f1":0.7276,"acc":0.7318,"alerta":null},{"dataset":"Depression Student Dataset","modelo":"Regresión Logística","protocolo":"CV 5x3","n":502,"auc":0.9984,"f1":0.9789,"acc":0.9788,"alerta":"AUC cercano a 1: posible etiqueta generada por fórmula; consultar con el tutor"},{"dataset":"DASS-42","modelo":"XGBoost","protocolo":"Hold-out 80/20","n":23039,"auc":0.7628,"f1":0.5836,"acc":0.5779,"alerta":null},{"dataset":"Mental Health Dataset","modelo":"XGBoost","protocolo":"Hold-out 80/20","n":54207,"auc":0.7696,"f1":0.7285,"acc":0.7177,"alerta":null},{"dataset":"Dreaddit train","modelo":"Híbrido (TF-IDF + LIWC) + RegLog","protocolo":"Train/Test original","n":3549,"auc":0.8383,"f1":0.7625,"acc":0.7483,"alerta":null}]}</script>
+<script id="arquitectura" type="application/json">{"tablas":{"b1_academic_stress":{"columnas":[["id_encuesta_estres","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["ts_respuesta",""],["etapa_academica",""],["presion_pares",""],["presion_hogar",""],["entorno_estudio",""],["estrategia_afrontamiento",""],["habitos_nocivos",""],["competencia_academica",""],["indice_estres",""]],"filas":140,"supabase":false},"b1_anxiety":{"columnas":[["id_encuesta_ansiedad","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["num_secuencial_csv",""],["gad1",""],["gad2",""],["gad3",""],["gad4",""],["gad5",""],["gad6",""],["gad7",""],["gade",""],["swl_total",""],["spin_total",""],["gad_total",""],["horas_juego",""],["edad",""],["ocupacion",""],["pais_residencia",""]],"filas":13464,"supabase":false},"b1_mental_health_survey":{"columnas":[["id_encuesta_salud_mental","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["edad",""],["universidad",""],["carrera",""],["anio_academico",""],["cgpa_rango",""],["satisfaccion_estudios",""],["carga_academica",""],["presion_academica",""],["aislamiento",""],["inseguridad_futuro",""],["depresion",""],["ansiedad",""]],"filas":87,"supabase":false},"b1_student_habits":{"columnas":[["id_estudiante","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["edad",""],["horas_estudio_dia",""],["horas_redes",""],["horas_streaming",""],["trabajo_parcial",""],["asistencia_pct",""],["horas_sueno",""],["calidad_dieta",""],["frecuencia_ejercicio",""],["educacion_padres",""],["calidad_internet",""],["salud_mental",""],["nota_examen",""]],"filas":1000,"supabase":false},"b2_lifestyle":{"columnas":[["id_registro_estilo_vida","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["pais",""],["edad",""],["nivel_ejercicio",""],["tipo_dieta",""],["horas_sueno",""],["nivel_estres_nativo",""],["condicion_salud_mental",""],["horas_trabajo_semana",""],["horas_pantalla",""],["interaccion_social",""],["felicidad",""]],"filas":3000,"supabase":false},"b2_smmh":{"columnas":[["id_respuesta_smmh","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["ts_respuesta",""],["edad",""],["estado_relacion",""],["ocupacion",""],["usa_redes",""],["plataformas",""],["tiempo_diario",""],["uso_sin_proposito",""],["distraccion_redes",""],["inquietud_sin_redes",""],["distraccion_facil",""],["preocupacion",""],["dificultad_concentracion",""],["comparacion_social",""],["sentimiento_comparacion",""],["busqueda_validacion",""],["se_siente_deprimido",""],["fluctuacion_interes",""],["problemas_sueno",""]],"filas":481,"supabase":false},"b2_social_media_sleep":{"columnas":[["id_usuario_red","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["edad",""],["plataforma",""],["horas_redes",""],["horas_pantalla",""],["horas_sueno",""],["horas_estudio_trabajo",""],["minutos_ejercicio",""],["productividad",""],["nivel_estres_nativo",""]],"filas":11000,"supabase":false},"b3_depression_student":{"columnas":[["id_perfil_estudiante","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["edad",""],["presion_academica",""],["satisfaccion_estudios",""],["duracion_sueno",""],["habitos_alimentarios",""],["pensamientos_suicidas",""],["horas_estudio",""],["estres_financiero",""],["antecedentes_familiares",""],["depresion",""]],"filas":502,"supabase":false},"b3_dreaddit_post":{"columnas":[["id_fragmento_post","PK"],["id_dataset","FK"],["id_subreddit","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["particion",""],["post_id_origen",""],["rango_frases",""],["texto",""],["etiqueta_estres",""],["confianza_etiqueta",""],["ts_publicacion",""],["karma",""],["num_comentarios",""],["sentimiento",""],["liwc_ansiedad",""],["liwc_emo_negativa",""],["liwc_emo_positiva",""],["liwc_primera_persona",""],["legibilidad_fk",""]],"filas":3549,"supabase":false},"b4_dass_item":{"columnas":[["id_respondente_dass","PK"],["numero_item","PK"],["subescala",""],["respuesta",""],["posicion_en_test",""],["ms_respuesta",""]],"filas":0,"supabase":false},"b4_dass_respondente":{"columnas":[["id_respondente_dass","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["pais",""],["edad",""],["ingles_nativo",""],["religion",""],["orientacion",""],["estado_civil",""],["carrera",""],["seg_intro",""],["seg_test",""],["seg_encuesta",""],["validez_vcl_ok",""],["score_depresion",""],["score_ansiedad",""],["score_estres",""]],"filas":39767,"supabase":false},"b4_mental_health":{"columnas":[["id_caso_salud_mental","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["pais",""],["ocupacion",""],["autonomo",""],["antecedentes_familiares",""],["tratamiento",""],["dias_en_casa",""],["cambio_habitos",""],["historial_salud_mental",""],["estres_creciente",""],["cambios_humor",""],["debilidad_social",""],["dificultad_afrontamiento",""],["interes_trabajo",""],["entrevista_salud_mental",""],["conoce_opciones",""]],"filas":261328,"supabase":false},"dim_bloque":{"columnas":[["id_bloque","PK"],["nombre",""],["descripcion",""]],"filas":4,"supabase":true},"dim_dataset":{"columnas":[["id_dataset","PK"],["id_bloque","FK"],["codigo",""],["nombre",""],["fuente",""],["n_filas",""],["n_columnas",""],["calidad",""],["uso_modelado",""]],"filas":12,"supabase":true},"dim_genero":{"columnas":[["id_genero","PK"],["codigo",""],["nombre",""]],"filas":4,"supabase":true},"dim_mapeo_estres":{"columnas":[["id_mapeo","PK"],["id_dataset","FK"],["variable_nativa",""],["criterio",""]],"filas":12,"supabase":true},"dim_nivel_educativo":{"columnas":[["id_nivel_educativo","PK"],["nivel",""]],"filas":4,"supabase":true},"dim_nivel_estres":{"columnas":[["id_nivel_estres","PK"],["nivel",""],["descripcion",""]],"filas":4,"supabase":true},"dim_rango_edad":{"columnas":[["id_rango_edad","PK"],["rango",""],["edad_min",""],["edad_max",""]],"filas":6,"supabase":true},"dim_subreddit":{"columnas":[["id_subreddit","PK"],["nombre",""]],"filas":10,"supabase":true},"dwh_agg_prevalencia":{"columnas":[["id_agg","PK"],["id_bloque","FK"],["id_genero","FK"],["id_rango_edad","FK"],["n_total",""],["n_estres_alto",""],["n_estres_moderado",""],["n_estres_bajo",""],["pct_estres_alto",""]],"filas":49,"supabase":true},"dwh_brecha_tratamiento":{"columnas":[["id_brecha","PK"],["id_nivel_estres","FK"],["antecedentes_familiares",""],["n_total",""],["n_con_tratamiento",""],["pct_tratamiento",""]],"filas":6,"supabase":true},"dwh_dass_severidad":{"columnas":[["id_dass_sev","PK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["n_respondentes",""],["depresion_media",""],["ansiedad_media",""],["estres_medio",""],["pct_estres_severo",""]],"filas":12,"supabase":true},"dwh_hechos_estres_unificado":{"columnas":[["id_hecho","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["demografia_completa",""]],"filas":319318,"supabase":true},"dwh_kpi_catalogo":{"columnas":[["id_kpi","PK"],["codigo",""],["nombre",""],["descripcion",""],["unidad",""],["fuente_calculo",""]],"filas":6,"supabase":true},"dwh_kpi_resultados":{"columnas":[["id_resultado","PK"],["id_kpi","FK"],["codigo",""],["valor",""],["detalle",""],["fecha_ejecucion",""]],"filas":18,"supabase":true},"dwh_modelo_resultados":{"columnas":[["id_resultado_modelo","PK"],["id_dataset","FK"],["tarea_modelado",""],["modelo",""],["protocolo",""],["n_registros",""],["accuracy",""],["f1",""],["auc",""],["auc_desv",""],["brecha_acc",""],["es_mejor_modelo",""],["target",""],["lectura_capa_armonizada",""],["alerta",""],["fecha_ejecucion",""]],"filas":36,"supabase":true},"dwh_nlp_senales":{"columnas":[["id_senal","PK"],["id_subreddit","FK"],["id_nivel_estres","FK"],["n_posts",""],["sentimiento_medio",""],["liwc_ansiedad_medio",""],["liwc_emo_neg_medio",""],["liwc_emo_pos_medio",""],["longitud_media_palabras",""]],"filas":20,"supabase":true},"vw_hechos_estres":{"columnas":[["id_registro","PK"],["tabla_origen","PK"],["id_dataset","FK"],["id_genero","FK"],["id_rango_edad","FK"],["id_nivel_educativo","FK"],["id_nivel_estres","FK"],["objetivo_nativo",""]],"filas":334318,"supabase":true,"vista":true},"vw_dim_dataset":{"columnas":[["id_dataset","PK"],["codigo",""],["dataset",""],["id_bloque",""],["bloque",""],["calidad",""],["uso_modelado",""],["n_filas",""]],"vista":true,"supabase":true},"vw_dim_genero":{"columnas":[["id_genero","PK"],["codigo",""],["nombre",""]],"vista":true,"supabase":true},"vw_dim_rango_edad":{"columnas":[["id_rango_edad","PK"],["rango",""],["edad_min",""],["edad_max",""]],"vista":true,"supabase":true},"vw_dim_nivel_educativo":{"columnas":[["id_nivel_educativo","PK"],["nivel",""]],"vista":true,"supabase":true},"vw_dim_nivel_estres":{"columnas":[["id_nivel_estres","PK"],["nivel",""],["descripcion",""]],"vista":true,"supabase":true},"vw_modelo_resultados":{"columnas":[["id_resultado_modelo","PK"],["id_dataset",""],["bloque",""],["dataset",""],["calidad",""],["uso_modelado",""],["modelo",""],["protocolo",""],["n_registros",""],["accuracy",""],["f1",""],["auc",""],["auc_desv",""],["brecha_acc",""],["es_mejor_modelo",""],["target",""],["lectura_capa_armonizada",""],["alerta",""],["fecha_ejecucion",""]],"vista":true,"supabase":true}},"relaciones":[["b1_academic_stress","id_dataset","dim_dataset"],["b1_academic_stress","id_rango_edad","dim_rango_edad"],["b1_academic_stress","id_nivel_educativo","dim_nivel_educativo"],["b1_academic_stress","id_nivel_estres","dim_nivel_estres"],["b1_academic_stress","id_genero","dim_genero"],["b1_anxiety","id_dataset","dim_dataset"],["b1_anxiety","id_rango_edad","dim_rango_edad"],["b1_anxiety","id_nivel_educativo","dim_nivel_educativo"],["b1_anxiety","id_nivel_estres","dim_nivel_estres"],["b1_anxiety","id_genero","dim_genero"],["b1_mental_health_survey","id_dataset","dim_dataset"],["b1_mental_health_survey","id_rango_edad","dim_rango_edad"],["b1_mental_health_survey","id_nivel_educativo","dim_nivel_educativo"],["b1_mental_health_survey","id_nivel_estres","dim_nivel_estres"],["b1_mental_health_survey","id_genero","dim_genero"],["b1_student_habits","id_dataset","dim_dataset"],["b1_student_habits","id_rango_edad","dim_rango_edad"],["b1_student_habits","id_nivel_educativo","dim_nivel_educativo"],["b1_student_habits","id_nivel_estres","dim_nivel_estres"],["b1_student_habits","id_genero","dim_genero"],["b2_lifestyle","id_dataset","dim_dataset"],["b2_lifestyle","id_rango_edad","dim_rango_edad"],["b2_lifestyle","id_nivel_educativo","dim_nivel_educativo"],["b2_lifestyle","id_nivel_estres","dim_nivel_estres"],["b2_lifestyle","id_genero","dim_genero"],["b2_smmh","id_dataset","dim_dataset"],["b2_smmh","id_rango_edad","dim_rango_edad"],["b2_smmh","id_nivel_educativo","dim_nivel_educativo"],["b2_smmh","id_nivel_estres","dim_nivel_estres"],["b2_smmh","id_genero","dim_genero"],["b2_social_media_sleep","id_dataset","dim_dataset"],["b2_social_media_sleep","id_rango_edad","dim_rango_edad"],["b2_social_media_sleep","id_nivel_educativo","dim_nivel_educativo"],["b2_social_media_sleep","id_nivel_estres","dim_nivel_estres"],["b2_social_media_sleep","id_genero","dim_genero"],["b3_depression_student","id_dataset","dim_dataset"],["b3_depression_student","id_rango_edad","dim_rango_edad"],["b3_depression_student","id_nivel_educativo","dim_nivel_educativo"],["b3_depression_student","id_nivel_estres","dim_nivel_estres"],["b3_depression_student","id_genero","dim_genero"],["b3_dreaddit_post","id_dataset","dim_dataset"],["b3_dreaddit_post","id_rango_edad","dim_rango_edad"],["b3_dreaddit_post","id_nivel_educativo","dim_nivel_educativo"],["b3_dreaddit_post","id_nivel_estres","dim_nivel_estres"],["b3_dreaddit_post","id_genero","dim_genero"],["b3_dreaddit_post","id_subreddit","dim_subreddit"],["b4_dass_item","id_respondente_dass","b4_dass_respondente"],["b4_dass_respondente","id_dataset","dim_dataset"],["b4_dass_respondente","id_rango_edad","dim_rango_edad"],["b4_dass_respondente","id_nivel_educativo","dim_nivel_educativo"],["b4_dass_respondente","id_nivel_estres","dim_nivel_estres"],["b4_dass_respondente","id_genero","dim_genero"],["b4_mental_health","id_dataset","dim_dataset"],["b4_mental_health","id_rango_edad","dim_rango_edad"],["b4_mental_health","id_nivel_educativo","dim_nivel_educativo"],["b4_mental_health","id_nivel_estres","dim_nivel_estres"],["b4_mental_health","id_genero","dim_genero"],["dim_dataset","id_bloque","dim_bloque"],["dim_mapeo_estres","id_dataset","dim_dataset"],["dwh_agg_prevalencia","id_bloque","dim_bloque"],["dwh_agg_prevalencia","id_rango_edad","dim_rango_edad"],["dwh_agg_prevalencia","id_genero","dim_genero"],["dwh_brecha_tratamiento","id_nivel_estres","dim_nivel_estres"],["dwh_dass_severidad","id_rango_edad","dim_rango_edad"],["dwh_dass_severidad","id_nivel_educativo","dim_nivel_educativo"],["dwh_dass_severidad","id_genero","dim_genero"],["dwh_hechos_estres_unificado","id_dataset","dim_dataset"],["dwh_hechos_estres_unificado","id_rango_edad","dim_rango_edad"],["dwh_hechos_estres_unificado","id_nivel_educativo","dim_nivel_educativo"],["dwh_hechos_estres_unificado","id_nivel_estres","dim_nivel_estres"],["dwh_hechos_estres_unificado","id_genero","dim_genero"],["dwh_kpi_resultados","id_kpi","dwh_kpi_catalogo"],["dwh_modelo_resultados","id_dataset","dim_dataset"],["dwh_nlp_senales","id_nivel_estres","dim_nivel_estres"],["dwh_nlp_senales","id_subreddit","dim_subreddit"]]}</script>
+<script>
+"use strict";
+// ---------------------------------------------------------------- datos
+// Única puerta de entrada a los datos: hoy, el JSON incrustado (exportado de MySQL local).
+// Tras la migración, esta función será la única que cambie (lectura de Supabase).
+function cargarDatos() { return JSON.parse(document.getElementById("datos").textContent); }
+const D = cargarDatos();
+
+const GEN = D.generos, NIV = D.niveles;
+const DS = new Map(D.datasets.map(d => [d.id, d]));
+const EDAD = new Map(D.edades.map(e => [e.id, e.nombre]));
+const EDUC = new Map(D.educacion.map(e => [e.id, e.nombre]));
+const ALTO = 3, MOD = 2, BAJO = 1;
+
+// ---------------------------------------------------------------- formato es-ES (como el Power BI)
+function fnum(v, dec = 0) {
+  if (v == null || !isFinite(v)) return "—";
+  // toPrecision(12) evita el error binario de toFixed (17,005 → 17,01, como Power BI)
+  const f = Math.pow(10, dec), r = Math.round(+Math.abs(v).toPrecision(12) * f) / f;
+  const [e, d] = r.toFixed(dec).split(".");
+  return (v < 0 ? "−" : "") + e.replace(/\B(?=(\d{3})+(?!\d))/g, ".") + (d ? "," + d : "");
+}
+const fpct = (v, dec = 1) => v == null || !isFinite(v) ? "—" : fnum(v * 100, dec) + "%";
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+const wmean = (a, v, w) => { const n = sum(a, w); return n ? sum(a, x => v(x) * w(x)) / n : null; };
+const porNombre = (a, b) => a.localeCompare(b, "es");
+function fechaCorta(s) { const [d, t] = s.split(" "); const [y, m, dd] = d.split("-"); return `${dd}/${m}/${y} ${t.slice(0, 5)}`; }
+
+// ---------------------------------------------------------------- filtros (Panorama y Demografía)
+const F = { bloque: "", g: "", e: "", ed: "" };
+function opciones(sel, items) {
+  sel.innerHTML = '<option value="">Todas</option>' + items.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
+}
+const bloques = [...new Set(D.datasets.map(d => d.bloque))].sort(porNombre);
+opciones(document.getElementById("f-bloque"), bloques.map(b => [b, b]));
+opciones(document.getElementById("f-genero"), Object.entries(GEN).sort((a, b) => porNombre(a[1], b[1])));
+opciones(document.getElementById("f-edad"), D.edades.map(e => [e.id, e.nombre]));
+opciones(document.getElementById("f-educ"), D.educacion.map(e => [e.id, e.nombre]));
+[["f-bloque", "bloque"], ["f-genero", "g"], ["f-edad", "e"], ["f-educ", "ed"]].forEach(([id, k]) =>
+  document.getElementById(id).addEventListener("change", ev => { F[k] = ev.target.value; pintar(); }));
+
+// Cubo: [dataset, genero, edad, educación, nivel, n]
+function filas(conFiltros = true) {
+  return D.cubo.filter(([d, g, e, ed]) => !conFiltros || (
+    (!F.bloque || DS.get(d).bloque === F.bloque) && (!F.g || g === +F.g) && (!F.e || e === +F.e) && (!F.ed || ed === +F.ed)));
+}
+const registros = r => sum(r, x => x[5]);
+const pctNivel = (r, n) => { const t = registros(r); return t ? sum(r.filter(x => x[4] === n), x => x[5]) / t : null; };
+function agrupar(r, clave) {
+  const m = new Map();
+  r.forEach(x => { const k = clave(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); });
+  return m;
+}
+
+// ---------------------------------------------------------------- piezas
+function ticks(max) {
+  if (!(max > 0)) return [0, 1];
+  const bruto = max / 4, p = Math.pow(10, Math.floor(Math.log10(bruto)));
+  const paso = [1, 2, 2.5, 5, 10].map(k => k * p).find(s => s >= bruto);
+  const t = []; for (let v = 0; v < max + paso * 0.999; v += paso) t.push(+v.toFixed(10));
+  return t;
+}
+const tip = (t) => `data-tip="${esc(t)}"`;
+
+// Barras horizontales; series: [{nombre, color, valor: item => número, texto}]
+function barrasH(items, series, { fmt = fpct, tituloEje = "" } = {}) {
+  if (!items.length) return '<p class="vacio">Sin registros con esta selección.</p>';
+  const max = Math.max(...items.flatMap(it => series.map(s => s.valor(it) || 0)));
+  const t = ticks(max), top = t[t.length - 1];
+  const grid = t.map(v => `<i class="g" style="left:${v / top * 100}%"></i>`).join("");
+  let h = series.length > 1 ? leyenda(series) : "";
+  h += '<div class="hb">';
+  items.forEach(it => {
+    h += `<div class="lab">${esc(it.etiqueta)}</div><div class="pista">${grid}` + series.map(s => {
+      const v = s.valor(it);
+      return `<div class="barra bar-hit" tabindex="0" ${tip(`${it.etiqueta} · ${s.nombre}: ${fmt(v)}`)}
+        style="width:${(v || 0) / top * 100}%;background:var(${s.color})"><span>${fmt(v)}</span></div>`;
+    }).join("") + "</div>";
+  });
+  // Etiquetas del eje con los decimales justos para el paso (20% · 2,5% · 0,5)
+  const esPct = fmt === fpct, paso = (t[1] - t[0]) * (esPct ? 100 : 1);
+  const dec = Number.isInteger(+paso.toFixed(6)) ? 0 : Number.isInteger(+(paso * 10).toFixed(6)) ? 1 : 2;
+  const fe = v => esPct ? fpct(v, dec) : fnum(v, dec);
+  h += `<div></div><div class="eje">${t.map(v => `<span style="left:${v / top * 100}%">${fe(v)}</span>`).join("")}</div></div>`;
+  if (tituloEje) h += `<div class="titulo-eje">${esc(tituloEje)}</div>`;
+  return h;
+}
+function leyenda(series, titulo = "") {
+  return `<div class="leyenda">${titulo ? `<b>${esc(titulo)}</b>` : ""}${series.map(s =>
+    `<span><i style="background:var(${s.color})"></i>${esc(s.nombre)}</span>`).join("")}</div>`;
+}
+// Columnas agrupadas; categorias: [{etiqueta, ...}], series como en barrasH
+function columnas(cats, series, { tituloLeyenda = "", tituloEje = "" } = {}) {
+  const max = Math.max(...cats.flatMap(c => series.map(s => s.valor(c) || 0)));
+  const top = ticks(max).slice(-1)[0];
+  let h = series.length > 1 ? leyenda(series, tituloLeyenda) : "";
+  h += '<div class="cols">' + cats.map(c => '<div class="grp">' + series.map(s => {
+    const v = s.valor(c);
+    return `<div class="col bar-hit" tabindex="0" ${tip(`${c.etiqueta}${series.length > 1 ? " · " + s.nombre : ""}: ${fpct(v)}`)}
+      style="height:${(v || 0) / top * 100}%;background:var(${s.color})"><span>${fpct(v)}</span></div>`;
+  }).join("") + "</div>").join("") + "</div>";
+  h += '<div class="cols-lab">' + cats.map(c => `<div>${esc(c.etiqueta)}</div>`).join("") + "</div>";
+  if (tituloEje) h += `<div class="titulo-eje">${esc(tituloEje)}</div>`;
+  return h;
+}
+const tarjeta = (et, v, clase = "") => `<div class="kpi"><div class="et" title="${esc(et)}">${esc(et)}</div><div class="v ${clase}">${v}</div></div>`;
+const card = (titulo, cuerpo, estilo = "") => `<section class="card" ${estilo}>${titulo ? `<h2>${esc(titulo)}</h2>` : ""}${cuerpo}</section>`;
+function tabla(cabeza, cuerpo, pie = "") {
+  return `<div class="tabla-env"><table class="t"><thead><tr>${cabeza.map(([t, n]) => `<th${n ? ' class="n"' : ""}>${esc(t)}</th>`).join("")}</tr></thead>
+    <tbody>${cuerpo}</tbody>${pie}</table></div>`;
+}
+
+// ---------------------------------------------------------------- KPIs guardados
+const fechas = [...new Set(D.kpi_resultados.map(k => k.fecha))].sort();
+const ultima = fechas[fechas.length - 1];
+const kpi = cod => (D.kpi_resultados.find(k => k.codigo === cod && k.fecha === ultima) || {}).valor;
+const KPIS = [["KPI_ESTRES_ALTO", "Estrés Alto (%)"], ["KPI_BRECHA_GENERO", "Brecha M − H (pts)"], ["KPI_RIESGO_CRITICO", "Riesgo crítico (%)"],
+  ["KPI_TASA_TRATAMIENTO", "Tratamiento (%)"], ["KPI_DISCRIMINANTE_LIWC", "Ratio LIWC"], ["KPI_COBERTURA_DEMO", "Cobertura (%)"]];
+
+// ---------------------------------------------------------------- páginas
+const PAGINAS = [
+  { id: "inicio", menu: "Inicio", titulo: "Análisis multidimensional del estrés estudiantil", sub: "TFM Business Analytics e IA · UNIE / INESDI", f: inicio },
+  { id: "panorama", menu: "1 Panorama", titulo: "Panorama general del estrés estudiantil", sub: "9 fuentes con señal real · sin los 3 datasets sintéticos", f: panorama, filtros: true },
+  { id: "demografia", menu: "2 Demografía", titulo: "Demografía", sub: "Estrés Alto por género, edad y nivel educativo", f: demografia, filtros: true },
+  { id: "lenguaje", menu: "3 Lenguaje", titulo: "Lenguaje y estrés (Dreaddit)", sub: "Señales LIWC y sentimiento en posts de Reddit", f: lenguaje },
+  { id: "validacion", menu: "4 Validación", titulo: "Validación psicológica", sub: "DASS-42 (18-25 años) y búsqueda de tratamiento", f: validacion },
+  { id: "modelos", menu: "5 Modelos", titulo: "Modelos predictivos (Objetivo 2)", sub: "Mejor modelo por dataset · CV 5x3 u hold-out según tamaño", f: modelos },
+  { id: "kpis", menu: "6 KPIs", titulo: "KPIs y niveles de estrés", sub: "3 ejecuciones con valores idénticos: cálculo reproducible", f: kpis },
+  { id: "arquitectura", menu: "Arquitectura", titulo: "Arquitectura de los datos", sub: "Del CSV a Supabase: modelo v2, capa de consumo y DWH", f: arquitectura, alPintar: activarDiagrama },
+];
+
+function inicio() {
+  const total = registros(filas(false));
+  const bloquesTxt = [
+    ["1 · Factores internos", "Academic Stress, Student Anxiety (GAD-7), Student Mental Health Survey. Student Habits es sintético.", [["panorama", "Panorama"], ["demografia", "Demografía"]]],
+    ["2 · Hábitos digitales", "Social Media and Mental Health. Social Media vs Sleep y Mental Health Lifestyle son sintéticos.", [["panorama", "Panorama"], ["demografia", "Demografía"]]],
+    ["3 · Percepción emocional", "Dreaddit (train y test), texto de Reddit con NLP; Depression Student.", [["lenguaje", "Lenguaje"]]],
+    ["4 · Validación psicológica", "DASS-42 y Mental Health Dataset (búsqueda de tratamiento).", [["validacion", "Validación"]]],
+  ];
+  return `<div class="fila" style="--c:2">
+    ${card("Qué analiza este informe", `<div class="texto">
+      <p>12 datasets públicos organizados en 4 bloques analíticos. Cada fuente se estudia por separado y se compara con las demás mediante un nivel de estrés común (Bajo / Moderado / Alto) y dimensiones conformes de género, edad y nivel educativo.</p>
+      <p>${fnum(total)} registros en las 9 fuentes con señal real; los 3 datasets sintéticos quedan fuera de las medidas.</p>
+      <p>Navega con el menú superior. Las tarjetas son los 6 KPIs guardados en el DWH (última ejecución).</p></div>`)}
+    ${card("", `<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">${KPIS.map(([c, n]) => tarjeta(n, fnum(kpi(c), 2))).join("")}</div>`)}
+  </div>
+  <div class="fila" style="--c:4">${bloquesTxt.map(([t, f, p]) => card("", `<div class="bloque"><h3>${esc(t)}</h3>
+    <p class="texto">${esc(f)}</p><p class="texto" style="margin-top:6px">Página principal: ${p.map(([id, n]) => `<a href="#${id}">${n}</a>`).join(" y ")}</p></div>`)).join("")}</div>
+  ${card("Cómo leer el informe", `<div class="texto" style="max-width:none">
+    <p>Cada fuente define «Alto» con su propio criterio nativo, mapeado a un constructo común (GAD-7 y DASS con baremos clínicos): compara tendencias, no niveles absolutos entre fuentes.</p>
+    <p>Los filtros de Panorama y Demografía filtran por bloque, género, edad y nivel educativo. Solo el 17 % de los registros informa a la vez género y edad. Modelos y KPIs cubren los cuatro bloques.</p>
+    <p>Advertencias: Depression Student (AUC ≈ 1, posible etiqueta generada por fórmula) y Academic Stress (n = 140) se leen con cautela.</p></div>`)}`;
+}
+
+function panorama() {
+  const r = filas(), t = registros(r);
+  const cobertura = t ? registros(r.filter(x => x[1] !== 0 && x[2] !== 0)) / t : null;
+  const fuentes = new Set(r.map(x => x[0])).size;
+  const porBloque = [...agrupar(r, x => DS.get(x[0]).bloque)].map(([k, v]) => ({ etiqueta: k, v: pctNivel(v, ALTO) }));
+  const porDs = [...agrupar(r, x => x[0])].map(([k, v]) => ({ etiqueta: DS.get(k).nombre, v: pctNivel(v, ALTO) }));
+  const serie = [{ nombre: "% estrés Alto", color: "--serie1", valor: it => it.v }];
+  porBloque.sort((a, b) => b.v - a.v); porDs.sort((a, b) => b.v - a.v);
+  return `${card("", `<div class="kpis">${tarjeta("Registros", fnum(t))}${tarjeta("% estrés Alto", fpct(pctNivel(r, ALTO)))}
+      ${tarjeta("% estrés Alto global", fpct(pctNivel(filas(false), ALTO)))}${tarjeta("Cobertura demográfica", fpct(cobertura))}${tarjeta("Fuentes", fnum(fuentes))}</div>`)}
+    <div class="fila" style="--c:2">
+      ${card("% de estrés Alto por bloque analítico", barrasH(porBloque, serie, { tituloEje: "% estrés Alto" }))}
+      ${card("% de estrés Alto por dataset", barrasH(porDs, serie, { tituloEje: "% estrés Alto" }))}
+    </div>
+    <p class="nota">Cada fuente define «Alto» con su propio criterio (escala nativa mapeada a Bajo / Moderado / Alto en dim_mapeo_estres; GAD-7 y DASS con baremos clínicos). Compara tendencias, no niveles absolutos entre fuentes.</p>`;
+}
+
+function demografia() {
+  const r = filas();
+  const serie = [{ nombre: "% estrés Alto", color: "--serie1", valor: c => c.v }];
+  const dim = (idx, nombres, orden) => [...agrupar(r.filter(x => x[idx] !== 0), x => x[idx])]
+    .map(([k, v]) => ({ k, etiqueta: nombres(k), v: pctNivel(v, ALTO) })).sort(orden);
+  const gen = dim(1, k => GEN[k], (a, b) => porNombre(a.etiqueta, b.etiqueta));
+  const eda = dim(2, k => EDAD.get(k), (a, b) => a.k - b.k);
+  const edu = dim(3, k => EDUC.get(k), (a, b) => a.k - b.k);
+  const vacio = '<p class="vacio">Sin registros con esta selección.</p>';
+  const graf = (c) => c.length ? columnas(c, serie) : vacio;
+
+  // Matriz Género × rango de edad (sin «No reportado»), con totales como en el Power BI
+  const rm = r.filter(x => x[1] !== 0 && x[2] !== 0);
+  const gs = [...new Set(rm.map(x => x[1]))].sort((a, b) => porNombre(GEN[a], GEN[b]));
+  const es = [...new Set(rm.map(x => x[2]))].sort((a, b) => a - b);
+  const celda = sub => `<td class="n">${fpct(pctNivel(sub, ALTO))}</td><td class="n">${fnum(registros(sub))}</td>`;
+  let cuerpo = gs.map(g => `<tr><td>${esc(GEN[g])}</td>${es.map(e => celda(rm.filter(x => x[1] === g && x[2] === e))).join("")}${celda(rm.filter(x => x[1] === g))}</tr>`).join("");
+  cuerpo += `<tr class="total"><td>Total</td>${es.map(e => celda(rm.filter(x => x[2] === e))).join("")}${celda(rm)}</tr>`;
+  const matriz = rm.length ? `<div class="tabla-env"><table class="t"><thead>
+      <tr><th>Rango de edad</th>${es.map(e => `<th colspan="2">${esc(EDAD.get(e))}</th>`).join("")}<th colspan="2">Total</th></tr>
+      <tr><th>Género</th>${[...es, 0].map(() => '<th class="n">% Alto</th><th class="n">Registros</th>').join("")}</tr></thead>
+      <tbody>${cuerpo}</tbody></table></div>` : vacio;
+
+  return `<div class="fila" style="--c:3">
+      ${card("% de estrés Alto por género", graf(gen))}${card("% de estrés Alto por rango de edad", graf(eda))}${card("% de estrés Alto por nivel educativo", graf(edu))}
+    </div>
+    <div class="fila" style="grid-template-columns:minmax(0,3fr) minmax(0,1fr)">
+      ${card("Género × rango de edad", matriz)}
+      ${card("Cómo leer esta página", `<div class="nota"><p>Solo el 17 % de los registros informa género y edad a la vez: los filtros demográficos reducen mucho la muestra.</p>
+        <p>El 91 % de «Masculino» procede del Mental Health Dataset.</p><p>«Otro»: solo 677 registros, leer con cautela.</p><p>«No reportado» no se muestra.</p></div>`)}
+    </div>`;
+}
+
+function lenguaje() {
+  const liwc = (r, n) => wmean(r.filter(x => x.nivel === n), x => x.liwc, x => x.posts);
+  const ratio = r => { const b = liwc(r, BAJO); return b ? liwc(r, ALTO) / b : null; };
+  const subs = [...agrupar(D.nlp, x => x.sub)].map(([k, v]) => ({
+    etiqueta: D.subreddits[k], alto: liwc(v, ALTO), bajo: liwc(v, BAJO), ratio: ratio(v),
+    posts: sum(v, x => x.posts), sent: wmean(v, x => x.sent, x => x.posts) }));
+  const graf = [...subs].sort((a, b) => b.alto - a.alto);
+  const f2 = (v, d = 2) => fnum(v, d);
+  const series = [{ nombre: "Con estrés", color: "--serie1", valor: s => s.alto }, { nombre: "Sin estrés", color: "--serie2", valor: s => s.bajo }];
+  const filasT = [...subs].sort((a, b) => porNombre(a.etiqueta, b.etiqueta)).map(s =>
+    `<tr><td>${esc(s.etiqueta)}</td><td class="n">${fnum(s.ratio, 2)}</td><td class="n">${fnum(s.posts)}</td><td class="n">${fnum(s.sent, 3)}</td></tr>`).join("");
+  return `${card("", `<div class="kpis">${tarjeta("Ratio LIWC ansiedad (Alto / Bajo)", fnum(ratio(D.nlp), 2))}
+      ${tarjeta("Sentimiento medio", fnum(wmean(D.nlp, x => x.sent, x => x.posts), 3))}${tarjeta("Posts analizados", fnum(sum(D.nlp, x => x.posts)))}</div>`)}
+    <div class="fila" style="grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)">
+      ${card("Vocabulario de ansiedad (LIWC) por subreddit", barrasH(graf, series, { fmt: f2, tituloEje: "Densidad media de palabras de ansiedad (LIWC)" }))}
+      ${card("Detalle por subreddit", tabla([["Subreddit"], ["Ratio", 1], ["Posts", 1], ["Sentimiento", 1]], filasT))}
+    </div>
+    <p class="nota">Dreaddit no incluye género ni edad: esta página no usa filtros demográficos. Un ratio &gt; 1 indica más vocabulario de ansiedad en los posts con estrés.</p>`;
+}
+
+function validacion() {
+  const ans = g => wmean(D.dass.filter(x => x.g === g), x => x.ans, x => x.n);
+  const sev = r => { const v = wmean(r, x => x.sev, x => x.n); return v == null ? null : v / 100; };
+  const trat = r => { const n = sum(r, x => x.n); return n ? sum(r, x => x.trat) / n : null; };
+  const nivs = [BAJO, MOD, ALTO].map(n => ({ etiqueta: NIV[n], r: D.tratamiento.filter(x => x.nivel === n) }));
+  // Valores de antecedentes tal como vienen en los datos («No / Sí» en Supabase, «No / Yes» en MySQL), «No» primero
+  const ants = [...new Set(D.tratamiento.map(x => x.ant))].sort((a, b) => (a === "No" ? -1 : b === "No" ? 1 : porNombre(a, b)));
+  const sT = ants.map((a, i) => ({ nombre: a, color: i ? "--serie2" : "--serie1", valor: c => trat(c.r.filter(x => x.ant === a)) }));
+  const eds = [1, 2, 3].map(e => ({ etiqueta: EDUC.get(e), r: D.dass.filter(x => x.ed === e) }));
+  const sD = [[2, "--serie1"], [1, "--serie2"]].map(([g, c]) => ({ nombre: GEN[g], color: c, valor: x => sev(x.r.filter(y => y.g === g)) }));
+  return `<div class="fila" style="grid-template-columns:minmax(0,3fr) minmax(0,1fr)">
+      ${card("", `<div class="kpis">${tarjeta("Brecha ansiedad M − H (pts)", fnum(ans(2) - ans(1), 2))}${tarjeta("% estrés severo DASS", fpct(sev(D.dass)))}
+        ${tarjeta("% búsqueda de tratamiento", fpct(trat(D.tratamiento)))}</div>`)}
+      ${card("", `<div class="kpis">${tarjeta("Riesgo crítico, KPI 3 (%)", fnum(kpi("KPI_RIESGO_CRITICO"), 2))}</div>`)}
+    </div>
+    <div class="fila" style="--c:2">
+      ${card("Búsqueda de tratamiento por nivel de estrés y antecedentes familiares", columnas(nivs, sT, { tituloLeyenda: "Antecedentes familiares", tituloEje: "Nivel de estrés" }))}
+      ${card("DASS-42: % de estrés severo por estudios y género", columnas(eds, sD, { tituloLeyenda: "Género", tituloEje: "Nivel educativo" }))}
+    </div>
+    ${card("Lectura", `<div class="texto" style="max-width:none"><p>La búsqueda de tratamiento depende de los antecedentes familiares (≈72 % con antecedentes frente a ≈35 % sin ellos), no del nivel de estrés percibido: brecha entre malestar y ayuda.</p>
+      <p>Advertencia: el KPI 3 se calcula sobre Depression Student, cuyo modelo obtuvo AUC 0,998 (posible etiqueta generada por fórmula). Interpretar con cautela.</p></div>`)}`;
+}
+
+function modelos() {
+  const m = D.modelos;
+  const sinAlerta = m.filter(x => !x.alerta), conAlerta = m.filter(x => x.alerta);
+  const auc = [...m].sort((a, b) => b.auc - a.auc).map(x => ({ etiqueta: x.dataset, v: x.auc }));
+  const f3 = (v) => fnum(v, 3);
+  const filasT = [...m].sort((a, b) => porNombre(a.dataset, b.dataset)).map(x => `<tr><td>${esc(x.dataset)}</td><td>${esc(x.modelo)}</td>
+    <td>${esc(x.protocolo)}</td><td class="n">${fnum(x.n)}</td><td class="n">${f3(x.auc)}</td><td class="n">${f3(x.f1)}</td><td class="n">${f3(x.acc)}</td></tr>`).join("");
+  return `<div class="fila" style="--c:2">
+      ${card("", `<div class="kpis">${tarjeta("AUC medio (sin alertas)", f3(sum(sinAlerta, x => x.auc) / sinAlerta.length))}
+        ${tarjeta("Datasets con alerta", fnum(conAlerta.length), "alerta")}</div>`)}
+      ${card("Alertas", `<div class="texto"><p>Academic Stress: n = 140, el accuracy no supera al baseline (exploratorio).</p>
+        <p>Depression Student: AUC ≈ 1, posible etiqueta generada por fórmula.</p></div>`)}
+    </div>
+    <div class="fila" style="grid-template-columns:minmax(0,1fr) minmax(0,2fr)">
+      ${card("AUC del mejor modelo por dataset", barrasH(auc, [{ nombre: "AUC", color: "--serie1", valor: x => x.v }], { fmt: (v, d) => fnum(v, d ?? 3), tituloEje: "AUC" }))}
+      ${card("Detalle del mejor modelo", tabla([["Dataset"], ["Modelo"], ["Protocolo"], ["n", 1], ["AUC", 1], ["F1", 1], ["Accuracy", 1]], filasT))}
+    </div>`;
+}
+
+function kpis() {
+  const cat = [...D.kpi_catalogo].sort((a, b) => porNombre(a.nombre, b.nombre));
+  const hist = cat.map(k => `<tr><td>${esc(k.nombre)}</td>${fechas.map(f => {
+    const r = D.kpi_resultados.find(x => x.codigo === k.codigo && x.fecha === f);
+    return `<td class="n">${r ? fnum(r.valor, 2) : ""}</td>`; }).join("")}</tr>`).join("");
+  const filasC = cat.map(k => `<tr><td>${esc(k.nombre)}</td><td>${esc(k.unidad)}</td><td>${esc(k.descripcion)}</td></tr>`).join("");
+  const niveles = [[BAJO, "--bajo", false], [MOD, "--mod", true], [ALTO, "--alto", false]];
+  const porDs = [...agrupar(filas(false).filter(x => x[4] !== 0), x => x[0])]
+    .map(([k, v]) => ({ nombre: DS.get(k).nombre, r: v })).sort((a, b) => porNombre(a.nombre, b.nombre));
+  const barras = porDs.map(d => {
+    const t = registros(d.r);
+    return `<div class="lab">${esc(d.nombre)}</div><div class="apilada">${niveles.map(([n, c, claro]) => {
+      const p = registros(d.r.filter(x => x[4] === n)) / t;
+      return p > 0 ? `<div class="bar-hit${claro ? " claro" : ""}" tabindex="0" ${tip(`${d.nombre} · ${NIV[n]}: ${fpct(p)} (${fnum(registros(d.r.filter(x => x[4] === n)))} registros)`)}
+        style="width:${p * 100}%;background:var(${c})">${p >= 0.06 ? fpct(p) : ""}</div>` : "";
+    }).join("")}</div>`;
+  }).join("");
+  return `<div class="fila" style="grid-template-columns:minmax(0,1fr) minmax(0,1.25fr)">
+      ${card("Histórico de los KPIs por ejecución", tabla([["KPI"], ...fechas.map(f => [fechaCorta(f), 1])], hist))}
+      ${card("Catálogo de KPIs", tabla([["KPI"], ["Unidad"], ["Definición"]], filasC))}
+    </div>
+    ${card("Distribución del nivel de estrés por dataset (% de registros)",
+      leyenda(niveles.map(([n, c]) => ({ nombre: NIV[n], color: c })), "Nivel de estrés") + `<div class="hb">${barras}</div>`)}`;
+}
+
+// ---------------------------------------------------------------- arquitectura (diagramas dibujados en SVG)
+const ARQ = JSON.parse(document.getElementById("arquitectura").textContent);
+const CONFORMES = new Set(["dim_genero", "dim_rango_edad", "dim_nivel_educativo", "dim_nivel_estres",
+  "vw_dim_genero", "vw_dim_rango_edad", "vw_dim_nivel_educativo", "vw_dim_nivel_estres"]);
+// Tipo → color de cabecera (tokens del tema)
+function tipoTabla(n) {
+  if (CONFORMES.has(n)) return ["--alto", "Dimensión conforme ★"];
+  if (/^(dim_|vw_dim_)/.test(n)) return ["--h-dim", "Dimensión"];
+  if (/kpi_catalogo|kpi_resultados|b4_dass_item/.test(n)) return ["--h-cat", n === "b4_dass_item" ? "Detalle por ítem (fuera de la estrella)" : "Catálogo / histórico de KPIs"];
+  return ["--band", n.startsWith("vw_") ? "Hecho (vista)" : "Hecho"];
+}
+// Posiciones [x, y, ancho] en un lienzo de 1000 px de ancho; alto de caja fijo
+const CAJA = 48;
+const CAPAS = {
+  v2: {
+    nombre: "Modelo v2 (MySQL)", alto: 640,
+    texto: "Capa base que llena la ingesta (notebook 07): 20 tablas, 8 dimensiones y 12 tablas de hechos, una o dos por dataset, con sus columnas propias. Todas apuntan a las mismas 4 dimensiones conformes ★: es una constelación de hechos (hub-and-spoke). Por eso un filtro como «mujeres, 18-25, estrés Alto» afecta a las 12 fuentes a la vez. dim_dataset → dim_bloque es un copo de nieve; b4_dass_item tiene grano de ítem (42 por respondente) y queda fuera de la estrella; en la carga actual está vacía (0 filas): las respuestas por ítem no se cargaron. Todas las tablas de hechos apuntan también a dim_dataset (flechas omitidas para no saturar el dibujo).",
+    cajas: {
+      b1_academic_stress: [20, 30, 240], b1_anxiety: [20, 90, 240], b1_mental_health_survey: [20, 150, 240],
+      b1_student_habits: [20, 210, 240], b2_social_media_sleep: [20, 270, 240], b2_smmh: [20, 330, 240],
+      // Columna derecha ordenada para que ninguna flecha cruce otra tabla
+      b2_lifestyle: [740, 30, 240], b3_depression_student: [740, 90, 240], b4_mental_health: [740, 150, 240],
+      b4_dass_respondente: [740, 210, 240], b4_dass_item: [740, 290, 240], b3_dreaddit_post: [740, 390, 240],
+      dim_subreddit: [740, 490, 240],
+      dim_genero: [395, 150, 210], dim_rango_edad: [395, 210, 210], dim_nivel_educativo: [395, 270, 210], dim_nivel_estres: [395, 330, 210],
+      dim_mapeo_estres: [20, 470, 240], dim_dataset: [395, 470, 210], dim_bloque: [395, 570, 210],
+    },
+    grupo: [380, 110, 240, 288, "Dimensiones conformes ★"],
+    aristas: () => {
+      const hechos = ["b1_academic_stress", "b1_anxiety", "b1_mental_health_survey", "b1_student_habits", "b2_social_media_sleep",
+        "b2_smmh", "b2_lifestyle", "b3_dreaddit_post", "b3_depression_student", "b4_dass_respondente", "b4_mental_health"];
+      return [...hechos.map(h => [h, "grupo"]), ["b4_dass_item", "b4_dass_respondente", "42:1"], ["b3_dreaddit_post", "dim_subreddit"],
+        ["dim_dataset", "dim_bloque"], ["dim_mapeo_estres", "dim_dataset"]];
+    },
+  },
+  consumo: {
+    nombre: "Capa de consumo (vw_*)", alto: 350,
+    texto: "Vistas sobre el modelo v2, sin copiar datos. vw_hechos_estres une las tablas de hechos con UNION ALL y conserva solo las claves y el valor nativo de estrés: 334.318 filas de los 12 datasets (las medidas filtran después los 9 con señal real). Es una estrella pura: un hecho y 5 dimensiones planas 1:*, sin cadenas entre dimensiones; vw_dim_dataset trae el bloque desnormalizado. En Supabase, vw_hechos_estres se guarda como la tabla hechos_estres.",
+    cajas: {
+      vw_hechos_estres: [385, 190, 230], vw_dim_dataset: [385, 30, 230], vw_modelo_resultados: [740, 30, 240],
+      vw_dim_nivel_estres: [20, 120, 240], vw_dim_nivel_educativo: [20, 290, 240],
+      vw_dim_genero: [740, 140, 240], vw_dim_rango_edad: [740, 290, 240],
+    },
+    aristas: () => [["vw_hechos_estres", "vw_dim_dataset", "*:1"], ["vw_hechos_estres", "vw_dim_nivel_estres", "*:1"],
+      ["vw_hechos_estres", "vw_dim_nivel_educativo", "*:1"], ["vw_hechos_estres", "vw_dim_genero", "*:1"],
+      ["vw_hechos_estres", "vw_dim_rango_edad", "*:1"], ["vw_modelo_resultados", "vw_dim_dataset", "*:1"]],
+  },
+  dwh: {
+    nombre: "DWH (dwh_*)", alto: 470,
+    texto: "Tablas físicas que crea el ETL (notebook 08): hechos derivados, cada uno al servicio de un KPI. dwh_hechos_estres_unificado es el hecho central (319.318 filas: solo los 9 datasets con señal real); agg_prevalencia, nlp_senales, dass_severidad y brecha_tratamiento son agregados; modelo_resultados guarda las métricas del Objetivo 2. Todos comparten las dimensiones conformes. dwh_kpi_catalogo define los KPIs y dwh_kpi_resultados guarda su histórico de ejecuciones.",
+    cajas: {
+      // Anchos según la longitud de cada nombre
+      dwh_modelo_resultados: [5, 30, 150], dwh_agg_prevalencia: [167, 30, 140], dwh_hechos_estres_unificado: [319, 30, 192],
+      dwh_dass_severidad: [523, 30, 140], dwh_brecha_tratamiento: [675, 30, 158], dwh_nlp_senales: [845, 30, 140],
+      dim_dataset: [5, 280, 120], dim_bloque: [137, 280, 110], dim_rango_edad: [259, 280, 140], dim_genero: [411, 280, 120],
+      dim_nivel_educativo: [543, 280, 160], dim_nivel_estres: [715, 280, 140], dim_subreddit: [867, 280, 120],
+      dwh_kpi_resultados: [300, 400, 190], dwh_kpi_catalogo: [560, 400, 190],
+    },
+    aristas: () => ARQ.relaciones.filter(([t, , r]) => t.startsWith("dwh_") && CAPAS.dwh.cajas[t] && CAPAS.dwh.cajas[r])
+      .map(([t, , r]) => [t, r]),
+  },
+};
+let capaActual = "consumo", tablaSel = null;
+
+function borde(r, hacia) {  // punto del borde del rectángulo r en la dirección de «hacia»
+  const cx = r.x + r.w / 2, cy = r.y + r.h / 2, dx = hacia[0] - cx, dy = hacia[1] - cy;
+  const t = Math.min(dx ? (r.w / 2) / Math.abs(dx) : Infinity, dy ? (r.h / 2) / Math.abs(dy) : Infinity);
+  return [cx + dx * t, cy + dy * t];
+}
+function svgCapa(id) {
+  const c = CAPAS[id], R = {};
+  Object.entries(c.cajas).forEach(([n, [x, y, w]]) => { R[n] = { x, y, w, h: CAJA }; });
+  if (c.grupo) R.grupo = { x: c.grupo[0], y: c.grupo[1], w: c.grupo[2], h: c.grupo[3] };
+  const centro = r => [r.x + r.w / 2, r.y + r.h / 2];
+  let s = `<svg viewBox="0 0 1000 ${c.alto}" role="img" aria-label="Diagrama: ${esc(c.nombre)}">
+    <defs><marker id="punta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" style="fill:var(--muted)"/></marker></defs>`;
+  if (c.grupo) s += `<rect x="${R.grupo.x}" y="${R.grupo.y}" width="${R.grupo.w}" height="${R.grupo.h}" rx="12"
+      style="fill:none;stroke:var(--alto);stroke-width:1.5;stroke-dasharray:5 4"/>
+      <text x="${R.grupo.x + R.grupo.w / 2}" y="${R.grupo.y + 22}" text-anchor="middle" font-size="13" font-weight="600" style="fill:var(--alto)">${esc(c.grupo[4])}</text>`;
+  c.aristas().forEach(([a, b, et]) => {
+    if (!R[a] || !R[b]) return;
+    let p, q;
+    if (b === "grupo") {
+      // Desde el lateral de la tabla de hechos hacia el borde del grupo: no atraviesa las cajas vecinas
+      const r = R[a], g = R.grupo, cy = r.y + r.h / 2, izq = r.x < g.x;
+      p = [izq ? r.x + r.w : r.x, cy];
+      q = [izq ? g.x : g.x + g.w, Math.min(Math.max(cy, g.y + 44), g.y + g.h - 14)];
+    } else {
+      p = borde(R[a], centro(R[b])); q = borde(R[b], centro(R[a]));
+    }
+    s += `<line x1="${p[0]}" y1="${p[1]}" x2="${q[0]}" y2="${q[1]}" marker-end="url(#punta)" style="stroke:var(--muted);stroke-width:1.3"/>`;
+    if (et) s += `<text x="${(p[0] + q[0]) / 2 + 6}" y="${(p[1] + q[1]) / 2 - 5}" font-size="11.5" style="fill:var(--ink-2)">${et}</text>`;
+  });
+  Object.entries(R).forEach(([n, r]) => {
+    if (n === "grupo") return;
+    const info = ARQ.tablas[n] || {}, [col] = tipoTabla(n);
+    const detalle = info.filas != null ? `${fnum(info.filas)} filas` : "vista";
+    const nube = info.supabase ? " · Supabase" : "";
+    s += `<g class="tbl${tablaSel === n ? " sel" : ""}" data-tabla="${n}" tabindex="0" role="button" aria-label="Ver columnas de ${n}">
+      <rect class="cuerpo" x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="6" style="fill:var(--surface);stroke:var(--line)"/>
+      <rect x="${r.x}" y="${r.y}" width="${r.w}" height="22" rx="6" style="fill:var(${col})"/>
+      <rect x="${r.x}" y="${r.y + 14}" width="${r.w}" height="8" style="fill:var(${col})"/>
+      <text x="${r.x + 8}" y="${r.y + 15.5}" font-size="11.5" font-weight="600" style="fill:#FFFFFF">${esc(n)}${CONFORMES.has(n) ? " ★" : ""}</text>
+      <text x="${r.x + 8}" y="${r.y + 39}" font-size="11.5" style="fill:var(--ink-2)">${detalle}${nube}</text></g>`;
+  });
+  return s + "</svg>";
+}
+function ficha(n) {
+  if (!n || !ARQ.tablas[n]) return `<p class="nota">Pulsa una tabla del diagrama para ver sus columnas, claves y número de filas.</p>`;
+  const t = ARQ.tablas[n], [, tipo] = tipoTabla(n);
+  const donde = t.supabase ? (n === "vw_hechos_estres" ? "En Supabase como tabla hechos_estres + vista" : "También en Supabase (esquema tfm)") : "Solo en MySQL (no se migró)";
+  return `<h3>${esc(n)}</h3><p class="meta">${esc(tipo)}${t.filas != null ? " · " + fnum(t.filas) + " filas" : " · vista"}<br>${donde}</p>
+    <ul>${t.columnas.map(([c, k]) => `<li><span class="chip ${k}">${k || ""}</span><span>${esc(c)}</span></li>`).join("")}</ul>`;
+}
+function arquitectura() {
+  const T = ARQ.tablas, n = k => T[k] ? fnum(T[k].filas) : "—";
+  const pasos = [["12 CSV públicos", "Kaggle y GitHub"], ["Ingesta", "notebook 07"], ["Modelo v2 · MySQL", "20 tablas"],
+    ["Capa de consumo", "7 vistas vw_*"], ["ETL y KPIs", "notebook 08 → 8 tablas dwh_*"], ["Supabase", "esquema tfm · 17 tablas + 7 vistas", 1],
+    ["Power BI y prototipo", "usuario de solo lectura", 1]];
+  const flujo = pasos.map(([t, s, nube]) => `<div class="paso${nube ? " nube" : ""}"><b>${esc(t)}</b><span>${esc(s)}</span></div>`).join('<span class="flecha" aria-hidden="true">→</span>');
+  return `${card("Recorrido de los datos", `<div class="flujo">${flujo}</div>
+      <p class="nota" style="margin-top:10px">En Power BI, las vistas vw_* alimentan las páginas con filtros transversales (Panorama y Demografía); las tablas dwh_* alimentan Lenguaje, Validación, Modelos y KPIs. En Supabase se migraron la capa de consumo, el DWH y las dimensiones; las 12 tablas originales de los datasets se quedan en MySQL.</p>`)}
+    ${card("Tres capas del mismo modelo", `<div class="capas" role="group" aria-label="Capa del modelo">${Object.entries(CAPAS).map(([id, c]) =>
+      `<button type="button" id="capa-${id}" data-capa="${id}" aria-pressed="${id === capaActual}">${esc(c.nombre)}</button>`).join("")}</div>
+      <div class="diagrama"><div><div class="lienzo" id="lienzo">${svgCapa(capaActual)}</div>
+        <p class="texto" id="texto-capa" style="margin-top:8px;max-width:none">${esc(CAPAS[capaActual].texto)}</p>
+        <div class="leyenda-arq"><span><i style="background:var(--band)"></i>Hecho</span><span><i style="background:var(--alto)"></i>Dimensión conforme ★</span>
+          <span><i style="background:var(--h-dim)"></i>Otra dimensión</span><span><i style="background:var(--h-cat)"></i>Catálogo / fuera de la estrella</span>
+          <span>Flecha: clave foránea hacia la tabla referenciada</span></div></div>
+      <aside class="card ficha" id="ficha" aria-live="polite" style="box-shadow:none">${ficha(tablaSel)}</aside></div>`)}
+    ${card("Cifras verificadas", `<div class="texto correccion" style="max-width:none">
+      <p>Modelo v2: <b>20 tablas</b> (8 dimensiones y 12 tablas de hechos), según modelo_datos_mysql.sql. El diagrama entregado indicaba 19.</p>
+      <p>vw_hechos_estres: <b>${n("vw_hechos_estres")} filas</b> (12 datasets, sintéticos incluidos). El diagrama entregado indicaba 320.318.</p>
+      <p>dwh_hechos_estres_unificado: <b>${n("dwh_hechos_estres_unificado")} filas</b>, solo los 9 datasets con señal real.</p></div>`)}`;
+}
+function activarDiagrama() {
+  const vista = document.getElementById("vista");
+  vista.querySelectorAll("[data-capa]").forEach(b => b.addEventListener("click", () => {
+    capaActual = b.dataset.capa;
+    vista.querySelectorAll("[data-capa]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    document.getElementById("lienzo").innerHTML = svgCapa(capaActual);
+    document.getElementById("texto-capa").textContent = CAPAS[capaActual].texto;
+  }));
+  const elegir = g => {
+    tablaSel = g.dataset.tabla;
+    vista.querySelectorAll(".tbl").forEach(x => x.classList.toggle("sel", x === g));
+    document.getElementById("ficha").innerHTML = ficha(tablaSel);
+  };
+  const lienzo = document.getElementById("lienzo");
+  lienzo.addEventListener("click", ev => { const g = ev.target.closest(".tbl"); if (g) elegir(g); });
+  lienzo.addEventListener("keydown", ev => { const g = ev.target.closest(".tbl"); if (g && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); elegir(g); } });
+}
+
+// ---------------------------------------------------------------- navegación (hash #pagina)
+const menu = document.getElementById("menu");
+menu.innerHTML = PAGINAS.map(p => `<a href="#${p.id}">${esc(p.menu)}</a>`).join("");
+function pagina() { return PAGINAS.find(p => "#" + p.id === location.hash) || PAGINAS[0]; }
+function pintar() {
+  const p = pagina();
+  document.getElementById("titulo").textContent = p.titulo;
+  document.getElementById("subtitulo").textContent = p.sub;
+  document.getElementById("filtros").hidden = !p.filtros;
+  menu.querySelectorAll("a").forEach(a => a.getAttribute("href") === "#" + p.id ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
+  document.getElementById("vista").innerHTML = p.f();
+  if (p.alPintar) p.alPintar();
+}
+window.addEventListener("hashchange", () => { pintar(); window.scrollTo(0, 0); });
+document.getElementById("pie").textContent =
+  `Datos: ${D.fuente || "MySQL local"}${D.exportado ? " · datos del " + D.exportado : ""}. Mismas tablas y medidas que el informe de Power BI (TFM_Estres.pbip).`;
+pintar();
+
+// ---------------------------------------------------------------- tooltip
+const tipEl = document.getElementById("tip");
+function mostrar(el, x, y) {
+  tipEl.textContent = el.dataset.tip; tipEl.hidden = false;
+  const w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+  tipEl.style.left = Math.min(x + 12, innerWidth - w - 8) + "px";
+  tipEl.style.top = (y - h - 10 < 8 ? y + 16 : y - h - 10) + "px";
+}
+document.addEventListener("mousemove", ev => { const el = ev.target.closest("[data-tip]"); el ? mostrar(el, ev.clientX, ev.clientY) : (tipEl.hidden = true); });
+document.addEventListener("focusin", ev => { const el = ev.target.closest("[data-tip]"); if (el) { const r = el.getBoundingClientRect(); mostrar(el, r.left + r.width / 2, r.top); } });
+document.addEventListener("focusout", () => { tipEl.hidden = true; });
+</script>

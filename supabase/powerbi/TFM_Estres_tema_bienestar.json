@@ -1,0 +1,54 @@
+{
+  "name": "TFM Estrés Estudiantil · Bienestar",
+  "dataColors": ["#2A9D8F", "#E76F51", "#E9C46A", "#264653", "#8AB17D", "#A8DADC", "#9C6B98", "#8D99AE"],
+  "background": "#FFFFFF",
+  "foreground": "#264653",
+  "tableAccent": "#2A9D8F",
+  "good": "#2A9D8F",
+  "neutral": "#E9C46A",
+  "bad": "#E76F51",
+  "maximum": "#1F6F6B",
+  "center": "#A8DADC",
+  "minimum": "#EEF7F6",
+  "textClasses": {
+    "title": {"fontFace": "Segoe UI Semibold", "fontSize": 13, "color": "#264653"},
+    "header": {"fontFace": "Segoe UI Semibold", "fontSize": 12, "color": "#1F6F6B"},
+    "label": {"fontFace": "Segoe UI", "fontSize": 10, "color": "#4F5D63"},
+    "callout": {"fontFace": "Segoe UI Semibold", "fontSize": 28, "color": "#1F6F6B"}
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "title": [{"show": true, "fontColor": {"solid": {"color": "#264653"}}}],
+        "background": [{"show": true, "color": {"solid": {"color": "#FFFFFF"}}, "transparency": 0}],
+        "border": [{"show": true, "color": {"solid": {"color": "#E6DED3"}}, "radius": 10}],
+        "dropShadow": [{"show": true, "color": {"solid": {"color": "#264653"}}, "transparency": 88}]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [{"color": {"solid": {"color": "#FAF6F0"}}, "transparency": 0}],
+        "outspace": [{"color": {"solid": {"color": "#F1EBE2"}}, "transparency": 0}]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [{"fontColor": {"solid": {"color": "#1F6F6B"}}}],
+        "items": [{"fontColor": {"solid": {"color": "#264653"}}}]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "columnHeaders": [{"fontColor": {"solid": {"color": "#FFFFFF"}}, "backColor": {"solid": {"color": "#2A7F7F"}}}],
+        "values": [{"fontColorPrimary": {"solid": {"color": "#264653"}}, "backColorSecondary": {"solid": {"color": "#F2F8F7"}}}]
+      }
+    },
+    "pivotTable": {
+      "*": {
+        "columnHeaders": [{"fontColor": {"solid": {"color": "#FFFFFF"}}, "backColor": {"solid": {"color": "#2A7F7F"}}}],
+        "rowHeaders": [{"fontColor": {"solid": {"color": "#264653"}}}],
+        "values": [{"fontColorPrimary": {"solid": {"color": "#264653"}}, "backColorSecondary": {"solid": {"color": "#F2F8F7"}}}]
+      }
+    }
+  }
+}

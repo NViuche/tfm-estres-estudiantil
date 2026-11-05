@@ -1,0 +1,34 @@
+table vw_dim_genero
+	lineageTag: e4a9da61-43c2-5f01-8401-757f6cbd3913
+
+	column id_genero
+		dataType: double
+		isHidden
+		lineageTag: 475d90de-7b77-5403-8dc6-5368e0a8ed3d
+		summarizeBy: none
+		sourceColumn: id_genero
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column codigo
+		dataType: string
+		lineageTag: c54a7573-b631-58e0-b3c0-3dc970c357a5
+		summarizeBy: none
+		sourceColumn: codigo
+
+	column nombre
+		dataType: string
+		lineageTag: 9f10367d-aeba-5f93-944b-14cafc0678b7
+		summarizeBy: none
+		sourceColumn: nombre
+
+	partition vw_dim_genero = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_dim_genero")
+				in
+					Origen
+
+	annotation PBI_ResultType = Exception
+

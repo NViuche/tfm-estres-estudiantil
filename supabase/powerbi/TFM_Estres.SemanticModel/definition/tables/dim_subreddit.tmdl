@@ -1,0 +1,26 @@
+table dim_subreddit
+	lineageTag: 802c4ea2-975a-5e60-a2e3-7626b6f4b4bf
+
+	column id_subreddit
+		dataType: double
+		isHidden
+		lineageTag: cde403bd-b7bb-5617-b857-e55e084a2490
+		summarizeBy: none
+		sourceColumn: id_subreddit
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre
+		dataType: string
+		lineageTag: 17175eb5-b460-516b-ab4a-3df4b3cdebfe
+		summarizeBy: none
+		sourceColumn: nombre
+
+	partition dim_subreddit = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dim_subreddit")
+				in
+					Origen
+
