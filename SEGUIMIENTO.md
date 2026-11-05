@@ -42,7 +42,7 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
 - **Cifras validadas:** cada valor de control del informe coincide con el calculado en SQL sobre MySQL (ver [`tests/pruebas.md`](tests/pruebas.md)).
 - **Fuente de datos:** el informe local lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
 - **Base de datos en la nube** ([`supabase/`](supabase/README.md)): esquema PostgreSQL `tfm` con las dimensiones, el DWH y los hechos de la capa estrella. La migración se valida sola contra MySQL (17 de 17 tablas y 7 de 7 cifras de control). En Supabase se corrigieron las tildes de bloques, KPIs y modelos, y «Yes» pasó a «Sí». Una copia del informe se conecta a Supabase con un usuario de solo lectura.
-- **Prototipo web** ([`prototipo/`](prototipo/README.md)): las 7 páginas del informe en un HTML con los datos incrustados desde Supabase, más una pestaña de arquitectura con los tres diagramas del modelo.
+- **Prototipo web** ([`prototipo/`](prototipo/README.md)): las 7 páginas del informe en un HTML con los datos incrustados desde Supabase. La v1 es la primera versión; la v2, final, añade una pestaña de arquitectura con los tres diagramas del modelo.
 - **Diagramas corregidos** ([`figuras/diagramas/`](figuras/diagramas/README.md)): el modelo v2 tiene 20 tablas (no 19) y `vw_hechos_estres` devuelve 334.318 filas (no 320.318). Los diagramas entregados se conservan aparte.
 - **Pendiente:** el documento de insights.
 
