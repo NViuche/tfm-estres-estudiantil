@@ -59,11 +59,13 @@ def main():
     host, puerto = os.environ.get("SUPABASE_DB_HOST"), os.environ.get("SUPABASE_DB_PORT", "5432")
     if not host:
         sys.exit("Falta SUPABASE_DB_HOST en .env")
-    if os.path.exists(DESTINO):
-        shutil.rmtree(largo(DESTINO), onexc=sololectura)
-    os.makedirs(DESTINO)
+    # Solo se rehacen las carpetas del proyecto PBIP; Entrega/ (los .pbix entregados) no se toca
+    os.makedirs(DESTINO, exist_ok=True)
     for sub in ("TFM_Estres.Report", "TFM_Estres.SemanticModel"):
-        shutil.copytree(largo(os.path.join(ORIGEN, sub)), largo(os.path.join(DESTINO, sub)),
+        d = os.path.join(DESTINO, sub)
+        if os.path.exists(d):
+            shutil.rmtree(largo(d), onexc=sololectura)
+        shutil.copytree(largo(os.path.join(ORIGEN, sub)), largo(d),
                         ignore=shutil.ignore_patterns(".pbi"))
     for f in ("TFM_Estres.pbip", ".gitignore", "TFM_Estres_tema_bienestar.json"):
         shutil.copy2(os.path.join(ORIGEN, f), os.path.join(DESTINO, f))

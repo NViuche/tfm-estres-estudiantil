@@ -6,7 +6,7 @@ Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema
 |---|---|
 | `sql/` | `01_esquema.sql` (tablas en PostgreSQL), `02_vistas.sql` (vistas `vw_*`), `03_correcciones_datos.sql` (tildes y «Yes» → «Sí», solo en Supabase) |
 | `scripts/` | `migrar_mysql_a_supabase.py` (migración y validación), `probar_lector.py` (prueba del usuario de solo lectura), `preparar_powerbi_supabase.py` (genera `powerbi/`) |
-| `powerbi/` | El informe de Power BI conectado a Supabase con el conector PostgreSQL |
+| `powerbi/` | El informe de Power BI conectado a Supabase con el conector PostgreSQL. El fichero de entrega `TFM_Estres_supabase.pbix` se guarda en `powerbi/Entrega/` (no se versiona: lleva los datos dentro) |
 
 ## Uso
 
