@@ -40,8 +40,11 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
   - Las páginas Inicio y KPIs responden a la rúbrica de la Entrega 3: menú principal, los 6 KPIs del DWH visibles con su histórico y su definición, y la distribución completa del nivel de estrés por dataset.
   - Usa como métrica transversal la dimensión `dim_nivel_estres`, y los resultados del modelado (`vw_modelo_resultados`) como segunda tabla de hechos.
 - **Cifras validadas:** cada valor de control del informe coincide con el calculado en SQL sobre MySQL (ver [`tests/pruebas.md`](tests/pruebas.md)).
-- **Fuente de datos:** el informe lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
-- **Pendientes:** el documento de insights y la migración de la base de datos a la nube (Supabase), para conectar el informe sin pasar por CSV.
+- **Fuente de datos:** el informe local lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
+- **Base de datos en la nube** ([`supabase/`](supabase/README.md)): esquema PostgreSQL `tfm` con las dimensiones, el DWH y los hechos de la capa estrella. La migración se valida sola contra MySQL (17 de 17 tablas y 7 de 7 cifras de control). En Supabase se corrigieron las tildes de bloques, KPIs y modelos, y «Yes» pasó a «Sí». Una copia del informe se conecta a Supabase con un usuario de solo lectura.
+- **Prototipo web** ([`prototipo/`](prototipo/README.md)): las 7 páginas del informe en un HTML con los datos incrustados desde Supabase, más una pestaña de arquitectura con los tres diagramas del modelo.
+- **Diagramas corregidos** ([`figuras/diagramas/`](figuras/diagramas/README.md)): el modelo v2 tiene 20 tablas (no 19) y `vw_hechos_estres` devuelve 334.318 filas (no 320.318). Los diagramas entregados se conservan aparte.
+- **Pendiente:** el documento de insights.
 
 ## Limitaciones conocidas
 
@@ -55,7 +58,8 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
 ## Pendiente
 
 - Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
-- Entrega 3: documento de insights; migración a Supabase; corregir en los datos las tildes de los nombres de bloque y de KPI («Percepcion emocional» → «Percepción emocional») y traducir «No / Yes» de los antecedentes familiares.
+- Entrega 3: documento de insights. Las tildes y el «Sí» están corregidos en Supabase; el informe local con MySQL los mantiene como en origen.
+- `b4_dass_item` existe en el modelo, pero está vacía: no se cargaron las respuestas por ítem del DASS-42.
 
 ---
 <!-- relacionado -->

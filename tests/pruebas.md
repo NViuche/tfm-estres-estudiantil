@@ -1,6 +1,6 @@
 # Pruebas y validación
 
-El proyecto no es una aplicación con tests unitarios: sus pruebas son **comprobaciones sobre los datos, sobre la carga en MySQL y sobre el informe de Power BI**. Hay tres niveles.
+El proyecto no es una aplicación con tests unitarios: sus pruebas son **comprobaciones sobre los datos, sobre la carga en MySQL, sobre el informe de Power BI y sobre la migración a Supabase**. Hay cuatro niveles.
 
 ## 1. Reglas de calidad del dato (antes de la carga)
 
@@ -49,6 +49,19 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | % Búsqueda de tratamiento | 49,4 % |
 | AUC medio del mejor modelo, sin alertas | 0,786 |
 | Datasets con alerta | 2 |
+
+## 4. Validación de la migración a Supabase
+
+`supabase/scripts/migrar_mysql_a_supabase.py` compara Supabase con MySQL al terminar cada migración (05/11/2026):
+
+| Comprobación | Resultado |
+|---|---|
+| Filas por tabla (17 tablas, incluida `hechos_estres` con 334.318) | 17 de 17 coinciden con MySQL |
+| Cifras de control calculadas con SQL en las dos bases | 7 de 7 iguales: 319.318 registros, 33,68 % de estrés Alto, 17,0 % de cobertura, 49,41 % de tratamiento, 3.549 posts, AUC 0,786 y 2 datasets con alerta |
+| Usuario `tfm_lector` (`probar_lector.py`) | Lee el esquema `tfm`; la escritura queda bloqueada |
+| Correcciones de texto | Bloques, KPIs y modelos con tildes; antecedentes familiares «No / Sí» |
+| Informe de Power BI conectado a Supabase | Mismos valores de control que el informe local |
+| Prototipo web construido desde Supabase | Mismas cifras que el informe (319.318 registros, 33,7 % de estrés Alto) |
 
 ## Detalle de las 49 reglas
 
