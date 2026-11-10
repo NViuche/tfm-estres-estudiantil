@@ -4,6 +4,8 @@ Versión web del informe de Power BI en un único HTML: las mismas páginas, fil
 
 Cada versión vive en su propia carpeta (`v1/`, `v2/`, …); las anteriores no se modifican. La versión final es **`v8/`**.
 
+**Versión publicada:** https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b. Muestra la versión final (`v8/`); cada corrección o versión nueva se publica en este mismo enlace.
+
 | Versión | Fecha | Contenido |
 |---|---|---|
 | `v1/` | 05/11/2026 | Primera versión: las 7 páginas del Power BI (Inicio, Panorama, Demografía, Lenguaje, Validación, Modelos y KPIs) con sus filtros. Datos de Supabase |
