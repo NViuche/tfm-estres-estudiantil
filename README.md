@@ -40,7 +40,7 @@ tfm-estres-estudiantil/
 | `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (15 tablas, 16 relaciones, 32 medidas) (más la columna calculada `nivel_estres`) y 8 páginas en el menú: inicio (menú principal), panorama, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos, KPIs y **Explorar** (árbol de descomposición e influenciadores clave). Dos páginas ocultas: la ficha de cada dataset (*Obtener detalles*) y el tooltip del dataset. Tema de colores «Bienestar» e imágenes en `powerbi/imagenes/` (iconos, fondo y logos) |
 | `scripts/` | `exportar_mysql_cli.py` (MySQL → 15 CSV para Power BI), `generar_imagenes.py` (iconos de los bloques, fondo de Inicio y logos en blanco) y `generar_paginas_pbir.py` (reconstruye las páginas, registra las imágenes y ajusta el modelo) |
 | `supabase/` | [Base de datos en Supabase](supabase/README.md): esquema PostgreSQL `tfm` (dimensiones, DWH y hechos de la capa estrella), migración validada contra MySQL, correcciones de texto y el informe de Power BI conectado con un usuario de solo lectura |
-| `prototipo/` | [Prototipo web](prototipo/README.md): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v7/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos) y `v8/`, la final |
+| `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v7/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos) y `v8/`, la final |
 | `docs/entrega3_objetivo3/` | [Guía del informe de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) (datos, modelo, medidas, páginas y valores de control), el informe exportado a PDF y el [documento de insights](docs/entrega3_objetivo3/insights/README.md) en Word (entregable de la Entrega 3) |
 
 ## Informe de Power BI
@@ -62,6 +62,8 @@ Ocho páginas en el menú: una de inicio, que hace de menú principal, seis de a
 ![Explorar](figuras/powerbi/p7_explorar.png)
 
 Los insights que salen de estas páginas, y cómo se llegó a cada uno, están en el [documento de insights](docs/entrega3_objetivo3/insights/README.md).
+
+**Versión web interactiva:** https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b. Reproduce el informe en el navegador, sin instalar Power BI: mismas páginas, filtros y medidas con los datos de Supabase, la página Explorar (con el botón «Ver ruta de ejemplo»), la ficha de cada dataset y una pestaña con la arquitectura de los datos.
 
 ## Fuentes de datos
 

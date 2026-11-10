@@ -2,7 +2,7 @@
 
 | Archivo | Qué es |
 |---|---|
-| `Insights_PowerBI_TFM_Estres.docx` | **Entregable de la Entrega 3**: el documento Word con los insights que pide la rúbrica. 12 páginas: resumen, método de exploración (con la página Explorar del informe), 7 insights (qué muestran, cómo se encontraron, comprobación, implicación y cautela, con capturas del informe), limitaciones y un anexo para reproducirlos. Enlaza la versión web interactiva del informe |
+| `Insights_PowerBI_TFM_Estres.docx` | **Entregable de la Entrega 3**: el documento Word con los insights que pide la rúbrica. 12 páginas: resumen, método de exploración (con la página Explorar del informe), 7 insights (qué muestran, cómo se encontraron, comprobación, implicación y cautela, con capturas del informe), limitaciones y un anexo para reproducirlos. Enlaza la versión web interactiva del informe (https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b) |
 | `generar_insights.js` | Genera el `.docx` con la librería `docx` de Node. Solo hace falta si cambian las cifras o el texto |
 
 Los 7 insights:
