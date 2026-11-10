@@ -1,4 +1,8 @@
-"""Genera las 7 páginas del informe (formato PBIR: visuals, page.json y pages.json) y ajusta el modelo.
+"""Genera las páginas del informe (formato PBIR: visuals, page.json y pages.json) y ajusta el modelo.
+
+8 páginas visibles (Inicio, 1 Panorama … 6 KPIs, 7 Explorar) y 2 ocultas: «Detalle del dataset» (drill-through)
+y «Tooltip del dataset» (tooltip de página). Registra en report.json las imágenes de ../powerbi/imagenes
+(generadas por generar_imagenes.py): iconos de los bloques y fondo de Inicio.
 
 Uso (con Power BI Desktop CERRADO):
     python generar_paginas_pbir.py
@@ -103,22 +107,31 @@ def contenedor(nombre, x, y, w, h, z, visual, filtros=None, titulo=None):
     return v
 
 
-def tarjetas(campos, colores=None):
-    """colores: lista de (campo, "#RRGGBB") para colorear el valor de medidas concretas de la tarjeta."""
+def tarjetas(campos, colores=None, tam=None):
+    """colores: lista de (campo, "#RRGGBB") para colorear el valor de medidas concretas de la tarjeta.
+    tam: tamaño del valor en pt (para tarjetas pequeñas, como las del tooltip)."""
     # labelDisplayUnits = 1: número completo (319.318) en lugar de la abreviatura automática (319 mil)
-    valor = [{"properties": {"labelDisplayUnits": lit("1D")}}]
+    props = {"labelDisplayUnits": lit("1D")}
+    if tam:
+        props["fontSize"] = lit(f"{tam}D")
+    valor = [{"properties": props}]
     for campo, hex_ in colores or []:
         valor.append({"selector": {"metadata": proy(campo)["queryRef"]},
                       "properties": {"fontColor": color(hex_)}})
+    objetos = {"value": valor}
+    if tam:
+        objetos["label"] = [{"properties": {"fontSize": lit("9D")}}]
     return {"visualType": "cardVisual",
             "query": {"queryState": {"Data": {"projections": [proy(c, n) for c, n in campos]}}},
-            "objects": {"value": valor}}
+            "objects": objetos}
 
 
 def segmentador(campo, nombre):
+    # syncGroup: el mismo segmentador en varias páginas comparte la selección (Panorama, Demografía, Explorar)
     return {"visualType": "slicer",
             "query": {"queryState": {"Values": {"projections": [proy(campo, nombre)]}}},
-            "objects": {"data": [{"properties": {"mode": txt("Dropdown")}}]}}
+            "objects": {"data": [{"properties": {"mode": txt("Dropdown")}}]},
+            "syncGroup": {"groupName": nombre, "fieldChanges": True, "filterChanges": True}}
 
 
 def eje_largo(objetos, margen=40):
@@ -228,7 +241,87 @@ def banda(visual, fondo=None):
 
 
 def navegador():
-    return {"visualType": "pageNavigator"}
+    # Sin páginas ocultas (Detalle del dataset) ni de tooltip: solo se llega a ellas desde los gráficos
+    return {"visualType": "pageNavigator",
+            "objects": {"pages": [{"properties": {"showHiddenPages": lit("false"), "showTooltipPages": lit("false")}}]}}
+
+
+# ---------------------------------------------------------------- imágenes y funciones avanzadas
+def recurso(item):
+    """Referencia a una imagen registrada en StaticResources/RegisteredResources (PackageType 1)."""
+    return {"expr": {"ResourcePackageItem": {"PackageName": "RegisteredResources", "PackageType": 1, "ItemName": item}}}
+
+
+def imagen(item):
+    return banda({"visualType": "image",
+                  "objects": {"general": [{"properties": {"imageUrl": recurso(item)}}],
+                              "imageScaling": [{"properties": {"imageScalingType": txt("Fit")}}]}})
+
+
+def con_tooltip(visual, pagina_tooltip):
+    """Asigna una página de tooltip (tipo «Canvas» = página del informe) a un objeto visual."""
+    visual.setdefault("visualContainerObjects", {})["visualTooltip"] = [{"properties": {
+        "show": lit("true"), "type": txt("Canvas"), "section": txt(pagina_tooltip)}}]
+    return visual
+
+
+def boton_volver():
+    """Botón «Volver» de las páginas de obtención de detalles (drill-through)."""
+    # Los botones guardan su formato por estado: sin el selector {"id": "default"} no se pintan ni icono ni texto
+    defecto = {"id": "default"}
+    v = {"visualType": "actionButton",
+         "objects": {
+             "icon": [{"selector": defecto, "properties": {"show": lit("true"), "shapeType": txt("back"),
+                                                           "lineColor": color(BANDA), "horizontalAlignment": txt("left")}}],
+             "text": [{"selector": defecto, "properties": {"show": lit("true"), "text": txt("Volver"),
+                                                           "fontColor": color(BANDA), "fontSize": lit("11D")}}],
+             "outline": [{"selector": defecto, "properties": {"show": lit("true"), "lineColor": color(BANDA)}}]},
+         "visualContainerObjects": {"visualLink": [{"properties": {"show": lit("true"), "type": txt("Back")}}]}}
+    return v
+
+
+def colores_niveles(col_nivel):
+    """Selectores de color por nivel de estrés (Bajo teal, Moderado arena, Alto coral)."""
+    return [{"properties": {"fill": color(hex_)},
+             "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0, "Left": {"Column": col_nivel},
+                                                               "Right": {"Literal": {"Value": f"'{nivel}'"}}}}}]}}
+            for nivel, hex_ in (("Bajo", "#2A9D8F"), ("Moderado", "#E9C46A"), ("Alto", "#E76F51"))]
+
+
+def anillo(categoria, nombre_cat, medida):
+    col_cat = categoria["Column"]
+    return {"visualType": "donutChart",
+            "query": {"queryState": {"Category": {"projections": [proy(categoria, nombre_cat)]},
+                                     "Y": {"projections": [proy(*medida)]}}},
+            "objects": {"dataPoint": colores_niveles(col_cat),
+                        "labels": [{"properties": {"show": lit("true"), "labelStyle": txt("Percent of total")}}],
+                        "legend": [{"properties": {"show": lit("true"), "position": txt("Top")}}]}}
+
+
+def arbol(medida, explicar):
+    """Árbol de descomposición: la medida se desglosa por los campos que el usuario elija, en el orden que quiera."""
+    return {"visualType": "decompositionTreeVisual",
+            "query": {"queryState": {"Analyze": {"projections": [proy(*medida)]},
+                                     "ExplainBy": {"projections": [proy(c, n) for c, n in explicar]}}}}
+
+
+def influenciadores(objetivo, explicar):
+    """Influenciadores clave: qué valores elevan la probabilidad de cada nivel del objetivo.
+    El objetivo es una columna de la tabla de hechos: el análisis se hace por registro (no admite «Expandir por»)."""
+    return {"visualType": "keyDriversVisual",
+            "query": {"queryState": {"Target": {"projections": [proy(*objetivo)]},
+                                     "ExplainBy": {"projections": [proy(c, n) for c, n in explicar]}}}}
+
+
+def barras_jerarquia(niveles, medida):
+    """Barras con jerarquía (bloque → dataset): las flechas de obtención de detalles bajan de nivel."""
+    proyecciones = [proy(c, n) for c, n in niveles]
+    proyecciones[0]["active"] = True
+    return {"visualType": "clusteredBarChart",
+            "query": {"queryState": {"Category": {"projections": proyecciones},
+                                     "Y": {"projections": [proy(*medida)]}},
+                      "sortDefinition": {"sort": [{"field": medida[0], "direction": "Descending"}]}},
+            "objects": {"labels": [{"properties": {"show": lit("true")}}]}}
 
 
 # ---------------------------------------------------------------- campos
@@ -243,8 +336,9 @@ BANDA = "#2A7F7F"  # teal del tema «Bienestar» (TFM_Estres_tema_bienestar.json
 
 def cabecera(pid, titulo, subtitulo):
     # La caja del título ocupa todo el ancho como banda de color (68 px: título 16 pt + subtítulo 9 pt
-    # sin barra de desplazamiento); el navegador va encima, a la derecha, con ~150 px por botón
-    x_nav = M + 480 + 12
+    # sin barra de desplazamiento); el navegador va encima, a la derecha: 8 botones de 105 px, así que los
+    # títulos de la banda deben caber en ~400 px (16 pt) y los subtítulos en ~400 px (9 pt)
+    x_nav = 420
     return [
         contenedor(_id(pid, "titulo"), 0, 0, ANCHO, 68, 0,
                    banda(texto([(titulo, 16, True), (subtitulo, 9, False)], color="#FFFFFF"), BANDA)),
@@ -270,8 +364,18 @@ KPIS = [("KPI_ESTRES_ALTO", "Estrés Alto (%)"), ("KPI_BRECHA_GENERO", "Brecha M
 
 def pagina0():
     p = "p0"
-    v = cabecera(p, "Análisis multidimensional del estrés estudiantil",
-                 "TFM Business Analytics e IA · UNIE / INESDI")
+    # Título corto: con 8 botones el menú empieza en x = 400
+    # Subtítulo corto: no llega bajo los logos, que ya identifican a UNIE e INESDI
+    v = cabecera(p, "Estrés estudiantil", "TFM · Business Analytics e IA")
+    # Logos en blanco sobre la banda, centrados en su alto (generar_imagenes.py los crea desde recursos/logos).
+    # Caben entre el título (~200 px) y el menú (x = 420); el subtítulo corto no llega hasta ellos
+    hay = lambda f: os.path.exists(os.path.join(RAIZ, "imagenes", f))
+    if hay("logo_inesdi_blanco.png") and hay("logo_unie_blanco.png"):
+        v.append(contenedor(_id(p, "logo"), 212, 24, 120, 20, 2, imagen("logo_inesdi_blanco.png")))
+        v.append(contenedor(_id(p, "logo_sep"), 340, 14, 3, 40, 2, imagen("separador_blanco.png")))
+        v.append(contenedor(_id(p, "logo_unie"), 350, 15, 69, 38, 2, imagen("logo_unie_blanco.png")))
+    elif hay("logo_inesdi_blanco.png"):
+        v.append(contenedor(_id(p, "logo"), 216, 12, 150, 25, 2, imagen("logo_inesdi_blanco.png")))
     v.append(contenedor(_id(p, "intro"), M, 84, 600, 212, 10, texto([
         ("Qué analiza este informe", 13, True),
         ("12 datasets públicos organizados en 4 bloques analíticos. Cada fuente se estudia por separado y se "
@@ -289,24 +393,28 @@ def pagina0():
                             filtros=[incluir(KPIC, "codigo", [codigo])]))
     bloques = [
         ("1 · Factores internos", "Academic Stress, Student Anxiety (GAD-7), Student Mental Health Survey. "
-         "Student Habits es sintético.", "Panorama y Demografía"),
+         "Student Habits es sintético.", "Panorama y Demografía", "icono_factores_internos.png"),
         ("2 · Hábitos digitales", "Social Media and Mental Health. Social Media vs Sleep y Mental Health "
-         "Lifestyle son sintéticos.", "Panorama y Demografía"),
+         "Lifestyle son sintéticos.", "Panorama y Demografía", "icono_habitos_digitales.png"),
         ("3 · Percepción emocional", "Dreaddit (train y test), texto de Reddit con NLP; Depression Student.",
-         "Lenguaje"),
+         "Lenguaje", "icono_percepcion_emocional.png"),
         ("4 · Validación psicológica", "DASS-42 y Mental Health Dataset (búsqueda de tratamiento).",
-         "Validación")]
+         "Validación", "icono_validacion_psicologica.png")]
     wb = (ANCHO - 2 * M - 3 * 12) / 4
-    for i, (titulo, fuentes, pagina) in enumerate(bloques):
-        v.append(contenedor(_id(p, "bloque", titulo), M + i * (wb + 12), 312, wb, 200, 30 + i, texto([
-            (titulo, 12, True), (fuentes, 10, False), ("Página principal: " + pagina, 10, True)])))
+    for i, (titulo, fuentes, pagina, icono) in enumerate(bloques):
+        x = M + i * (wb + 12)
+        # Icono arriba y texto debajo: así el icono nunca tapa el título del bloque
+        v.append(contenedor(_id(p, "bloque", titulo), x, 312, wb, 200, 30 + i, texto([
+            (" ", 26, False), (titulo, 12, True), (fuentes, 10, False), ("Página principal: " + pagina, 10, True)])))
+        v.append(contenedor(_id(p, "icono", titulo), x + 10, 318, 44, 44, 35 + i, imagen(icono)))
     v.append(contenedor(_id(p, "nota"), M, 528, ANCHO - 2 * M, 138, 40, texto([
         ("Cómo leer el informe", 12, True),
         ("Cada fuente define «Alto» con su propio criterio nativo, mapeado a un constructo común (GAD-7 y DASS con "
          "baremos clínicos): compara tendencias, no niveles absolutos entre fuentes.", 10, False),
-        ("Los segmentadores de Panorama y Demografía filtran por bloque, género, edad y nivel educativo. "
-         "Solo el 17 % de los registros informa a la vez género y edad. Modelos y KPIs cubren los cuatro bloques.",
-         10, False),
+        ("Los segmentadores de Panorama, Demografía y Explorar están sincronizados: la selección se mantiene al cambiar "
+         "de página. Explorar desglosa el estrés Alto con un árbol de descomposición y los influenciadores clave. Clic "
+         "derecho sobre un dataset → Obtener detalles abre su ficha; al pasar el ratón por las barras de Panorama se ve "
+         "su resumen. Solo el 17 % de los registros informa a la vez género y edad.", 10, False),
         ("Advertencias: Depression Student (AUC ≈ 1, posible etiqueta generada por fórmula) y Academic Stress "
          "(n = 140) se leen con cautela.", 10, False)])))
     return v
@@ -340,9 +448,87 @@ def pagina6():
     return v
 
 
+EXPLORAR, DETALLE, TOOLTIP = "p7_explorar", "p8_detalle_dataset", "p9_tooltip_dataset"
+ALTO_EXPLORAR = 1000
+FILTRO_DETALLE = "filtro_detalle_dataset"
+NIVELES = incluir(NE, "nivel", ["Bajo", "Moderado", "Alto"])
+INCLUIDOS = incluir(DS, "uso_modelado", ["incluido"])
+
+
+def pagina7():
+    """Explorar: árbol de descomposición e influenciadores clave (visuales de IA de Power BI).
+    El árbol ocupa todo el ancho: en 1248 px caben la raíz y los 5 campos de desglose (cada nivel mide ~137 px)."""
+    p = "p7"
+    v = cabecera(p, "Explorar el estrés Alto", "Árbol: «+» para desglosar · Influenciadores: elige «Alto»")
+    v += segmentadores(p)
+    # Página más alta (1000 px, «Ajustar al ancho»): el árbol y los influenciadores se ven completos con desplazamiento vertical
+    v.append(contenedor(_id(p, "arbol"), M, 164, ANCHO - 2 * M, 400, 30,
+                        arbol((med(H, "% Estrés Alto"), "% estrés Alto"),
+                              [(col(DS, "bloque"), "Bloque"), (col(DS, "dataset"), "Dataset"), (col(G, "nombre"), "Género"),
+                               (col(E, "rango"), "Rango de edad"), (col(ED, "nivel"), "Nivel educativo")]),
+                        titulo="Árbol de descomposición: % de estrés Alto"))
+    v.append(contenedor(_id(p, "influ"), M, 576, ANCHO - 2 * M, 410, 31,
+                        influenciadores((col(H, "nivel_estres"), "Nivel de estrés"),
+                                        [(col(G, "nombre"), "Género"), (col(E, "rango"), "Rango de edad"),
+                                         (col(ED, "nivel"), "Nivel educativo"), (col(DS, "bloque"), "Bloque")]),
+                        filtros=[incluir(H, "nivel_estres", ["Bajo", "Moderado", "Alto"]), INCLUIDOS],
+                        titulo="Influenciadores clave del nivel de estrés"))
+    return v
+
+
+def pagina8():
+    """Detalle del dataset: página de obtención de detalles (drill-through) sobre vw_dim_dataset[dataset]."""
+    p = "p8"
+    v = cabecera(p, "Detalle del dataset", "Ficha del dataset elegido · «Volver» regresa a la página anterior")
+    v.append(contenedor(_id(p, "volver"), M, 80, 120, 34, 5, boton_volver()))
+    v.append(contenedor(_id(p, "ficha"), M, 124, 560, 112, 10,
+                        tabla([(col(DS, "dataset"), "Dataset"), (col(DS, "bloque"), "Bloque"),
+                               (col(DS, "calidad"), "Calidad"), (col(DS, "uso_modelado"), "Modelado")],
+                              anchos=[(col(DS, "dataset"), 220), (col(DS, "bloque"), 150),
+                                      (col(DS, "calidad"), 75), (col(DS, "uso_modelado"), 75)]),
+                        titulo="Ficha"))
+    v.append(contenedor(_id(p, "kpis"), M + 576, 80, ANCHO - 2 * M - 576, 156, 11, tarjetas([
+        (med(H, "Registros"), "Registros"), (med(H, "% Estrés Alto"), "% estrés Alto"),
+        (med(H, "% Estrés Moderado"), "% Moderado"), (med(H, "Cobertura demográfica"), "Cobertura")])))
+    w = (ANCHO - 2 * M - 2 * 12) / 3
+    v.append(contenedor(_id(p, "anillo"), M, 248, w, 220, 20,
+                        anillo(col(NE, "nivel"), "Nivel de estrés", (med(H, "Registros"), "Registros")),
+                        filtros=[NIVELES], titulo="Distribución por nivel de estrés"))
+    for i, (c, n, t) in enumerate([(col(G, "nombre"), "Género", G), (col(E, "rango"), "Rango de edad", E)]):
+        prop = c["Column"]["Property"]
+        v.append(contenedor(_id(p, "barra", n), M + (i + 1) * (w + 12), 248, w, 220, 21 + i,
+                            barras(c, n, [(med(H, "% Estrés Alto"), "% estrés Alto")], tipo="clusteredColumnChart", orden=c),
+                            filtros=[excluir(t, prop, ["No reportado"])], titulo=f"% de estrés Alto por {n.lower()}"))
+    v.append(contenedor(_id(p, "educ"), M, 480, w, 224, 24,
+                        barras(col(ED, "nivel"), "Nivel educativo", [(med(H, "% Estrés Alto"), "% estrés Alto")],
+                               tipo="clusteredColumnChart", orden=col(ED, "nivel")),
+                        filtros=[excluir(ED, "nivel", ["No reportado"])], titulo="% de estrés Alto por nivel educativo"))
+    v.append(contenedor(_id(p, "modelo"), M + w + 12, 480, ANCHO - 2 * M - w - 12, 224, 25,
+                        tabla([(col(MOD, "modelo"), "Modelo"), (col(MOD, "protocolo"), "Protocolo"),
+                               (col(MOD, "n_registros"), "n"), (col(MOD, "auc"), "AUC"), (col(MOD, "f1"), "F1"),
+                               (col(MOD, "accuracy"), "Accuracy"), (col(MOD, "alerta"), "Alerta")],
+                              anchos=[(col(MOD, "modelo"), 200), (col(MOD, "protocolo"), 110), (col(MOD, "n_registros"), 60),
+                                      (col(MOD, "auc"), 50), (col(MOD, "f1"), 50), (col(MOD, "accuracy"), 65),
+                                      (col(MOD, "alerta"), 250)]),
+                        filtros=[incluir(MOD, "es_mejor_modelo", [1], tipo="num")],
+                        titulo="Mejor modelo del dataset (Objetivo 2)"))
+    return v
+
+
+def pagina9():
+    """Tooltip del dataset (320 × 240): aparece al pasar el ratón por las barras de dataset y bloque."""
+    p = "p9"
+    v = [contenedor(_id(p, "kpis"), 6, 6, 308, 72, 1, tarjetas([
+             (med(H, "Registros"), "Registros"), (med(H, "% Estrés Alto"), "% estrés Alto")], tam=16)),
+         contenedor(_id(p, "anillo"), 6, 84, 308, 150, 2,
+                    anillo(col(NE, "nivel"), "Nivel", (med(H, "Registros"), "Registros")), filtros=[NIVELES],
+                    titulo="Nivel de estrés")]
+    return v
+
+
 def pagina1():
     p = "p1"
-    v = cabecera(p, "Panorama general del estrés estudiantil",
+    v = cabecera(p, "Panorama del estrés estudiantil",
                  "9 fuentes con señal real · sin los 3 datasets sintéticos")
     v += segmentadores(p)
     v.append(contenedor(_id(p, "kpis"), M, 164, ANCHO - 2 * M, 100, 20, tarjetas([
@@ -351,15 +537,18 @@ def pagina1():
         (med(H, "Cobertura demográfica"), "Cobertura demográfica"),
         (med(H, "Fuentes en la selección"), "Fuentes")])))
     w = (ANCHO - 2 * M - 16) / 2
+    # Bloque → dataset: jerarquía con obtención de detalles; las dos gráficas llevan el tooltip de página del dataset
     v.append(contenedor(_id(p, "bloque"), M, 276, w, 390, 30,
-                        barras(col(DS, "bloque"), "Bloque", [(med(H, "% Estrés Alto"), "% estrés Alto")]),
-                        titulo="% de estrés Alto por bloque analítico"))
+                        con_tooltip(barras_jerarquia([(col(DS, "bloque"), "Bloque"), (col(DS, "dataset"), "Dataset")],
+                                                     (med(H, "% Estrés Alto"), "% estrés Alto")), TOOLTIP),
+                        titulo="% de estrés Alto por bloque (↓ baja a dataset)"))
     v.append(contenedor(_id(p, "dataset"), M + w + 16, 276, w, 390, 31,
-                        barras(col(DS, "dataset"), "Dataset", [(med(H, "% Estrés Alto"), "% estrés Alto")], largo=True),
+                        con_tooltip(barras(col(DS, "dataset"), "Dataset", [(med(H, "% Estrés Alto"), "% estrés Alto")],
+                                           largo=True), TOOLTIP),
                         titulo="% de estrés Alto por dataset"))
     v.append(contenedor(_id(p, "nota"), M, 674, ANCHO - 2 * M, 38, 40, texto([(
-        "Cada fuente define «Alto» con su propio criterio (escala nativa mapeada a Bajo / Moderado / Alto en "
-        "dim_mapeo_estres; GAD-7 y DASS con baremos clínicos). Compara tendencias, no niveles absolutos entre fuentes.",
+        "Compara tendencias, no niveles absolutos: cada fuente define «Alto» con su criterio (GAD-7 y DASS con baremos "
+        "clínicos). Pasa el ratón por una barra para ver el resumen del dataset; clic derecho → Obtener detalles abre su ficha.",
         9, False)])))
     return v
 
@@ -513,6 +702,19 @@ def ajustar_modelo():
     t = re.sub(r"(\tcolumn fecha_ejecucion\n\t\tdataType: dateTime\n\t\tformatString: )[^\n]*",
                r"\1dd/mm/yyyy hh:nn", t, count=1)
     open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    # Nivel de estrés como columna calculada de la tabla de hechos: los influenciadores clave analizan por fila de
+    # la tabla del campo objetivo, así que el objetivo tiene que estar en los hechos (no en la dimensión)
+    ruta = os.path.join(TABLAS, "vw_hechos_estres.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    if "column nivel_estres" not in t:
+        columna = ("\tcolumn nivel_estres = RELATED ( vw_dim_nivel_estres[nivel] )\n"
+                   "\t\tdataType: string\n"
+                   "\t\tlineageTag: 6c1f0e2a-7d3b-4f6e-9a51-2b8f3c4d5e61\n"
+                   "\t\tsummarizeBy: none\n\n"
+                   "\t\tannotation SummarizationSetBy = Automatic\n\n")
+        i = t.index("\tpartition ")
+        t = t[:i] + columna + t[i:]
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
 
 
 # ---------------------------------------------------------------- escritura
@@ -548,25 +750,75 @@ def escribir(pagina, visuales):
 
 ESQUEMA_PAGINA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json"
 ESQUEMA_PAGINAS = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json"
-# (carpeta, nombre en el menú, función). Nombres cortos: con 7 páginas el navegador da ~108 px por botón
+# (carpeta, nombre en el menú, función). Nombres cortos: con 8 páginas visibles el navegador da ~96 px por botón.
+# Las dos últimas están ocultas: el navegador no las muestra (drill-through y tooltip)
 PAGINAS_INFORME = [("p0_inicio", "Inicio", pagina0), ("p1_panorama", "1 Panorama", pagina1),
                    ("p2_demografia", "2 Demografía", pagina2), ("p3_lenguaje", "3 Lenguaje", pagina3),
                    ("p4_validacion", "4 Validación", pagina4), ("p5_modelos", "5 Modelos", pagina5),
-                   ("p6_kpis", "6 KPIs", pagina6)]
+                   ("p6_kpis", "6 KPIs", pagina6), (EXPLORAR, "7 Explorar", pagina7),
+                   (DETALLE, "Detalle del dataset", pagina8), (TOOLTIP, "Tooltip del dataset", pagina9)]
+
+IMAGENES = os.path.normpath(os.path.join(RAIZ, "imagenes"))
+RECURSOS = os.path.join(RAIZ, "TFM_Estres.Report", "StaticResources", "RegisteredResources")
+REPORTE = os.path.join(RAIZ, "TFM_Estres.Report", "definition", "report.json")
+
+
+def config_pagina(carpeta):
+    """Propiedades extra de page.json: fondo de Inicio, drill-through y tooltip."""
+    if carpeta == "p0_inicio":
+        return {"objects": {"background": [{"properties": {
+            "image": {"image": {"name": txt("fondo_inicio.png"), "url": recurso("fondo_inicio.png"),
+                                "scaling": txt("Fill")}},
+            "transparency": lit("0D")}}]}}
+    if carpeta == EXPLORAR:
+        return {"displayOption": "FitToWidth", "height": ALTO_EXPLORAR}
+    if carpeta == DETALLE:
+        campo = col(DS, "dataset")
+        return {"type": "Drillthrough", "visibility": "HiddenInViewMode",
+                "pageBinding": {"name": "detalle_dataset", "type": "Drillthrough",
+                                "parameters": [{"name": "detalle_dataset_param", "boundFilter": FILTRO_DETALLE,
+                                                "fieldExpr": campo}]},
+                "filterConfig": {"filters": [{"name": FILTRO_DETALLE, "field": campo, "type": "Categorical",
+                                              "howCreated": "Drillthrough"}]}}
+    if carpeta == TOOLTIP:
+        return {"type": "Tooltip", "visibility": "HiddenInViewMode", "width": 320, "height": 240,
+                "pageBinding": {"name": "tooltip_dataset", "type": "Tooltip"}}
+    return {}
 
 
 def escribir_paginas():
     for carpeta, nombre, _ in PAGINAS_INFORME:
         os.makedirs(os.path.join(PAGINAS, carpeta), exist_ok=True)
+        pagina = {"$schema": ESQUEMA_PAGINA, "name": carpeta, "displayName": nombre,
+                  "displayOption": "FitToPage", "height": ALTO, "width": ANCHO}
+        pagina.update(config_pagina(carpeta))
         with open(os.path.join(PAGINAS, carpeta, "page.json"), "w", encoding="utf-8", newline="\n") as f:
-            json.dump({"$schema": ESQUEMA_PAGINA, "name": carpeta, "displayName": nombre,
-                       "displayOption": "FitToPage", "height": ALTO, "width": ANCHO}, f, ensure_ascii=False, indent=2)
+            json.dump(pagina, f, ensure_ascii=False, indent=2)
     with open(os.path.join(PAGINAS, "pages.json"), "w", encoding="utf-8", newline="\n") as f:
         json.dump({"$schema": ESQUEMA_PAGINAS, "pageOrder": [c for c, _, _ in PAGINAS_INFORME],
                    "activePageName": PAGINAS_INFORME[0][0]}, f, ensure_ascii=False, indent=2)
 
 
+def registrar_imagenes():
+    """Copia powerbi/imagenes/*.png a StaticResources/RegisteredResources y las registra en report.json."""
+    if not os.path.isdir(IMAGENES):
+        print("  (sin imágenes: ejecuta antes generar_imagenes.py)")
+        return
+    os.makedirs(RECURSOS, exist_ok=True)
+    archivos = sorted(f for f in os.listdir(IMAGENES) if f.lower().endswith(".png"))
+    for f in archivos:
+        shutil.copy2(os.path.join(IMAGENES, f), os.path.join(RECURSOS, f))
+    rep = json.load(open(REPORTE, encoding="utf-8"))
+    paquete = next(pq for pq in rep["resourcePackages"] if pq["type"] == "RegisteredResources")
+    ya = {it["name"] for it in paquete["items"]}
+    paquete["items"] += [{"name": f, "path": f, "type": "Image"} for f in archivos if f not in ya]
+    with open(REPORTE, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(rep, fh, ensure_ascii=False, indent=2)
+    print(f"  imágenes registradas: {len(archivos)}")
+
+
 if __name__ == "__main__":
+    registrar_imagenes()
     escribir_paginas()
     for pagina, _, f in PAGINAS_INFORME:
         escribir(pagina, f())

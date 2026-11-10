@@ -1,0 +1,98 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "537f3e49c69fbf0c2209",
+  "position": {
+    "x": 592,
+    "y": 80,
+    "z": 11,
+    "height": 156,
+    "width": 672,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Registros"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Registros",
+              "nativeQueryRef": "Registros",
+              "displayName": "Registros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Alto"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Alto",
+              "nativeQueryRef": "% Estrés Alto",
+              "displayName": "% estrés Alto"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Moderado"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Moderado",
+              "nativeQueryRef": "% Estrés Moderado",
+              "displayName": "% Moderado"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Cobertura demográfica"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Cobertura demográfica",
+              "nativeQueryRef": "Cobertura demográfica",
+              "displayName": "Cobertura"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

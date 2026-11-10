@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "84aeec1283493b1b8556",
   "position": {
-    "x": 16.0,
+    "x": 16,
     "y": 164,
     "z": 20,
     "height": 240,
-    "width": 408.0,
+    "width": 408,
     "tabOrder": 20
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "vw_dim_genero.nombre",
               "nativeQueryRef": "nombre",
+              "active": true,
               "displayName": "Género"
             }
           ]

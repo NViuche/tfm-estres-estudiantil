@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "04ff2b693d624044a8da",
   "position": {
-    "x": 648.0,
+    "x": 648,
     "y": 276,
     "z": 31,
     "height": 390,
-    "width": 616.0,
+    "width": 616,
     "tabOrder": 31
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "vw_dim_dataset.dataset",
               "nativeQueryRef": "dataset",
+              "active": true,
               "displayName": "Dataset"
             }
           ]
@@ -106,6 +107,33 @@
       ]
     },
     "visualContainerObjects": {
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Canvas'"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'p9_tooltip_dataset'"
+                }
+              }
+            }
+          }
+        }
+      ],
       "title": [
         {
           "properties": {

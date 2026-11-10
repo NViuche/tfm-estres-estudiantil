@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "a386b1dac06cce7a9466",
+  "position": {
+    "x": 961,
+    "y": 72,
+    "z": 13,
+    "height": 80,
+    "width": 303,
+    "tabOrder": 13
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_nivel_educativo"
+                    }
+                  },
+                  "Property": "nivel"
+                }
+              },
+              "queryRef": "vw_dim_nivel_educativo.nivel",
+              "nativeQueryRef": "nivel",
+              "active": true,
+              "displayName": "Nivel educativo"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "syncGroup": {
+      "groupName": "Nivel educativo",
+      "fieldChanges": true,
+      "filterChanges": true
+    }
+  }
+}

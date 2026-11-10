@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Cada fuente define «Alto» con su propio criterio (escala nativa mapeada a Bajo / Moderado / Alto en dim_mapeo_estres; GAD-7 y DASS con baremos clínicos). Compara tendencias, no niveles absolutos entre fuentes.",
+                    "value": "Compara tendencias, no niveles absolutos: cada fuente define «Alto» con su criterio (GAD-7 y DASS con baremos clínicos). Pasa el ratón por una barra para ver el resumen del dataset; clic derecho → Obtener detalles abre su ficha.",
                     "textStyle": {
                       "fontSize": "9pt"
                     }

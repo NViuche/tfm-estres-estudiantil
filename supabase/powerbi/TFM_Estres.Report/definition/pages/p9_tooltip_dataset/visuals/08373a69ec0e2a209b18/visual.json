@@ -1,0 +1,88 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "08373a69ec0e2a209b18",
+  "position": {
+    "x": 6,
+    "y": 6,
+    "z": 1,
+    "height": 72,
+    "width": 308,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Registros"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Registros",
+              "nativeQueryRef": "Registros",
+              "displayName": "Registros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Alto"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Alto",
+              "nativeQueryRef": "% Estrés Alto",
+              "displayName": "% estrés Alto"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "label": [
+        {
+          "properties": {
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

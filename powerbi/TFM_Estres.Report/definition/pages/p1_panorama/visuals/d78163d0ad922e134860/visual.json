@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "d78163d0ad922e134860",
   "position": {
-    "x": 961.0,
+    "x": 961,
     "y": 72,
     "z": 13,
     "height": 80,
-    "width": 303.0,
+    "width": 303,
     "tabOrder": 13
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "vw_dim_nivel_educativo.nivel",
               "nativeQueryRef": "nivel",
+              "active": true,
               "displayName": "Nivel educativo"
             }
           ]
@@ -48,6 +49,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "Nivel educativo",
+      "fieldChanges": true,
+      "filterChanges": true
     }
   }
 }

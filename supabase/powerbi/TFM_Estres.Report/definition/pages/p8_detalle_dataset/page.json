@@ -1,0 +1,49 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "p8_detalle_dataset",
+  "displayName": "Detalle del dataset",
+  "displayOption": "FitToPage",
+  "height": 720,
+  "width": 1280,
+  "type": "Drillthrough",
+  "visibility": "HiddenInViewMode",
+  "pageBinding": {
+    "name": "detalle_dataset",
+    "type": "Drillthrough",
+    "parameters": [
+      {
+        "name": "detalle_dataset_param",
+        "boundFilter": "filtro_detalle_dataset",
+        "fieldExpr": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_dim_dataset"
+              }
+            },
+            "Property": "dataset"
+          }
+        }
+      }
+    ]
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "filtro_detalle_dataset",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_dim_dataset"
+              }
+            },
+            "Property": "dataset"
+          }
+        },
+        "type": "Categorical",
+        "howCreated": "Drillthrough"
+      }
+    ]
+  }
+}

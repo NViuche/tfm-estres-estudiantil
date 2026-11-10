@@ -1,0 +1,154 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "2b794135a05a3f65bf21",
+  "position": {
+    "x": 16,
+    "y": 164,
+    "z": 30,
+    "height": 400,
+    "width": 1248,
+    "tabOrder": 30
+  },
+  "visual": {
+    "visualType": "decompositionTreeVisual",
+    "query": {
+      "queryState": {
+        "Analyze": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% Estrés Alto"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% Estrés Alto",
+              "nativeQueryRef": "% Estrés Alto",
+              "displayName": "% estrés Alto"
+            }
+          ]
+        },
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "bloque"
+                }
+              },
+              "queryRef": "vw_dim_dataset.bloque",
+              "nativeQueryRef": "bloque",
+              "displayName": "Bloque"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "dataset"
+                }
+              },
+              "queryRef": "vw_dim_dataset.dataset",
+              "nativeQueryRef": "dataset",
+              "displayName": "Dataset"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_genero"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "vw_dim_genero.nombre",
+              "nativeQueryRef": "nombre",
+              "displayName": "Género"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_rango_edad"
+                    }
+                  },
+                  "Property": "rango"
+                }
+              },
+              "queryRef": "vw_dim_rango_edad.rango",
+              "nativeQueryRef": "rango",
+              "displayName": "Rango de edad"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_nivel_educativo"
+                    }
+                  },
+                  "Property": "nivel"
+                }
+              },
+              "queryRef": "vw_dim_nivel_educativo.nivel",
+              "nativeQueryRef": "nivel",
+              "displayName": "Nivel educativo"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "tree": [
+        {
+          "properties": {
+            "effectiveBarsPerLevel": {
+              "expr": {
+                "Literal": {
+                  "Value": "4L"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Árbol de descomposición: % de estrés Alto'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "53a2547148b633c41335",
+  "position": {
+    "x": 331,
+    "y": 72,
+    "z": 11,
+    "height": 80,
+    "width": 303,
+    "tabOrder": 11
+  },
+  "visual": {
+    "visualType": "slicer",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_genero"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "vw_dim_genero.nombre",
+              "nativeQueryRef": "nombre",
+              "active": true,
+              "displayName": "Género"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "data": [
+        {
+          "properties": {
+            "mode": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Dropdown'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "syncGroup": {
+      "groupName": "Género",
+      "fieldChanges": true,
+      "filterChanges": true
+    }
+  }
+}
