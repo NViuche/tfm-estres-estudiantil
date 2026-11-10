@@ -33,18 +33,19 @@ No pidió correcciones.
 
 ## Entrega 3: Power BI e insights
 
-Pendiente de entrega y de retroalimentación del tutor. Avance:
+Entregables listos; pendiente de la retroalimentación del tutor. Avance:
 
-- **Informe de Power BI** ([`powerbi/`](powerbi/)) con 7 páginas: inicio (menú principal), panorama general, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos y KPIs.
-  - Tiene segmentadores por bloque, género, edad y nivel educativo, y menú de navegación entre páginas.
+- **Informe de Power BI** ([`powerbi/`](powerbi/)) con 8 páginas en el menú: inicio (menú principal), panorama, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos, KPIs y Explorar. El fichero entregado es el `.pbix` de la versión Supabase (se entrega aparte: lleva los datos dentro).
+  - Tiene segmentadores por bloque, género, edad y nivel educativo, sincronizados entre Panorama, Demografía y Explorar, y menú de navegación entre páginas.
+  - Para cubrir los puntos de la rúbrica sobre imágenes y explotación: fondo, iconos y logos de UNIE e INESDI en Inicio; jerarquía bloque → dataset; *Obtener detalles* hacia una ficha por dataset; tooltip de página; árbol de descomposición e influenciadores clave en Explorar (con la columna calculada `nivel_estres`, que los influenciadores necesitan para analizar por registro).
   - Las páginas Inicio y KPIs responden a la rúbrica de la Entrega 3: menú principal, los 6 KPIs del DWH visibles con su histórico y su definición, y la distribución completa del nivel de estrés por dataset.
   - Usa como métrica transversal la dimensión `dim_nivel_estres`, y los resultados del modelado (`vw_modelo_resultados`) como segunda tabla de hechos.
 - **Cifras validadas:** cada valor de control del informe coincide con el calculado en SQL sobre MySQL (ver [`tests/pruebas.md`](tests/pruebas.md)).
 - **Fuente de datos:** el informe local lee CSV exportados de MySQL. La conexión directa a MySQL de XAMPP no funciona: sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite.
 - **Base de datos en la nube** ([`supabase/`](supabase/README.md)): esquema PostgreSQL `tfm` con las dimensiones, el DWH y los hechos de la capa estrella. La migración se valida sola contra MySQL (17 de 17 tablas y 7 de 7 cifras de control). En Supabase se corrigieron las tildes de bloques, KPIs y modelos, y «Yes» pasó a «Sí». Una copia del informe se conecta a Supabase con un usuario de solo lectura.
-- **Prototipo web** ([`prototipo/`](prototipo/README.md)): las 7 páginas del informe en un HTML con los datos incrustados desde Supabase. La v1 es la primera versión; la v2, final, añade una pestaña de arquitectura con los tres diagramas del modelo.
+- **Prototipo web** ([`prototipo/`](prototipo/README.md)): las páginas del informe en un HTML con los datos incrustados desde Supabase, una carpeta por versión. La v2 añade una pestaña de arquitectura con los tres diagramas del modelo; de la v3 a la v8 replican las mejoras del Power BI (Explorar con árbol de descomposición e influenciadores, ficha del dataset, tooltip, logos). La v8 es la final y está publicada como servicio web.
+- **Documento de insights** ([`docs/entrega3_objetivo3/insights/`](docs/entrega3_objetivo3/insights/README.md)): Word de 12 páginas con 7 insights. Cada uno documenta qué muestra, cómo se encontró en el informe (página, gráfico y filtro), su comprobación dentro de cada dataset para descartar efectos de composición, su implicación y sus cautelas. Los influenciadores clave del propio Power BI confirman varios (por ejemplo, «Rango de edad es <18» multiplica por 1,51 la probabilidad de estrés Alto).
 - **Diagramas corregidos** ([`figuras/diagramas/`](figuras/diagramas/README.md)): el modelo v2 tiene 20 tablas (no 19) y `vw_hechos_estres` devuelve 334.318 filas (no 320.318). Los diagramas entregados se conservan aparte.
-- **Pendiente:** el documento de insights.
 
 ## Limitaciones conocidas
 
@@ -58,7 +59,8 @@ Pendiente de entrega y de retroalimentación del tutor. Avance:
 ## Pendiente
 
 - Decidir si Depression Student se mantiene en el modelado (excluirlo solo requiere un `UPDATE` sobre `dim_dataset`).
-- Entrega 3: documento de insights. Las tildes y el «Sí» están corregidos en Supabase; el informe local con MySQL los mantiene como en origen.
+- Entrega 3: incorporar la retroalimentación del tutor cuando llegue. Las tildes y el «Sí» están corregidos en Supabase; el informe local con MySQL los mantiene como en origen.
+- Siguiente fase: memoria final (~50 páginas) y presentación de la defensa.
 - `b4_dass_item` existe en el modelo, pero está vacía: no se cargaron las respuestas por ítem del DASS-42.
 
 ---

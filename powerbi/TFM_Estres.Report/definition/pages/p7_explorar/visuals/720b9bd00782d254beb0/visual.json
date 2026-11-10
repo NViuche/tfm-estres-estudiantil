@@ -1,0 +1,263 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "720b9bd00782d254beb0",
+  "position": {
+    "x": 16,
+    "y": 576,
+    "z": 31,
+    "height": 410,
+    "width": 1248,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "keyDriversVisual",
+    "query": {
+      "queryState": {
+        "ExplainBy": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_genero"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "vw_dim_genero.nombre",
+              "nativeQueryRef": "nombre",
+              "displayName": "Género"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_rango_edad"
+                    }
+                  },
+                  "Property": "rango"
+                }
+              },
+              "queryRef": "vw_dim_rango_edad.rango",
+              "nativeQueryRef": "rango",
+              "displayName": "Rango de edad"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_nivel_educativo"
+                    }
+                  },
+                  "Property": "nivel"
+                }
+              },
+              "queryRef": "vw_dim_nivel_educativo.nivel",
+              "nativeQueryRef": "nivel",
+              "displayName": "Nivel educativo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "bloque"
+                }
+              },
+              "queryRef": "vw_dim_dataset.bloque",
+              "nativeQueryRef": "bloque",
+              "displayName": "Bloque"
+            }
+          ]
+        },
+        "Target": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "nivel_estres"
+                }
+              },
+              "queryRef": "vw_hechos_estres.nivel_estres",
+              "nativeQueryRef": "nivel_estres",
+              "displayName": "Nivel de estrés"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "keyDrivers": [
+        {
+          "properties": {
+            "targetValue": {
+              "expr": {
+                "Literal": {
+                  "Value": "'''Alto'''"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Influenciadores clave del nivel de estrés'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "365c16730bc4733e1631",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_hechos_estres"
+              }
+            },
+            "Property": "nivel_estres"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "vw_hechos_estres",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "nivel_estres"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Bajo'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Moderado'"
+                        }
+                      }
+                    ],
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'Alto'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "65903821665498973318",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_dim_dataset"
+              }
+            },
+            "Property": "uso_modelado"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "vw_dim_dataset",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "In": {
+                  "Expressions": [
+                    {
+                      "Column": {
+                        "Expression": {
+                          "SourceRef": {
+                            "Source": "t"
+                          }
+                        },
+                        "Property": "uso_modelado"
+                      }
+                    }
+                  ],
+                  "Values": [
+                    [
+                      {
+                        "Literal": {
+                          "Value": "'incluido'"
+                        }
+                      }
+                    ]
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

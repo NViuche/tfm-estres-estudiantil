@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
+  "name": "p9_tooltip_dataset",
+  "displayName": "Tooltip del dataset",
+  "displayOption": "FitToPage",
+  "height": 240,
+  "width": 320,
+  "pageBinding": {
+    "name": "tooltip_dataset",
+    "type": "Tooltip",
+    "parameters": []
+  },
+  "visibility": "HiddenInViewMode",
+  "type": "Tooltip"
+}

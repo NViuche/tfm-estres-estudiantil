@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "38b574e4cbee6dd57fa1",
   "position": {
-    "x": 648.0,
+    "x": 648,
     "y": 194,
     "z": 31,
     "height": 370,
-    "width": 616.0,
+    "width": 616,
     "tabOrder": 31
   },
   "visual": {
@@ -28,26 +28,8 @@
               },
               "queryRef": "vw_dim_nivel_educativo.nivel",
               "nativeQueryRef": "nivel",
+              "active": true,
               "displayName": "Nivel educativo"
-            }
-          ]
-        },
-        "Y": {
-          "projections": [
-            {
-              "field": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dwh_dass_severidad"
-                    }
-                  },
-                  "Property": "% Estrés severo DASS"
-                }
-              },
-              "queryRef": "dwh_dass_severidad.% Estrés severo DASS",
-              "nativeQueryRef": "% Estrés severo DASS",
-              "displayName": "% estrés severo"
             }
           ]
         },
@@ -67,6 +49,25 @@
               "queryRef": "vw_dim_genero.nombre",
               "nativeQueryRef": "nombre",
               "displayName": "Género"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "% Estrés severo DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.% Estrés severo DASS",
+              "nativeQueryRef": "% Estrés severo DASS",
+              "displayName": "% estrés severo"
             }
           ]
         }

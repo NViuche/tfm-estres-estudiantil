@@ -84,7 +84,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -113,9 +113,6 @@
       ],
       "columnWidth": [
         {
-          "selector": {
-            "metadata": "dwh_kpi_catalogo.nombre"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -124,12 +121,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "dwh_kpi_catalogo.nombre"
           }
         },
         {
-          "selector": {
-            "metadata": "dwh_kpi_catalogo.unidad"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -138,12 +135,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "dwh_kpi_catalogo.unidad"
           }
         },
         {
-          "selector": {
-            "metadata": "dwh_kpi_catalogo.descripcion"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -152,6 +149,9 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "dwh_kpi_catalogo.descripcion"
           }
         }
       ]

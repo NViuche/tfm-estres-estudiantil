@@ -124,6 +124,13 @@ table vw_hechos_estres
 		summarizeBy: none
 		sourceColumn: objetivo_nativo
 
+	column nivel_estres = RELATED ( vw_dim_nivel_estres[nivel] )
+		dataType: string
+		lineageTag: 6c1f0e2a-7d3b-4f6e-9a51-2b8f3c4d5e61
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
 	partition vw_hechos_estres = m
 		mode: import
 		source =

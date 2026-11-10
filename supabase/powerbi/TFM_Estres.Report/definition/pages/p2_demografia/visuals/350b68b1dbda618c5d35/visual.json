@@ -13,25 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Rows": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "vw_dim_genero"
-                    }
-                  },
-                  "Property": "nombre"
-                }
-              },
-              "queryRef": "vw_dim_genero.nombre",
-              "nativeQueryRef": "nombre",
-              "displayName": "Género"
-            }
-          ]
-        },
         "Columns": {
           "projections": [
             {
@@ -47,7 +28,28 @@
               },
               "queryRef": "vw_dim_rango_edad.rango",
               "nativeQueryRef": "rango",
+              "active": true,
               "displayName": "Rango de edad"
+            }
+          ]
+        },
+        "Rows": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_genero"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              },
+              "queryRef": "vw_dim_genero.nombre",
+              "nativeQueryRef": "nombre",
+              "active": true,
+              "displayName": "Género"
             }
           ]
         },

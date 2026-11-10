@@ -52,6 +52,46 @@
       "type": "RegisteredResources",
       "items": [
         {
+          "name": "fondo_inicio.png",
+          "path": "fondo_inicio.png",
+          "type": "Image"
+        },
+        {
+          "name": "icono_factores_internos.png",
+          "path": "icono_factores_internos.png",
+          "type": "Image"
+        },
+        {
+          "name": "icono_habitos_digitales.png",
+          "path": "icono_habitos_digitales.png",
+          "type": "Image"
+        },
+        {
+          "name": "icono_percepcion_emocional.png",
+          "path": "icono_percepcion_emocional.png",
+          "type": "Image"
+        },
+        {
+          "name": "icono_validacion_psicologica.png",
+          "path": "icono_validacion_psicologica.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo_inesdi_blanco.png",
+          "path": "logo_inesdi_blanco.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo_unie_blanco.png",
+          "path": "logo_unie_blanco.png",
+          "type": "Image"
+        },
+        {
+          "name": "separador_blanco.png",
+          "path": "separador_blanco.png",
+          "type": "Image"
+        },
+        {
           "name": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
           "path": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
           "type": "CustomTheme"

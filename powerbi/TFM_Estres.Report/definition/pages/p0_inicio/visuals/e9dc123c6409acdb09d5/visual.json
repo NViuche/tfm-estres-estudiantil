@@ -40,7 +40,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Los segmentadores de Panorama y Demografía filtran por bloque, género, edad y nivel educativo. Solo el 17 % de los registros informa a la vez género y edad. Modelos y KPIs cubren los cuatro bloques.",
+                    "value": "Los segmentadores de Panorama, Demografía y Explorar están sincronizados: la selección se mantiene al cambiar de página. Explorar desglosa el estrés Alto con un árbol de descomposición y los influenciadores clave. Clic derecho sobre un dataset → Obtener detalles abre su ficha; al pasar el ratón por las barras de Panorama se ve su resumen. Solo el 17 % de los registros informa a la vez género y edad.",
                     "textStyle": {
                       "fontSize": "10pt"
                     }

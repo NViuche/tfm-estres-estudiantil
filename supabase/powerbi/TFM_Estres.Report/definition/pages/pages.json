@@ -7,7 +7,10 @@
     "p3_lenguaje",
     "p4_validacion",
     "p5_modelos",
-    "p6_kpis"
+    "p6_kpis",
+    "p7_explorar",
+    "p8_detalle_dataset",
+    "p9_tooltip_dataset"
   ],
-  "activePageName": "p0_inicio"
+  "activePageName": "p7_explorar"
 }

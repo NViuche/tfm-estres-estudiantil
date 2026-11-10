@@ -28,6 +28,7 @@
               },
               "queryRef": "vw_dim_dataset.dataset",
               "nativeQueryRef": "dataset",
+              "active": true,
               "displayName": "Dataset"
             }
           ]

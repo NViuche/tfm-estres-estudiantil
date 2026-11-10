@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "5c45944979f813921084",
   "position": {
-    "x": 646.0,
+    "x": 646,
     "y": 72,
     "z": 12,
     "height": 80,
-    "width": 303.0,
+    "width": 303,
     "tabOrder": 12
   },
   "visual": {
@@ -28,6 +28,7 @@
               },
               "queryRef": "vw_dim_rango_edad.rango",
               "nativeQueryRef": "rango",
+              "active": true,
               "displayName": "Rango de edad"
             }
           ]
@@ -48,6 +49,11 @@
           }
         }
       ]
+    },
+    "syncGroup": {
+      "groupName": "Rango de edad",
+      "fieldChanges": true,
+      "filterChanges": true
     }
   }
 }
