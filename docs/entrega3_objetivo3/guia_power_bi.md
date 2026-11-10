@@ -1,6 +1,6 @@
 # Guía Power BI — Entrega 3 (Objetivo 3)
 
-El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 32 medidas DAX, tema de colores «Bienestar» y 7 páginas (Inicio + 6 de análisis). Los datos se leen de 15 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
+El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 32 medidas DAX, tema de colores «Bienestar», imágenes propias (iconos y logos) y 10 páginas: 8 en el menú (Inicio, 6 de análisis y Explorar) y 2 ocultas (Detalle del dataset y Tooltip del dataset). Los datos se leen de 15 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
 
 
 ## 1. Preparar los datos
@@ -23,9 +23,11 @@ Para ver los números con formato español (319.318 y 33,7 %): *Archivo → Opci
 
 ## 3. Regenerar las páginas
 
-Los objetos visuales de las 7 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR, junto con `pages.json` (orden del menú, Inicio como página de apertura). Además fija en el modelo el orden de rangos de edad y niveles, quita la suma automática de las métricas de los modelos y muestra `fecha_ejecucion` de los KPIs sin segundos (`dd/mm/yyyy hh:nn`).
+Los objetos visuales de las 10 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR, junto con `page.json` (fondo de Inicio, página de obtención de detalles, página de tooltip, Explorar más alta) y `pages.json` (orden del menú, Inicio como página de apertura). Además registra las imágenes en `report.json`, fija en el modelo el orden de rangos de edad y niveles, quita la suma automática de las métricas de los modelos, muestra `fecha_ejecucion` de los KPIs sin segundos (`dd/mm/yyyy hh:nn`) y crea la columna calculada `vw_hechos_estres[nivel_estres]`.
 
-- Ejecútalo **con Power BI cerrado**: `python scripts\generar_paginas_pbir.py`.
+Las imágenes las dibuja antes `scripts/generar_imagenes.py` en `powerbi/imagenes/`: los 4 iconos de los bloques (tipografía Segoe Fluent Icons de Windows), el fondo de Inicio y los logos de INESDI y UNIE en blanco, a partir de `recursos/logos/` (solo los que tienen fondo transparente).
+
+- Ejecútalos **con Power BI cerrado**: `python scripts\generar_imagenes.py` y después `python scripts\generar_paginas_pbir.py`. Si Power BI estaba abierto, al volver a él pulsa «Aplicar cambios externos» y no guardes antes.
 - **Rehace todos los objetos visuales desde cero:** los ajustes manuales hechos en Desktop se pierden. Úsalo solo para reconstruir el informe.
 
 ## 4. Modelo
@@ -56,6 +58,7 @@ Decisiones de modelado:
 - `vw_hechos_estres` incluye los 3 datasets sintéticos, pero todas las medidas de volumen filtran `vw_dim_dataset[uso_modelado] = "incluido"`. No hay que excluirlos a mano.
 - Las columnas `id_*` están ocultas.
 - Rango de edad, nivel de estrés y nivel educativo se ordenan por su id, no alfabéticamente.
+- `vw_hechos_estres[nivel_estres] = RELATED ( vw_dim_nivel_estres[nivel] )`: columna calculada para los influenciadores clave, que analizan por fila de la tabla del campo objetivo (con el nivel en la dimensión, el análisis se haría sobre 4 filas).
 
 ## 5. Medidas DAX principales
 
@@ -73,17 +76,20 @@ Modelos con alerta = CALCULATE ( COUNTROWS ( vw_modelo_resultados ), vw_modelo_r
 
 ## 6. Páginas
 
-Tamaño 1280 × 720. En todas: banda superior con título y subtítulo y navegador de páginas como menú. Tema `TFM_Estres_tema_bienestar.json` (teal, arena y coral sobre fondo crema; tarjetas blancas con borde redondeado y sombra). Las tablas tienen anchos fijos con ajuste de texto para que todo se lea sin barras de desplazamiento.
+Tamaño 1280 × 720 (Explorar, 1280 × 1000 con «Ajustar al ancho»). En todas: banda superior con título y subtítulo y navegador de páginas como menú (8 botones; no muestra las páginas ocultas). Inicio lleva fondo propio y los logos de INESDI y UNIE en la banda. Los segmentadores de Panorama, Demografía y Explorar están sincronizados: la selección se mantiene al cambiar de página. Tema `TFM_Estres_tema_bienestar.json` (teal, arena y coral sobre fondo crema; tarjetas blancas con borde redondeado y sombra). Las tablas tienen anchos fijos con ajuste de texto para que todo se lea sin barras de desplazamiento.
 
 | Página | Contenido |
 |---|---|
-| **Inicio** (menú principal) | Qué analiza el informe; los 6 KPIs del DWH en tarjetas (última ejecución); un recuadro por bloque con sus fuentes y su página principal; nota de lectura con las advertencias |
-| **1 Panorama general** | Segmentadores (bloque, género, rango de edad, nivel educativo); tarjetas de registros, % estrés Alto, % global, cobertura y fuentes; % estrés Alto por bloque y por dataset |
+| **Inicio** (menú principal) | Qué analiza el informe; los 6 KPIs del DWH en tarjetas (última ejecución); un recuadro por bloque con su icono, sus fuentes y su página principal; nota de lectura con las advertencias |
+| **1 Panorama** | Segmentadores (bloque, género, rango de edad, nivel educativo); tarjetas de registros, % estrés Alto, % global, cobertura y fuentes; % estrés Alto por bloque (jerarquía bloque → dataset con las flechas del gráfico) y por dataset. Las dos gráficas llevan el tooltip de página del dataset, y la de datasets permite clic derecho → Obtener detalles |
 | **2 Demografía** | Mismos segmentadores; % estrés Alto por género, edad y estudios (sin «No reportado»); matriz Género × Edad con % Alto y registros; nota de lectura |
 | **3 Lenguaje (Dreaddit)** | Ratio LIWC, sentimiento y posts; vocabulario de ansiedad con y sin estrés por subreddit; tabla por subreddit. Sin filtros demográficos: Dreaddit no tiene género ni edad |
 | **4 Validación psicológica** | Brecha de ansiedad M − H, % estrés severo DASS, % búsqueda de tratamiento y KPI 3; tratamiento por nivel de estrés × antecedentes familiares; estrés severo DASS por estudios × género; advertencia sobre Depression Student |
 | **5 Modelos predictivos** | AUC medio sin alertas y datasets con alerta; AUC del mejor modelo por dataset; tabla del mejor modelo (protocolo, n, AUC, F1, accuracy) |
 | **6 KPIs** | Histórico de los 6 KPIs por ejecución (matriz; las 3 ejecuciones del 22/10/2026 dan los mismos valores: cálculo reproducible); catálogo con unidad y definición; distribución Bajo / Moderado / Alto por dataset (barras al 100 %) |
+| **7 Explorar** | Segmentadores sincronizados; árbol de descomposición del % de estrés Alto (Bloque, Dataset, Género, Rango de edad y Nivel educativo, con «Valor alto / bajo»); influenciadores clave del nivel de estrés (elegir «Alto»). Ruta de ejemplo: Validación psicológica → Femenino → 18-25 → Nivel educativo |
+| *Detalle del dataset* (oculta) | Destino de Obtener detalles sobre `vw_dim_dataset[dataset]`: ficha, registros, % Alto y % Moderado, cobertura, distribución por nivel (anillo), % Alto por género, edad y estudios y mejor modelo del dataset; botón Volver |
+| *Tooltip del dataset* (oculta, 320 × 240) | Al pasar el ratón por las barras de Panorama: registros, % estrés Alto y distribución por nivel del dataset o bloque |
 
 Valores de control sin filtros (calculados también en SQL):
 

@@ -34,8 +34,9 @@ Comprobaciones hechas antes de dar por bueno el informe ([`powerbi/`](../powerbi
 | Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 15 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
 | Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 15 tablas |
 | Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 32 medidas, sin conflictos de nombres ni referencias DAX rotas |
-| Campos usados por los 59 objetos visuales de las 7 páginas | Todos existen en el modelo |
-| Posición de los objetos visuales | Todos caben en 1280 × 720 y no se solapan (salvo el menú sobre la banda superior) |
+| Campos usados por los objetos visuales de las 10 páginas (informe local y de Supabase) | Todos existen en el modelo, incluida la columna calculada `vw_hechos_estres[nivel_estres]` |
+| Posición de los objetos visuales | Todos caben en su página (1280 × 720; Explorar 1280 × 1000; tooltip 320 × 240) |
+| Revisión en Power BI Desktop | Validado: menú sin páginas ocultas, logos, tooltip de página, *Obtener detalles* con botón Volver, filtros sincronizados, árbol de descomposición e influenciadores clave |
 | KPIs de la página Inicio frente a `dwh_kpi_resultados` | Coinciden con la última ejecución; las 3 ejecuciones guardadas dan los mismos valores |
 
 Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
@@ -62,6 +63,8 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Correcciones de texto | Bloques, KPIs y modelos con tildes; antecedentes familiares «No / Sí» |
 | Informe de Power BI conectado a Supabase | Mismos valores de control que el informe local |
 | Prototipo web construido desde Supabase | Mismas cifras que el informe (319.318 registros, 33,7 % de estrés Alto) |
+| Influenciadores clave del prototipo frente a Power BI | Mismo orden de factores (No reportado, Percepción emocional, Otro, <18, Hábitos digitales); valores algo menores porque Power BI aplica su propio modelo |
+| Ruta de ejemplo del árbol (prototipo frente al PDF entregado) | Mismas cifras en cada nivel: 34,1 % → 39,0 % → 37,6 % → 40,4 / 35,8 / 35,2 / 35,0 % |
 
 ## Detalle de las 49 reglas
 
