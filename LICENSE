@@ -21,23 +21,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Scope / Alcance
-
-The MIT License above applies to the source code: notebooks, Python and
-JavaScript scripts, SQL, the Power BI project files and the web prototype.
-
-Documentation, reports, figures and the insights document (docs/,
-investigacion/, figuras/, resultados/, tests/ and the Markdown files) are
-licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
-https://creativecommons.org/licenses/by/4.0/
-
-Not covered by this license:
-- The source datasets, which are not included in this repository and keep
-  the licenses of their original publishers (see "Fuentes de datos" in
-  README.md).
-- The UNIE and INESDI logos (recursos/logos/ and the images derived from
-  them), which are trademarks of their owners and are used only to identify
-  the academic programme.
