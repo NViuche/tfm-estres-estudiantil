@@ -130,8 +130,9 @@ La base de datos también está en Supabase (PostgreSQL), en el esquema `tfm`. L
 | Correcciones | `sql/03_correcciones_datos.sql` | Pone las tildes en bloques, KPIs, modelos y descripciones, y cambia «Yes» por «Sí» en los antecedentes familiares. Solo en Supabase: MySQL queda igual |
 | Migración | `scripts/migrar_mysql_a_supabase.py` | Ejecuta los tres SQL, copia los datos desde MySQL, crea el usuario de solo lectura `tfm_lector` y valida contra MySQL (17/17 tablas y 7/7 cifras de control) |
 | Power BI | `scripts/preparar_powerbi_supabase.py` | Genera `supabase/powerbi/` a partir del Power BI local: `Fuente = "Supabase"`, conector PostgreSQL y la medida de antecedentes con «Sí» |
+| Lectura pública | `sql/04_api_lectura_publica.sql` y `scripts/publicar_api_lectura.py` | Publica por la API REST tres vistas de datos agregados (`tfm_datasets`, `tfm_kpis` y `tfm_modelos`), con solo permiso de lectura para la clave pública. El prototipo web (v9) las enlaza como «datos en vivo» |
 
-Credenciales: en `supabase/.env` (no se versiona; plantilla en `.env.ejemplo`). El esquema `tfm` no está expuesto en la API REST de Supabase.
+Credenciales: en `supabase/.env` (no se versiona; plantilla en `.env.ejemplo`). El esquema `tfm` no está expuesto en la API REST de Supabase: solo se publican las tres vistas de lectura pública del esquema `public`, y cualquier escritura por la API da error.
 
 Para abrir el informe de Supabase:
 1. Abre `supabase/powerbi/TFM_Estres.pbip` y pulsa *Actualizar*.
