@@ -75,10 +75,10 @@ Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2
 |---|---|
 | Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 18 tablas, 18 relaciones, 32 medidas y la columna calculada `nivel_estres` |
 | Campos y posición de los objetos visuales en los dos informes | Todos existen en el modelo y caben en su página |
-| Scripts de Python (21) y ficheros JSON del informe (219) | Compilan y se leen sin errores |
+| Scripts de Python (24) y ficheros JSON del informe (219) | Compilan y se leen sin errores |
 | Prototipo final (`prototipo/v9`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien |
 | Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
-| Enlaces relativos entre los documentos Markdown | 117 enlaces, ninguno roto |
+| Enlaces relativos entre los documentos Markdown | 118 enlaces, ninguno roto |
 | Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |
 | Ficheros que no deben subirse (CSV, `.env`, `.pbix`, caché de Power BI) y credenciales | Ninguno en el repositorio; los scripts leen las credenciales del `.env` local y los parámetros de conexión llevan valores de ejemplo |
 
