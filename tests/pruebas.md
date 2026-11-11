@@ -66,6 +66,21 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Influenciadores clave del prototipo frente a Power BI | Mismo orden de factores (No reportado, Percepción emocional, Otro, <18, Hábitos digitales); valores algo menores porque Power BI aplica su propio modelo |
 | Ruta de ejemplo del árbol (prototipo frente al PDF entregado) | Mismas cifras en cada nivel: 34,1 % → 39,0 % → 37,6 % → 40,4 / 35,8 / 35,2 / 35,0 % |
 
+## 5. Revisión general del repositorio
+
+Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2026):
+
+| Comprobación | Resultado |
+|---|---|
+| Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 18 tablas, 18 relaciones, 32 medidas y la columna calculada `nivel_estres` |
+| Campos y posición de los objetos visuales en los dos informes | Todos existen en el modelo y caben en su página |
+| Scripts de Python (21) y ficheros JSON del informe (219) | Compilan y se leen sin errores |
+| Prototipo final (`prototipo/v8`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien |
+| Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
+| Enlaces relativos entre los documentos Markdown | 117 enlaces, ninguno roto |
+| Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |
+| Ficheros que no deben subirse (CSV, `.env`, `.pbix`, caché de Power BI) y credenciales | Ninguno en el repositorio; los scripts leen las credenciales del `.env` local y los parámetros de conexión llevan valores de ejemplo |
+
 ## Detalle de las 49 reglas
 
 | Dataset | Regla | Evaluados | Incumplen | % incumplen | Estado | Accion |
