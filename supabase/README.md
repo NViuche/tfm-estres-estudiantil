@@ -4,8 +4,8 @@ Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema
 
 | Carpeta | Contenido |
 |---|---|
-| `sql/` | `01_esquema.sql` (tablas en PostgreSQL), `02_vistas.sql` (vistas `vw_*`), `03_correcciones_datos.sql` (tildes y «Yes» → «Sí», solo en Supabase) |
-| `scripts/` | `migrar_mysql_a_supabase.py` (migración y validación), `probar_lector.py` (prueba del usuario de solo lectura), `preparar_powerbi_supabase.py` (genera `powerbi/`) |
+| `sql/` | `01_esquema.sql` (tablas en PostgreSQL), `02_vistas.sql` (vistas `vw_*`), `03_correcciones_datos.sql` (tildes y «Yes» → «Sí», solo en Supabase), `04_api_lectura_publica.sql` (vistas de lectura pública para la API) |
+| `scripts/` | `migrar_mysql_a_supabase.py` (migración y validación), `probar_lector.py` (prueba del usuario de solo lectura), `preparar_powerbi_supabase.py` (genera `powerbi/`), `publicar_api_lectura.py` (publica y prueba las vistas de lectura pública) |
 | `powerbi/` | El informe de Power BI conectado a Supabase con el conector PostgreSQL. El fichero de entrega `TFM_Estres_supabase.pbix` se guarda en `powerbi/Entrega/` (no se versiona: lleva los datos dentro) |
 
 ## Uso
@@ -15,5 +15,20 @@ Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema
 3. `python scripts/preparar_powerbi_supabase.py` (con Power BI cerrado) y abre `powerbi/TFM_Estres.pbip` con el usuario `tfm_lector.<ref del proyecto>`.
 
 Validación de la migración (05/11/2026): 17 de 17 tablas con las mismas filas que MySQL y 7 de 7 cifras de control iguales (319.318 registros, 33,68 % de estrés Alto, 17,0 % de cobertura, 49,41 % de tratamiento, 3.549 posts, AUC 0,786 y 2 datasets con alerta).
+
+## Datos en vivo (lectura pública)
+
+Para consultar los datos en la nube sin cuenta de Supabase, tres vistas del esquema `public` se publican por la API REST con la clave pública (`anon`). Solo tienen datos agregados, sin registros individuales:
+
+| Vista | Contenido |
+|---|---|
+| `tfm_datasets` | Catálogo de los 12 datasets: bloque, calidad, uso en el modelado y filas |
+| `tfm_kpis` | Los 6 KPIs del DWH con el valor de la última ejecución |
+| `tfm_modelos` | El mejor modelo de cada dataset con su accuracy, F1 y AUC |
+
+- Se consultan con `https://<ref>.supabase.co/rest/v1/tfm_datasets?select=*&apikey=<clave anon>` y devuelven JSON. El prototipo web las enlaza desde la pestaña «Arquitectura» (desde la v9).
+- El esquema `tfm` no se expone en la API.
+- El rol anónimo solo tiene permiso SELECT sobre estas tres vistas, así que cualquier escritura devuelve un error de permisos.
+- Para crearlas o probarlas: `python scripts/publicar_api_lectura.py`, que necesita `SUPABASE_URL` y `SUPABASE_ANON_KEY` en el `.env`.
 
 Detalles en la [guía de Power BI](../docs/entrega3_objetivo3/guia_power_bi.md#9-versión-en-la-nube-supabase).

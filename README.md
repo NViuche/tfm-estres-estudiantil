@@ -41,7 +41,7 @@ tfm-estres-estudiantil/
 | `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (15 tablas, 16 relaciones, 32 medidas) (más la columna calculada `nivel_estres`) y 8 páginas en el menú: inicio (menú principal), panorama, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos, KPIs y **Explorar** (árbol de descomposición e influenciadores clave). Dos páginas ocultas: la ficha de cada dataset (*Obtener detalles*) y el tooltip del dataset. Tema de colores «Bienestar» e imágenes en `powerbi/imagenes/` (iconos, fondo y logos) |
 | `scripts/` | `exportar_mysql_cli.py` (MySQL → 15 CSV para Power BI), `generar_imagenes.py` (iconos de los bloques, fondo de Inicio y logos en blanco) y `generar_paginas_pbir.py` (reconstruye las páginas, registra las imágenes y ajusta el modelo) |
 | `supabase/` | [Base de datos en Supabase](supabase/README.md): esquema PostgreSQL `tfm` (dimensiones, DWH y hechos de la capa estrella), migración validada contra MySQL, correcciones de texto y el informe de Power BI conectado con un usuario de solo lectura |
-| `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v7/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos) y `v8/`, la final |
+| `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v8/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos) y `v9/`, la final, con enlaces a los datos en vivo de Supabase |
 | `docs/entrega3_objetivo3/` | [Guía del informe de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) (datos, modelo, medidas, páginas y valores de control), el informe exportado a PDF y el [documento de insights](docs/entrega3_objetivo3/insights/README.md) en Word (entregable de la Entrega 3) |
 
 ## Informe de Power BI
@@ -102,7 +102,7 @@ Requisitos: Python 3 con Jupyter, y MySQL (probado con XAMPP; base de datos `tfm
 8. Datos para Power BI: `python scripts/exportar_mysql_cli.py`. Escribe 15 CSV en `powerbi_csv/`, que no se versiona.
 9. Informe: abre `powerbi/TFM_Estres.pbip` en Power BI Desktop. En *Transformar datos → Parámetros*, pon en `RutaCSV` la ruta absoluta de tu carpeta `powerbi_csv/` y pulsa *Actualizar*. Detalles en [la guía](docs/entrega3_objetivo3/guia_power_bi.md).
 10. Nube (opcional): copia `supabase/.env.ejemplo` como `supabase/.env` con las credenciales de tu proyecto de Supabase y ejecuta `python supabase/scripts/migrar_mysql_a_supabase.py`; después `python supabase/scripts/preparar_powerbi_supabase.py` y abre `supabase/powerbi/TFM_Estres.pbip`. Ver [supabase/README.md](supabase/README.md).
-11. Prototipo web (versión final): `python prototipo/v8/construir_prototipo.py` (lee de Supabase; `--fuente csv` para los CSV locales) y abre `prototipo/v8/prototipo_estres.html`.
+11. Prototipo web (versión final): `python prototipo/v9/construir_prototipo.py` (lee de Supabase; `--fuente csv` para los CSV locales) y abre `prototipo/v9/prototipo_estres.html`. Para los enlaces a los datos en vivo: `python supabase/scripts/publicar_api_lectura.py` con `SUPABASE_URL` y `SUPABASE_ANON_KEY` en `supabase/.env`.
 
 Para regenerar el informe: `python scripts/generar_imagenes.py` y `python scripts/generar_paginas_pbir.py` (con Power BI cerrado); después `python supabase/scripts/preparar_powerbi_supabase.py` para la copia de Supabase.
 
@@ -124,13 +124,14 @@ Los notebooks y scripts SQL que pasaron por varias versiones se guardan con un �
 | `entrega3/prototipo-versiones` | `prototipo/` | v1 recuperada (sin la pestaña de arquitectura) y v2 como versión final |
 | `entrega3/pbix-entrega` | `.gitignore`, guía, `supabase/` | ficheros `.pbix` de entrega fuera del repositorio |
 | `entrega3/mejoras-insights` | `powerbi/`, `scripts/`, `prototipo/`, `docs/entrega3_objetivo3/` | imágenes, Explorar, obtener detalles, tooltip y filtros sincronizados → prototipo v3–v8 → documento de insights |
+| `entrega3/prototipo-v9-supabase` | `prototipo/`, `supabase/` | vistas de lectura pública en Supabase → prototipo v9 con enlaces a los datos en vivo |
 
 Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `git show <commit>:notebooks/<archivo>`, o desde la pestaña *History* del archivo en GitHub.
 
 ## Estado
 
 - **Entrega 1 (EDA, calidad, modelo de datos) y Entrega 2 (ingesta, ETL, KPIs, modelado):** completadas. Se cargaron 334.318 filas; 319.318 pertenecen a las 9 fuentes incluidas en el modelado.
-- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (8 páginas, cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (7 insights); base de datos migrada a Supabase y validada (17/17 tablas, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v8). Siguiente fase: memoria y defensa.
+- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (8 páginas, cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (7 insights); base de datos migrada a Supabase y validada (17/17 tablas, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v9, con enlaces a los datos en vivo de Supabase). Siguiente fase: memoria y defensa.
 
 ## Licencia
 

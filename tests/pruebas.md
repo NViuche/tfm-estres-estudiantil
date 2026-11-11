@@ -65,6 +65,7 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Prototipo web construido desde Supabase | Mismas cifras que el informe (319.318 registros, 33,7 % de estrés Alto) |
 | Influenciadores clave del prototipo frente a Power BI | Mismo orden de factores (No reportado, Percepción emocional, Otro, <18, Hábitos digitales); valores algo menores porque Power BI aplica su propio modelo |
 | Ruta de ejemplo del árbol (prototipo frente al PDF entregado) | Mismas cifras en cada nivel: 34,1 % → 39,0 % → 37,6 % → 40,4 / 35,8 / 35,2 / 35,0 % |
+| API de lectura pública (`publicar_api_lectura.py`, 11/11/2026) | `tfm_datasets`, `tfm_kpis` y `tfm_modelos` responden con 12, 6 y 8 filas; crear, modificar o borrar por la API da error; la clave pública no accede al esquema `tfm` ni a sus tablas |
 
 ## 5. Revisión general del repositorio
 
@@ -75,7 +76,7 @@ Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2
 | Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 18 tablas, 18 relaciones, 32 medidas y la columna calculada `nivel_estres` |
 | Campos y posición de los objetos visuales en los dos informes | Todos existen en el modelo y caben en su página |
 | Scripts de Python (21) y ficheros JSON del informe (219) | Compilan y se leen sin errores |
-| Prototipo final (`prototipo/v8`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien |
+| Prototipo final (`prototipo/v9`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien |
 | Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
 | Enlaces relativos entre los documentos Markdown | 117 enlaces, ninguno roto |
 | Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |
