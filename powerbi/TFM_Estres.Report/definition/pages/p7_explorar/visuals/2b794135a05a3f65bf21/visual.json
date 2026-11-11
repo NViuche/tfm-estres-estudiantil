@@ -113,21 +113,6 @@
         }
       }
     },
-    "objects": {
-      "tree": [
-        {
-          "properties": {
-            "effectiveBarsPerLevel": {
-              "expr": {
-                "Literal": {
-                  "Value": "4L"
-                }
-              }
-            }
-          }
-        }
-      ]
-    },
     "visualContainerObjects": {
       "title": [
         {

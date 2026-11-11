@@ -6,7 +6,7 @@
     "y": 248,
     "z": 20,
     "height": 220,
-    "width": 408,
+    "width": 408.0,
     "tabOrder": 20
   },
   "visual": {
@@ -28,7 +28,6 @@
               },
               "queryRef": "vw_dim_nivel_estres.nivel",
               "nativeQueryRef": "nivel",
-              "active": true,
               "displayName": "Nivel de estrés"
             }
           ]

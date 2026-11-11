@@ -13,6 +13,25 @@
     "visualType": "keyDriversVisual",
     "query": {
       "queryState": {
+        "Target": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "nivel_estres"
+                }
+              },
+              "queryRef": "vw_hechos_estres.nivel_estres",
+              "nativeQueryRef": "nivel_estres",
+              "displayName": "Nivel de estrés"
+            }
+          ]
+        },
         "ExplainBy": {
           "projections": [
             {
@@ -76,42 +95,8 @@
               "displayName": "Bloque"
             }
           ]
-        },
-        "Target": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "vw_hechos_estres"
-                    }
-                  },
-                  "Property": "nivel_estres"
-                }
-              },
-              "queryRef": "vw_hechos_estres.nivel_estres",
-              "nativeQueryRef": "nivel_estres",
-              "displayName": "Nivel de estrés"
-            }
-          ]
         }
       }
-    },
-    "objects": {
-      "keyDrivers": [
-        {
-          "properties": {
-            "targetValue": {
-              "expr": {
-                "Literal": {
-                  "Value": "'''Alto'''"
-                }
-              }
-            }
-          }
-        }
-      ]
     },
     "visualContainerObjects": {
       "title": [

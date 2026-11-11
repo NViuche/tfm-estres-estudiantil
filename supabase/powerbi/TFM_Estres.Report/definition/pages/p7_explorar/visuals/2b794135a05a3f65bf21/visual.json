@@ -47,22 +47,8 @@
               },
               "queryRef": "vw_dim_dataset.bloque",
               "nativeQueryRef": "bloque",
+              "active": true,
               "displayName": "Bloque"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "vw_dim_dataset"
-                    }
-                  },
-                  "Property": "dataset"
-                }
-              },
-              "queryRef": "vw_dim_dataset.dataset",
-              "nativeQueryRef": "dataset",
-              "displayName": "Dataset"
             },
             {
               "field": {
@@ -77,6 +63,7 @@
               },
               "queryRef": "vw_dim_genero.nombre",
               "nativeQueryRef": "nombre",
+              "active": true,
               "displayName": "Género"
             },
             {
@@ -92,6 +79,7 @@
               },
               "queryRef": "vw_dim_rango_edad.rango",
               "nativeQueryRef": "rango",
+              "active": true,
               "displayName": "Rango de edad"
             },
             {
@@ -107,12 +95,146 @@
               },
               "queryRef": "vw_dim_nivel_educativo.nivel",
               "nativeQueryRef": "nivel",
+              "active": true,
               "displayName": "Nivel educativo"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "dataset"
+                }
+              },
+              "queryRef": "vw_dim_dataset.dataset",
+              "nativeQueryRef": "dataset",
+              "active": false,
+              "displayName": "Dataset"
             }
           ]
         }
       }
     },
+    "expansionStates": [
+      {
+        "roles": [
+          "ExplainBy"
+        ],
+        "levels": [
+          {
+            "queryRefs": [
+              "vw_dim_dataset.bloque"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "bloque"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "vw_dim_genero.nombre"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_genero"
+                    }
+                  },
+                  "Property": "nombre"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "vw_dim_rango_edad.rango"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_rango_edad"
+                    }
+                  },
+                  "Property": "rango"
+                }
+              }
+            ],
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "vw_dim_nivel_educativo.nivel"
+            ],
+            "isCollapsed": true,
+            "isPinned": true
+          },
+          {
+            "queryRefs": [
+              "vw_dim_dataset.dataset"
+            ],
+            "isCollapsed": true
+          }
+        ],
+        "root": {
+          "children": [
+            {
+              "identityValues": [
+                {
+                  "Literal": {
+                    "Value": "'Validación psicológica'"
+                  }
+                }
+              ],
+              "isToggled": true,
+              "children": [
+                {
+                  "identityValues": [
+                    {
+                      "Literal": {
+                        "Value": "'Femenino'"
+                      }
+                    }
+                  ],
+                  "isToggled": true,
+                  "children": [
+                    {
+                      "identityValues": [
+                        {
+                          "Literal": {
+                            "Value": "'18-25'"
+                          }
+                        }
+                      ],
+                      "isToggled": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
     "objects": {
       "tree": [
         {

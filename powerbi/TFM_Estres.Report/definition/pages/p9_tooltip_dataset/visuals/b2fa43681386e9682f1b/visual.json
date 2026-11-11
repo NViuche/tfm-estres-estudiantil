@@ -28,7 +28,6 @@
               },
               "queryRef": "vw_dim_nivel_estres.nivel",
               "nativeQueryRef": "nivel",
-              "active": true,
               "displayName": "Nivel"
             }
           ]

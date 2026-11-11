@@ -1,4 +1,4 @@
-"""Exporta las 15 tablas/vistas del modelo Power BI a CSV usando el cliente mysql.exe de XAMPP.
+"""Exporta las 17 tablas/vistas del modelo Power BI a CSV usando el cliente mysql.exe de XAMPP.
 
 Uso (con MySQL encendido en XAMPP):
     python exportar_mysql_cli.py                 # escribe en ..\\powerbi_csv
@@ -23,7 +23,7 @@ OBJETOS = [
     "vw_dim_nivel_educativo", "vw_dim_nivel_estres", "dim_bloque", "dim_subreddit",
     "dwh_agg_prevalencia", "dwh_nlp_senales", "dwh_dass_severidad",
     "dwh_brecha_tratamiento", "dwh_kpi_catalogo", "dwh_kpi_resultados",
-    "vw_modelo_resultados",
+    "vw_modelo_resultados", "dwh_calidad_reglas", "dwh_calidad_controles",
 ]
 ESCAPES = {"n": "\n", "t": "\t", "\\": "\\", "0": "\0", "r": "\r"}
 

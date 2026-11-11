@@ -1,0 +1,240 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "4882382ba3d210dccdbb",
+  "position": {
+    "x": 16,
+    "y": 958,
+    "z": 41,
+    "height": 480,
+    "width": 1248,
+    "tabOrder": 41
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "fase"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.fase",
+              "nativeQueryRef": "fase",
+              "displayName": "Fase"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "control"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.control",
+              "nativeQueryRef": "control",
+              "displayName": "Control"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "resultado"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.resultado",
+              "nativeQueryRef": "resultado",
+              "displayName": "Resultado"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "estado"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.estado",
+              "nativeQueryRef": "estado",
+              "displayName": "Estado"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "origen"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.origen",
+              "nativeQueryRef": "origen",
+              "displayName": "Origen"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.fase"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "90D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.control"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "220D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.resultado"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "600D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.estado"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "70D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.origen"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "200D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Registro de controles de validación: carga, ETL, migración, seguridad e informe'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

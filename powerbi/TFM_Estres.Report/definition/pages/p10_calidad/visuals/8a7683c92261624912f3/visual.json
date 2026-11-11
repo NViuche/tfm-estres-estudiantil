@@ -1,0 +1,164 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "8a7683c92261624912f3",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 100,
+    "width": 1248,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_reglas"
+                    }
+                  },
+                  "Property": "Reglas"
+                }
+              },
+              "queryRef": "dwh_calidad_reglas.Reglas",
+              "nativeQueryRef": "Reglas",
+              "displayName": "Reglas evaluadas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_reglas"
+                    }
+                  },
+                  "Property": "% reglas superadas"
+                }
+              },
+              "queryRef": "dwh_calidad_reglas.% reglas superadas",
+              "nativeQueryRef": "% reglas superadas",
+              "displayName": "% reglas superadas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_reglas"
+                    }
+                  },
+                  "Property": "Reglas con aviso"
+                }
+              },
+              "queryRef": "dwh_calidad_reglas.Reglas con aviso",
+              "nativeQueryRef": "Reglas con aviso",
+              "displayName": "Reglas con aviso"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_reglas"
+                    }
+                  },
+                  "Property": "Reglas con error"
+                }
+              },
+              "queryRef": "dwh_calidad_reglas.Reglas con error",
+              "nativeQueryRef": "Reglas con error",
+              "displayName": "Reglas con error"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "Controles superados"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.Controles superados",
+              "nativeQueryRef": "Controles superados",
+              "displayName": "Controles superados"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_calidad_controles"
+                    }
+                  },
+                  "Property": "Controles con aviso"
+                }
+              },
+              "queryRef": "dwh_calidad_controles.Controles con aviso",
+              "nativeQueryRef": "Controles con aviso",
+              "displayName": "Controles con aviso"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_reglas.Reglas con aviso"
+          },
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9A227'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "dwh_calidad_controles.Controles con aviso"
+          },
+          "properties": {
+            "fontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Literal": {
+                      "Value": "'#C9A227'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

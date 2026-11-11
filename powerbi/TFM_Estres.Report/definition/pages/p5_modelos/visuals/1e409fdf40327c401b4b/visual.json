@@ -28,7 +28,6 @@
               },
               "queryRef": "vw_modelo_resultados.dataset",
               "nativeQueryRef": "dataset",
-              "active": true,
               "displayName": "Dataset"
             }
           ]

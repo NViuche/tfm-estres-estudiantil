@@ -1,0 +1,256 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "82ca2c5ac4ce976c5b9f",
+  "position": {
+    "x": 452,
+    "y": 184,
+    "z": 31,
+    "height": 350,
+    "width": 812,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "dataset"
+                }
+              },
+              "queryRef": "vw_dim_dataset.dataset",
+              "nativeQueryRef": "dataset",
+              "displayName": "Dataset"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Registros (12 fuentes)"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Registros (12 fuentes)",
+              "nativeQueryRef": "Registros (12 fuentes)",
+              "displayName": "Registros"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% género informado"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% género informado",
+              "nativeQueryRef": "% género informado",
+              "displayName": "Género"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% edad informada"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% edad informada",
+              "nativeQueryRef": "% edad informada",
+              "displayName": "Edad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% nivel educativo informado"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% nivel educativo informado",
+              "nativeQueryRef": "% nivel educativo informado",
+              "displayName": "Nivel educativo"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "% nivel de estrés asignado"
+                }
+              },
+              "queryRef": "vw_hechos_estres.% nivel de estrés asignado",
+              "nativeQueryRef": "% nivel de estrés asignado",
+              "displayName": "Nivel de estrés"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "selector": {
+            "metadata": "vw_dim_dataset.dataset"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "250D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_hechos_estres.Registros (12 fuentes)"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "90D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_hechos_estres.% género informado"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_hechos_estres.% edad informada"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "95D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_hechos_estres.% nivel educativo informado"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "115D"
+                }
+              }
+            }
+          }
+        },
+        {
+          "selector": {
+            "metadata": "vw_hechos_estres.% nivel de estrés asignado"
+          },
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "115D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Completitud por dataset (% de registros con el campo informado)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

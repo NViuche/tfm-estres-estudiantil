@@ -329,6 +329,25 @@ H, DS, G, E, ED, NE = ("vw_hechos_estres", "vw_dim_dataset", "vw_dim_genero",
                        "vw_dim_rango_edad", "vw_dim_nivel_educativo", "vw_dim_nivel_estres")
 NLP, SUB, DASS, TRAT = "dwh_nlp_senales", "dim_subreddit", "dwh_dass_severidad", "dwh_brecha_tratamiento"
 KPI, KPIC, MOD = "dwh_kpi_resultados", "dwh_kpi_catalogo", "vw_modelo_resultados"
+CR, CC = "dwh_calidad_reglas", "dwh_calidad_controles"   # calidad del dato (cargar_calidad_dato.py)
+COLORES_ESTADO = {"OK": "#2A9D8F", "AVISO": "#E9C46A", "ERROR": "#E76F51"}
+
+
+def barras_apiladas(categoria, nombre_cat, medida, serie, colores_serie):
+    """Barras horizontales apiladas (recuento) con un color fijo por valor de la serie."""
+    col_serie = serie[0]["Column"]
+    puntos = [{"properties": {"fill": color(hex_)},
+               "selector": {"data": [{"scopeId": {"Comparison": {
+                   "ComparisonKind": 0, "Left": {"Column": col_serie},
+                   "Right": {"Literal": {"Value": f"'{valor}'"}}}}}]}}
+              for valor, hex_ in colores_serie.items()]
+    return {"visualType": "barChart",
+            "query": {"queryState": {"Category": {"projections": [proy(categoria, nombre_cat)]},
+                                     "Series": {"projections": [proy(*serie)]},
+                                     "Y": {"projections": [proy(*medida)]}},
+                      "sortDefinition": {"sort": [{"field": medida[0], "direction": "Descending"}]}},
+            "objects": {"labels": [{"properties": {"show": lit("true")}}], "dataPoint": puntos,
+                        "legend": [{"properties": {"show": lit("true"), "position": txt("Top")}}]}}
 
 
 BANDA = "#2A7F7F"  # teal del tema «Bienestar» (TFM_Estres_tema_bienestar.json)
@@ -336,7 +355,7 @@ BANDA = "#2A7F7F"  # teal del tema «Bienestar» (TFM_Estres_tema_bienestar.json
 
 def cabecera(pid, titulo, subtitulo):
     # La caja del título ocupa todo el ancho como banda de color (68 px: título 16 pt + subtítulo 9 pt
-    # sin barra de desplazamiento); el navegador va encima, a la derecha: 8 botones de 105 px, así que los
+    # sin barra de desplazamiento); el navegador va encima, a la derecha: 9 botones de ~94 px, así que los
     # títulos de la banda deben caber en ~400 px (16 pt) y los subtítulos en ~400 px (9 pt)
     x_nav = 420
     return [
@@ -449,7 +468,9 @@ def pagina6():
 
 
 EXPLORAR, DETALLE, TOOLTIP = "p7_explorar", "p8_detalle_dataset", "p9_tooltip_dataset"
+CALIDAD = "p10_calidad"
 ALTO_EXPLORAR = 1000
+ALTO_CALIDAD = 1450
 FILTRO_DETALLE = "filtro_detalle_dataset"
 NIVELES = incluir(NE, "nivel", ["Bajo", "Moderado", "Alto"])
 INCLUIDOS = incluir(DS, "uso_modelado", ["incluido"])
@@ -523,6 +544,50 @@ def pagina9():
          contenedor(_id(p, "anillo"), 6, 84, 308, 150, 2,
                     anillo(col(NE, "nivel"), "Nivel", (med(H, "Registros"), "Registros")), filtros=[NIVELES],
                     titulo="Nivel de estrés")]
+    return v
+
+
+def pagina10():
+    """Calidad del dato: reglas del notebook 05, completitud por dataset y registro de controles (gobierno del dato).
+    Página alta (1450 px, «Ajustar al ancho»): las tablas se ven completas, sin barra de desplazamiento propia."""
+    p = "p10"
+    v = cabecera(p, "Calidad del dato", "49 reglas de calidad y 17 controles de validación")
+    v.append(contenedor(_id(p, "kpis"), M, 72, ANCHO - 2 * M, 100, 20, tarjetas([
+        (med(CR, "Reglas"), "Reglas evaluadas"), (med(CR, "% reglas superadas"), "% reglas superadas"),
+        (med(CR, "Reglas con aviso"), "Reglas con aviso"), (med(CR, "Reglas con error"), "Reglas con error"),
+        (med(CC, "Controles superados"), "Controles superados"), (med(CC, "Controles con aviso"), "Controles con aviso")],
+        colores=[(med(CR, "Reglas con aviso"), "#C9A227"), (med(CC, "Controles con aviso"), "#C9A227")])))
+    w_dim = 420
+    v.append(contenedor(_id(p, "dimension"), M, 184, w_dim, 350, 30,
+                        barras_apiladas(col(CR, "dimension"), "Dimensión", (med(CR, "Reglas"), "Reglas"),
+                                        (col(CR, "estado"), "Estado"), COLORES_ESTADO),
+                        titulo="Reglas por dimensión de calidad"))
+    v.append(contenedor(_id(p, "completitud"), M + w_dim + 16, 184, ANCHO - 2 * M - w_dim - 16, 350, 31,
+                        tabla([(col(DS, "dataset"), "Dataset"), (med(H, "Registros (12 fuentes)"), "Registros"),
+                               (med(H, "% género informado"), "Género"), (med(H, "% edad informada"), "Edad"),
+                               (med(H, "% nivel educativo informado"), "Nivel educativo"),
+                               (med(H, "% nivel de estrés asignado"), "Nivel de estrés")], totales=True,
+                              anchos=[(col(DS, "dataset"), 250), (med(H, "Registros (12 fuentes)"), 90),
+                                      (med(H, "% género informado"), 95), (med(H, "% edad informada"), 95),
+                                      (med(H, "% nivel educativo informado"), 115),
+                                      (med(H, "% nivel de estrés asignado"), 115)]),
+                        titulo="Completitud por dataset (% de registros con el campo informado)"))
+    v.append(contenedor(_id(p, "avisos"), M, 546, ANCHO - 2 * M, 400, 40,
+                        tabla([(col(DS, "dataset"), "Dataset"), (col(CR, "regla"), "Regla"),
+                               (col(CR, "dimension"), "Dimensión"), (col(CR, "incumplen"), "Incumplen"),
+                               (col(CR, "pct_incumplen"), "% incumplen"), (col(CR, "accion"), "Tratamiento")],
+                              anchos=[(col(DS, "dataset"), 190), (col(CR, "regla"), 360), (col(CR, "dimension"), 100),
+                                      (col(CR, "incumplen"), 80), (col(CR, "pct_incumplen"), 85),
+                                      (col(CR, "accion"), 400)]),
+                        filtros=[incluir(CR, "estado", ["AVISO", "ERROR"])],
+                        titulo="Reglas con aviso y su tratamiento (ninguna bloquea la carga)"))
+    v.append(contenedor(_id(p, "controles"), M, 958, ANCHO - 2 * M, 480, 41,
+                        tabla([(col(CC, "fase"), "Fase"), (col(CC, "control"), "Control"),
+                               (col(CC, "resultado"), "Resultado"), (col(CC, "estado"), "Estado"),
+                               (col(CC, "origen"), "Origen")],
+                              anchos=[(col(CC, "fase"), 90), (col(CC, "control"), 220), (col(CC, "resultado"), 600),
+                                      (col(CC, "estado"), 70), (col(CC, "origen"), 200)]),
+                        titulo="Registro de controles de validación: carga, ETL, migración, seguridad e informe"))
     return v
 
 
@@ -715,6 +780,110 @@ def ajustar_modelo():
         i = t.index("\tpartition ")
         t = t[:i] + columna + t[i:]
         open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    modelo_calidad()
+
+
+# ---------------------------------------------------------------- modelo: calidad del dato
+def _tag(*partes):
+    """lineageTag estable (el mismo en cada ejecución) a partir del nombre del objeto."""
+    import uuid
+    return str(uuid.uuid5(uuid.NAMESPACE_URL, "tfm-estres/" + "/".join(partes)))
+
+
+def _tabla_tmdl(nombre, columnas, medidas):
+    """columnas: [(nombre, "texto"|"numero", formato|None, oculta)]; medidas: [(nombre, DAX, formato)]."""
+    def ident(n):
+        return n if re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", n) else "'" + n + "'"
+    t = [f"table {nombre}", f"\tlineageTag: {_tag(nombre)}", ""]
+    for m, dax, fmt in medidas:
+        t += [f"\tmeasure {ident(m)} = {dax}", f"\t\tformatString: {fmt}", "\t\tdisplayFolder: Calidad del dato",
+              f"\t\tlineageTag: {_tag(nombre, 'medida', m)}", ""]
+    for c, tipo, fmt, oculta in columnas:
+        t += [f"\tcolumn {c}", f"\t\tdataType: {'string' if tipo == 'texto' else 'double'}"]
+        if fmt:
+            t.append(f"\t\tformatString: {fmt}")
+        if oculta:
+            t.append("\t\tisHidden")
+        t += [f"\t\tlineageTag: {_tag(nombre, c)}", "\t\tsummarizeBy: none", f"\t\tsourceColumn: {c}", ""]
+        if tipo != "texto" and not fmt:
+            t += ['\t\tannotation PBI_FormatHint = {"isGeneralNumber":true}', ""]
+    t += [f"\tpartition {nombre} = m", "\t\tmode: import", "\t\tsource =", "\t\t\t\tlet",
+          f'\t\t\t\t\tOrigen = fnTabla("{nombre}")', "\t\t\t\tin", "\t\t\t\t\tOrigen", ""]
+    return "\n".join(t) + "\n"
+
+
+TABLAS_CALIDAD = {
+    CR: ([("id_regla", "numero", None, True), ("id_dataset", "numero", None, True), ("regla", "texto", None, False),
+          ("dimension", "texto", None, False), ("evaluados", "numero", "#,0", False), ("incumplen", "numero", "#,0", False),
+          ("pct_incumplen", "numero", "0.00", False), ("estado", "texto", None, False), ("accion", "texto", None, False),
+          ("fase", "texto", None, False)],
+         [("Reglas", "COUNTROWS ( dwh_calidad_reglas )", "#,0"),
+          ("Reglas OK", 'CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "OK" ) + 0', "#,0"),
+          ("Reglas con aviso", 'CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "AVISO" ) + 0', "#,0"),
+          ("Reglas con error", 'CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "ERROR" ) + 0', "#,0"),
+          ("% reglas superadas", "DIVIDE ( [Reglas OK], [Reglas] )", "0.0%")]),
+    CC: ([("id_control", "numero", None, True), ("fase", "texto", None, False), ("control", "texto", None, False),
+          ("resultado", "texto", None, False), ("estado", "texto", None, False), ("origen", "texto", None, False)],
+         [("Controles", "COUNTROWS ( dwh_calidad_controles )", "#,0"),
+          ("Controles superados", 'CALCULATE ( [Controles], dwh_calidad_controles[estado] = "OK" ) + 0', "#,0"),
+          ("Controles con aviso", 'CALCULATE ( [Controles], dwh_calidad_controles[estado] = "AVISO" ) + 0', "#,0")]),
+}
+# Completitud sobre los 12 datasets (sin filtrar uso_modelado): el id 0 es «No reportado» / «No aplica»
+MEDIDAS_COMPLETITUD = [
+    ("Registros (12 fuentes)", "COUNTROWS ( vw_hechos_estres )", "#,0"),
+    ("% género informado", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_genero] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
+    ("% edad informada", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_rango_edad] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
+    ("% nivel educativo informado", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_educativo] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
+    ("% nivel de estrés asignado", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_estres] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
+]
+
+
+def modelo_calidad():
+    definicion = os.path.dirname(TABLAS)
+    # 1. Tablas (se reescriben siempre: el generador es la fuente de verdad)
+    for nombre, (columnas, medidas) in TABLAS_CALIDAD.items():
+        open(os.path.join(TABLAS, nombre + ".tmdl"), "w", encoding="utf-8", newline="\n").write(
+            _tabla_tmdl(nombre, columnas, medidas))
+    # 2. Referencias y orden de consultas en model.tmdl
+    ruta = os.path.join(definicion, "model.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    faltan = [n for n in TABLAS_CALIDAD if f"ref table {n}\n" not in t]
+    if faltan:
+        t = t.replace("ref table vw_modelo_resultados\n",
+                      "ref table vw_modelo_resultados\n" + "".join(f"ref table {n}\n" for n in faltan), 1)
+    faltan = [n for n in TABLAS_CALIDAD if f'"{n}"' not in t]
+    if faltan:
+        t = t.replace('"vw_modelo_resultados",', '"vw_modelo_resultados",' + "".join(f'"{n}",' for n in faltan), 1)
+    open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    # 3. Relación reglas → dataset
+    ruta = os.path.join(definicion, "relationships.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    if f"fromColumn: {CR}.id_dataset" not in t:
+        t = t.rstrip("\n") + f"\n\nrelationship {_tag('rel', CR, 'id_dataset')}\n\tfromColumn: {CR}.id_dataset\n\ttoColumn: {DS}.id_dataset\n"
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    # 4. Columnas de texto del origen CSV (fnTabla tipa el resto como número)
+    ruta = os.path.join(definicion, "expressions.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    nuevas = [c for c in ("regla", "dimension", "estado", "accion", "fase", "control", "resultado", "origen")
+              if f'"{c}"' not in t.split("TextoCols = {", 1)[1].split("}", 1)[0]]
+    if nuevas:
+        t = t.replace('"tarea_modelado"}', '"tarea_modelado",' + ",".join(f'"{c}"' for c in nuevas) + "}", 1)
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    # 5. Medidas de completitud en la tabla de hechos
+    ruta = os.path.join(TABLAS, "vw_hechos_estres.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    bloque = ""
+    for m, dax, fmt in MEDIDAS_COMPLETITUD:
+        if f"measure '{m}'" in t:   # ya existe: se actualiza su expresión (el generador es la fuente de verdad)
+            t = re.sub(rf"(\tmeasure '{re.escape(m)}' = )[^\n]*", lambda x: x.group(1) + dax, t, count=1)
+            open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+        else:
+            bloque += (f"\tmeasure '{m}' = {dax}\n\t\tformatString: {fmt}\n\t\tdisplayFolder: 6 Calidad del dato\n"
+                       f"\t\tlineageTag: {_tag('vw_hechos_estres', 'medida', m)}\n\n")
+    if bloque:
+        i = t.index("\tmeasure ")
+        t = t[:i] + bloque + t[i:]
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
 
 
 # ---------------------------------------------------------------- escritura
@@ -756,6 +925,7 @@ PAGINAS_INFORME = [("p0_inicio", "Inicio", pagina0), ("p1_panorama", "1 Panorama
                    ("p2_demografia", "2 Demografía", pagina2), ("p3_lenguaje", "3 Lenguaje", pagina3),
                    ("p4_validacion", "4 Validación", pagina4), ("p5_modelos", "5 Modelos", pagina5),
                    ("p6_kpis", "6 KPIs", pagina6), (EXPLORAR, "7 Explorar", pagina7),
+                   (CALIDAD, "8 Calidad", pagina10),
                    (DETALLE, "Detalle del dataset", pagina8), (TOOLTIP, "Tooltip del dataset", pagina9)]
 
 IMAGENES = os.path.normpath(os.path.join(RAIZ, "imagenes"))
@@ -772,6 +942,8 @@ def config_pagina(carpeta):
             "transparency": lit("0D")}}]}}
     if carpeta == EXPLORAR:
         return {"displayOption": "FitToWidth", "height": ALTO_EXPLORAR}
+    if carpeta == CALIDAD:
+        return {"displayOption": "FitToWidth", "height": ALTO_CALIDAD}
     if carpeta == DETALLE:
         campo = col(DS, "dataset")
         return {"type": "Drillthrough", "visibility": "HiddenInViewMode",
