@@ -95,6 +95,16 @@
           "name": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
           "path": "TFM_Estr_s_Estudiantil___Biene04024711456560459.json",
           "type": "CustomTheme"
+        },
+        {
+          "name": "logo_inesdi.png",
+          "path": "logo_inesdi.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo_unie.png",
+          "path": "logo_unie.png",
+          "type": "Image"
         }
       ]
     }

@@ -6,7 +6,7 @@
     "y": 276,
     "z": 30,
     "height": 390,
-    "width": 616,
+    "width": 616.0,
     "tabOrder": 30
   },
   "visual": {
@@ -28,8 +28,8 @@
               },
               "queryRef": "vw_dim_dataset.bloque",
               "nativeQueryRef": "bloque",
-              "active": true,
-              "displayName": "Bloque"
+              "displayName": "Bloque",
+              "active": true
             },
             {
               "field": {
@@ -44,7 +44,6 @@
               },
               "queryRef": "vw_dim_dataset.dataset",
               "nativeQueryRef": "dataset",
-              "active": false,
               "displayName": "Dataset"
             }
           ]

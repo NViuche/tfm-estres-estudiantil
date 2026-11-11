@@ -43,11 +43,26 @@ FROM tfm.vw_modelo_resultados m
 WHERE m.es_mejor_modelo = 1
 ORDER BY m.bloque, m.dataset;
 
-REVOKE ALL ON public.tfm_datasets, public.tfm_kpis, public.tfm_modelos FROM PUBLIC, anon, authenticated;
-GRANT SELECT ON public.tfm_datasets, public.tfm_kpis, public.tfm_modelos TO anon, authenticated;
+-- Reglas de calidad del dato (05_calidad_dato.sql): dataset, dimensión, resultado y tratamiento
+CREATE OR REPLACE VIEW public.tfm_calidad AS
+SELECT d.dataset,
+       r.regla,
+       r.dimension,
+       r.evaluados,
+       r.incumplen,
+       r.pct_incumplen,
+       r.estado,
+       r.accion
+FROM tfm.dwh_calidad_reglas r
+JOIN tfm.vw_dim_dataset d ON d.id_dataset = r.id_dataset
+ORDER BY r.id_regla;
+
+REVOKE ALL ON public.tfm_datasets, public.tfm_kpis, public.tfm_modelos, public.tfm_calidad FROM PUBLIC, anon, authenticated;
+GRANT SELECT ON public.tfm_datasets, public.tfm_kpis, public.tfm_modelos, public.tfm_calidad TO anon, authenticated;
 
 COMMENT ON VIEW public.tfm_datasets IS 'TFM estrés estudiantil: catálogo de los 12 datasets (solo lectura)';
 COMMENT ON VIEW public.tfm_kpis IS 'TFM estrés estudiantil: los 6 KPIs del DWH, última ejecución (solo lectura)';
 COMMENT ON VIEW public.tfm_modelos IS 'TFM estrés estudiantil: mejor modelo por dataset (solo lectura)';
+COMMENT ON VIEW public.tfm_calidad IS 'TFM estrés estudiantil: las 49 reglas de calidad del dato y su resultado (solo lectura)';
 
 NOTIFY pgrst, 'reload schema';

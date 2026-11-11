@@ -1,0 +1,65 @@
+table dwh_calidad_controles
+	lineageTag: 5cbc84ee-a63f-5883-8f1b-36b6489853f7
+
+	measure Controles = COUNTROWS ( dwh_calidad_controles )
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 85deb3e9-b889-5f75-b083-e5b0b5e7e58f
+
+	measure 'Controles superados' = CALCULATE ( [Controles], dwh_calidad_controles[estado] = "OK" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 1636e985-80ab-53ad-845e-c5d690b21e16
+
+	measure 'Controles con aviso' = CALCULATE ( [Controles], dwh_calidad_controles[estado] = "AVISO" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 9b24a64c-f532-5613-91ee-f9e2867183ab
+
+	column id_control
+		dataType: double
+		isHidden
+		lineageTag: 2ccbc14a-1bee-5826-b36c-e0769654e385
+		summarizeBy: none
+		sourceColumn: id_control
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fase
+		dataType: string
+		lineageTag: 1cbfffdd-6cf0-5a4e-a400-5d1b238e64ba
+		summarizeBy: none
+		sourceColumn: fase
+
+	column control
+		dataType: string
+		lineageTag: 4b9cad59-2803-53e2-8805-7cbf40c11617
+		summarizeBy: none
+		sourceColumn: control
+
+	column resultado
+		dataType: string
+		lineageTag: 92cd4920-e549-5c68-a8bf-98b46d1dd64a
+		summarizeBy: none
+		sourceColumn: resultado
+
+	column estado
+		dataType: string
+		lineageTag: d08ffa7b-bf8a-5125-9a0c-33f4664919f4
+		summarizeBy: none
+		sourceColumn: estado
+
+	column origen
+		dataType: string
+		lineageTag: 89fb65b6-ce8c-563e-9070-13196bfe54ec
+		summarizeBy: none
+		sourceColumn: origen
+
+	partition dwh_calidad_controles = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_calidad_controles")
+				in
+					Origen
+

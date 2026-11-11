@@ -1,0 +1,105 @@
+table dwh_calidad_reglas
+	lineageTag: 444abbc6-0a36-58cf-b49b-7868615bb989
+
+	measure Reglas = COUNTROWS ( dwh_calidad_reglas )
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 54be2fdc-ca28-506d-88cc-31e24e819adc
+
+	measure 'Reglas OK' = CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "OK" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 67396e65-1f31-5260-a23b-b166a098cd38
+
+	measure 'Reglas con aviso' = CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "AVISO" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 13c52c2f-3939-572f-85d6-c2407c8ffd85
+
+	measure 'Reglas con error' = CALCULATE ( [Reglas], dwh_calidad_reglas[estado] = "ERROR" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: ed5331c3-77ad-506c-bd91-2dd6471a3b3e
+
+	measure '% reglas superadas' = DIVIDE ( [Reglas OK], [Reglas] )
+		formatString: 0.0%
+		displayFolder: Calidad del dato
+		lineageTag: a8c2def5-1216-5d15-890b-86c829c43a18
+
+	column id_regla
+		dataType: double
+		isHidden
+		lineageTag: 7c5000da-90f9-5860-ba84-35d7f1e494e7
+		summarizeBy: none
+		sourceColumn: id_regla
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column id_dataset
+		dataType: double
+		isHidden
+		lineageTag: 2233ce8a-7a25-533c-9580-ee4f3b74ef09
+		summarizeBy: none
+		sourceColumn: id_dataset
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column regla
+		dataType: string
+		lineageTag: bfa68a40-6e10-57f0-adda-47910ab45522
+		summarizeBy: none
+		sourceColumn: regla
+
+	column dimension
+		dataType: string
+		lineageTag: ca81e30c-e8f2-5b28-9739-aa559ca6ec31
+		summarizeBy: none
+		sourceColumn: dimension
+
+	column evaluados
+		dataType: double
+		formatString: #,0
+		lineageTag: 6c246b7b-6564-546e-ad9d-202345f8d38d
+		summarizeBy: none
+		sourceColumn: evaluados
+
+	column incumplen
+		dataType: double
+		formatString: #,0
+		lineageTag: 62af911e-5eb6-534b-9028-7edb739fbd31
+		summarizeBy: none
+		sourceColumn: incumplen
+
+	column pct_incumplen
+		dataType: double
+		formatString: 0.00
+		lineageTag: ec826851-1dae-5883-b763-6b1eefee1252
+		summarizeBy: none
+		sourceColumn: pct_incumplen
+
+	column estado
+		dataType: string
+		lineageTag: 77789b99-82bc-5a86-915b-31adee0a21ec
+		summarizeBy: none
+		sourceColumn: estado
+
+	column accion
+		dataType: string
+		lineageTag: 593a29d3-5b03-500c-88ae-ef4e534e3bc6
+		summarizeBy: none
+		sourceColumn: accion
+
+	column fase
+		dataType: string
+		lineageTag: b6dff8f8-9b0b-5998-9805-5a92d247c7c9
+		summarizeBy: none
+		sourceColumn: fase
+
+	partition dwh_calidad_reglas = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("dwh_calidad_reglas")
+				in
+					Origen
+

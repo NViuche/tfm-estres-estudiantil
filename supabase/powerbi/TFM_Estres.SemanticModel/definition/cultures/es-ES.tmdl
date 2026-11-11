@@ -5850,6 +5850,478 @@ cultureInfo es-ES
 			          }
 			        }
 			      ]
+			    },
+			    "vw_hechos_estres.registros_12_fuentes": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "Registros (12 fuentes)"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Registros": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.género_informado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% género informado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Género": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.edad_informada": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% edad informada"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Edad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.nivel_educativo_informado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% nivel educativo informado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivel educativo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_hechos_estres.nivel_de_estrés_asignado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_hechos_estres",
+			          "ConceptualProperty": "% nivel de estrés asignado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Nivel de estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.dimension": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "dimension"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Dimensión": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Estado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.reglas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "Reglas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reglas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Reglas evaluadas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.reglas_superadas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "% reglas superadas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% reglas superadas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.reglas_con_aviso": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "Reglas con aviso"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reglas con aviso": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.reglas_con_error": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "Reglas con error"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reglas con error": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.regla": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "regla"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Regla": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.incumplen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "incumplen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Incumplen": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.pct_incumplen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "pct_incumplen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% incumplen": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_reglas.accion": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_reglas",
+			          "ConceptualProperty": "accion"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Tratamiento": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.fase": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "fase"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Fase": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.control": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "control"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Control": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.resultado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "resultado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Resultado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.estado": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "estado"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Estado": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.origen": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "origen"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Origen": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.controles_superados": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "Controles superados"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Controles superados": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_calidad_controles.controles_con_aviso": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_calidad_controles",
+			          "ConceptualProperty": "Controles con aviso"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Controles con aviso": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {

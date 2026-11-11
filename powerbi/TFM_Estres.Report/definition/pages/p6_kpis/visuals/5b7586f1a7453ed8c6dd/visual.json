@@ -13,26 +13,6 @@
     "visualType": "pivotTable",
     "query": {
       "queryState": {
-        "Columns": {
-          "projections": [
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "dwh_kpi_resultados"
-                    }
-                  },
-                  "Property": "fecha_ejecucion"
-                }
-              },
-              "queryRef": "dwh_kpi_resultados.fecha_ejecucion",
-              "nativeQueryRef": "fecha_ejecucion",
-              "active": true,
-              "displayName": "Ejecución"
-            }
-          ]
-        },
         "Rows": {
           "projections": [
             {
@@ -48,8 +28,26 @@
               },
               "queryRef": "dwh_kpi_catalogo.nombre",
               "nativeQueryRef": "nombre",
-              "active": true,
               "displayName": "KPI"
+            }
+          ]
+        },
+        "Columns": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_kpi_resultados"
+                    }
+                  },
+                  "Property": "fecha_ejecucion"
+                }
+              },
+              "queryRef": "dwh_kpi_resultados.fecha_ejecucion",
+              "nativeQueryRef": "fecha_ejecucion",
+              "displayName": "Ejecución"
             }
           ]
         },
@@ -101,7 +99,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -117,6 +115,9 @@
       ],
       "columnWidth": [
         {
+          "selector": {
+            "metadata": "dwh_kpi_resultados.Valor KPI (última ejecución)"
+          },
           "properties": {
             "value": {
               "expr": {
@@ -125,9 +126,6 @@
                 }
               }
             }
-          },
-          "selector": {
-            "metadata": "dwh_kpi_resultados.Valor KPI (última ejecución)"
           }
         }
       ]

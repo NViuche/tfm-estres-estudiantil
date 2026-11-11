@@ -1,6 +1,31 @@
 table vw_hechos_estres
 	lineageTag: ea53f1bd-207d-5b54-94d3-ba08bd29f0e1
 
+	measure 'Registros (12 fuentes)' = COUNTROWS ( vw_hechos_estres )
+		formatString: #,0
+		displayFolder: 6 Calidad del dato
+		lineageTag: 3c5087b7-0a66-58e8-91d2-dc6c28821d48
+
+	measure '% género informado' = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_genero] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )
+		formatString: 0.0%
+		displayFolder: 6 Calidad del dato
+		lineageTag: 3d124abd-6670-5cd6-bc85-2552d07bb44d
+
+	measure '% edad informada' = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_rango_edad] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )
+		formatString: 0.0%
+		displayFolder: 6 Calidad del dato
+		lineageTag: 29e90d5f-8558-54a1-85f4-deb0592ccf6d
+
+	measure '% nivel educativo informado' = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_educativo] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )
+		formatString: 0.0%
+		displayFolder: 6 Calidad del dato
+		lineageTag: 69ecf21d-7bca-523c-8301-8b4d2696c701
+
+	measure '% nivel de estrés asignado' = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_estres] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )
+		formatString: 0.0%
+		displayFolder: 6 Calidad del dato
+		lineageTag: db99c5e5-50cf-504a-82fd-74b7f4265e9b
+
 	measure Registros = CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_dim_dataset[uso_modelado] = "incluido" )
 		formatString: #,0
 		displayFolder: 1 Volumen

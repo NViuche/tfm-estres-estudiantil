@@ -72,3 +72,7 @@ relationship c3044fdd-b47d-4395-b87d-c676dfc56627
 	fromColumn: vw_modelo_resultados.fecha_ejecucion
 	toColumn: LocalDateTable_442b04b3-3707-4e8b-975b-4f51a1c3312d.Date
 
+relationship cd7e828d-7fc5-5507-8aab-11468a4071ba
+	fromColumn: dwh_calidad_reglas.id_dataset
+	toColumn: vw_dim_dataset.id_dataset
+

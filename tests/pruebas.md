@@ -32,12 +32,14 @@ Comprobaciones hechas antes de dar por bueno el informe ([`powerbi/`](../powerbi
 | Comprobación | Resultado |
 |---|---|
 | Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 15 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
-| Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 15 tablas |
-| Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 32 medidas, sin conflictos de nombres ni referencias DAX rotas |
-| Campos usados por los objetos visuales de las 10 páginas (informe local y de Supabase) | Todos existen en el modelo, incluida la columna calculada `vw_hechos_estres[nivel_estres]` |
-| Posición de los objetos visuales | Todos caben en su página (1280 × 720; Explorar 1280 × 1000; tooltip 320 × 240) |
+| Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 17 tablas |
+| Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 45 medidas, sin conflictos de nombres ni referencias DAX rotas |
+| Campos usados por los objetos visuales de las 11 páginas (informe local y de Supabase) | Todos existen en el modelo, incluida la columna calculada `vw_hechos_estres[nivel_estres]` |
+| Posición de los objetos visuales | Todos caben en su página (1280 × 720; Explorar 1280 × 1000; Calidad 1280 × 1450; tooltip 320 × 240) |
 | Revisión en Power BI Desktop | Validado: menú sin páginas ocultas, logos, tooltip de página, *Obtener detalles* con botón Volver, filtros sincronizados, árbol de descomposición e influenciadores clave |
 | KPIs de la página Inicio frente a `dwh_kpi_resultados` | Coinciden con la última ejecución; las 3 ejecuciones guardadas dan los mismos valores |
+| Página 8 (Calidad) frente a SQL sobre Supabase y MySQL | 49 reglas (39 OK, 10 avisos, 0 errores) y 17 controles (14 OK, 3 avisos) en las dos bases, sin claves huérfanas hacia `dim_dataset`; completitud de los 12 datasets: género 95,6 %, edad 20,7 %, nivel educativo 15,3 % y nivel de estrés 100 % |
+| Tablas de calidad por las dos vías (`cargar_calidad_dato.py` y exportación desde MySQL) | Mismo contenido; solo cambia el formato decimal |
 
 Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 
@@ -50,6 +52,8 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | % Búsqueda de tratamiento | 49,4 % |
 | AUC medio del mejor modelo, sin alertas | 0,786 |
 | Datasets con alerta | 2 |
+| Reglas de calidad superadas | 39 de 49 (79,6 %) |
+| Controles de validación superados | 14 de 17 |
 
 ## 4. Validación de la migración a Supabase
 
@@ -73,12 +77,12 @@ Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2
 
 | Comprobación | Resultado |
 |---|---|
-| Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 18 tablas, 18 relaciones, 32 medidas y la columna calculada `nivel_estres` |
+| Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 20 tablas, 19 relaciones, 45 medidas y la columna calculada `nivel_estres` |
 | Campos y posición de los objetos visuales en los dos informes | Todos existen en el modelo y caben en su página |
-| Scripts de Python (24) y ficheros JSON del informe (219) | Compilan y se leen sin errores |
-| Prototipo final (`prototipo/v10`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien; las 17 rutas del repositorio que enlaza existen y los 9 datasets de la ficha tienen su fuente |
+| Scripts de Python (29) y ficheros JSON del informe (235) | Compilan y se leen sin errores |
+| Prototipo final (`prototipo/v11`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien; las 17 rutas del repositorio que enlaza existen y los 9 datasets de la ficha tienen su fuente |
 | Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
-| Enlaces relativos entre los documentos Markdown | 118 enlaces, ninguno roto |
+| Enlaces relativos entre los documentos Markdown | 142 enlaces, ninguno roto |
 | Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |
 | Ficheros que no deben subirse (CSV, `.env`, `.pbix`, caché de Power BI) y credenciales | Ninguno en el repositorio; los scripts leen las credenciales del `.env` local y los parámetros de conexión llevan valores de ejemplo |
 

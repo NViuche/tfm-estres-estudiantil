@@ -29,7 +29,7 @@ expression RutaCSV = "C:\TFM\tfm-estres-estudiantil\powerbi_csv" meta [IsParamet
 expression fnTabla =
 		(nombre as text) as table =>
 		let
-			TextoCols = {"codigo","nombre","dataset","bloque","calidad","uso_modelado","rango","nivel","descripcion","unidad","fuente_calculo","detalle","tabla_origen","objetivo_nativo","modelo","protocolo","target","lectura_capa_armonizada","alerta","antecedentes_familiares","tarea_modelado"},
+			TextoCols = {"codigo","nombre","dataset","bloque","calidad","uso_modelado","rango","nivel","descripcion","unidad","fuente_calculo","detalle","tabla_origen","objetivo_nativo","modelo","protocolo","target","lectura_capa_armonizada","alerta","antecedentes_familiares","tarea_modelado","regla","dimension","estado","accion","fase","control","resultado","origen"},
 			Resultado =
 				if Fuente = "Supabase" then
 					let

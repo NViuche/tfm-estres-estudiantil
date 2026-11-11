@@ -23,6 +23,8 @@ const b = (text) => t(text, { bold: true });
 const enlace = (url) => new ExternalHyperlink({ link: url, children: [t(url, { color: "1F6F6B", underline: {} })] });
 
 let nFig = 0;
+// Figura solo si la captura existe (p. ej., la página 8 hasta que se exporte el PDF del informe con ella)
+const figuraSi = (archivo, pie) => fs.existsSync(path.join(FIG, archivo)) ? figura(archivo, pie) : [];
 function figura(archivo, pie) {
   nFig += 1;
   const datos = fs.readFileSync(path.join(FIG, archivo));
@@ -76,7 +78,7 @@ const indice = [
 const resumen = [
   h1("1. Resumen"),
   p("El informe de Power BI reúne 12 datasets públicos sobre estrés estudiantil, organizados en 4 bloques (factores internos, hábitos digitales, percepción emocional y validación psicológica). Las 9 fuentes con señal real suman 319.318 registros; los 3 datasets sintéticos se excluyen de las medidas. Cada fuente se compara con las demás a través de un nivel de estrés común (Bajo / Moderado / Alto) y de las dimensiones conformes de género, edad y nivel educativo."),
-  p("Explorando el informe encontramos siete insights. Los cuatro primeros describen a quién afecta más el estrés y quién busca ayuda; los tres últimos explican cómo deben leerse las cifras y hasta dónde llegan los modelos."),
+  p("Explorando el informe encontramos ocho insights. Los cuatro primeros describen a quién afecta más el estrés y quién busca ayuda; los tres siguientes explican cómo deben leerse las cifras y hasta dónde llegan los modelos, y el último evalúa la calidad de los propios datos."),
   tabla([600, 4300, 2826, 1300], ["N.º", "Insight", "Dato clave", "Página"], [
     ["1", "Buscar ayuda depende de los antecedentes familiares, no del nivel de estrés", "≈ 72 % frente a ≈ 35 %, igual en los tres niveles", "4 Validación"],
     ["2", "Las mujeres reportan más estrés que los hombres en casi todas las fuentes", "39,1 % frente a 32,0 %; en 3 de 4 bloques", "2 Demografía y 4 Validación"],
@@ -85,6 +87,7 @@ const resumen = [
     ["5", "El lenguaje delata el estrés, sobre todo fuera de los foros de ansiedad", "Ratio LIWC 2,58; hasta 4,83 en r/stress", "3 Lenguaje"],
     ["6", "El porcentaje global lo marca una sola fuente: se comparan tendencias, no niveles", "Mental Health Dataset = 81,8 % de los registros", "1 Panorama y 6 KPIs"],
     ["7", "La señal predictiva es real pero moderada, y dos fuentes exigen cautela", "AUC medio 0,786; 2 datasets con alerta", "5 Modelos"],
+    ["8", "Los datos de origen son de buena calidad, pero la completitud demográfica limita los cruces", "39 de 49 reglas OK, 0 errores; edad informada en el 20,7 %", "8 Calidad"],
   ]),
   p(""),
   p([b("Versión web interactiva. "), t("Los insights también pueden comprobarse desde el navegador, sin instalar Power BI: "), enlace(URL_WEB),
@@ -93,7 +96,7 @@ const resumen = [
 
 const metodo = [
   h1("2. Cómo se exploró el informe"),
-  p("El informe tiene ocho páginas en el menú: Inicio (menú principal con los 6 KPIs del DWH), Panorama, Demografía, Lenguaje, Validación, Modelos, KPIs y Explorar. Además, cada dataset tiene una ficha a la que se llega con clic derecho → Obtener detalles, y al pasar el ratón por las barras de Panorama aparece un resumen del dataset o bloque. Cada insight se obtuvo con el mismo procedimiento, que también sirve para reproducirlo:"),
+  p("El informe tiene nueve páginas en el menú: Inicio (menú principal con los 6 KPIs del DWH), Panorama, Demografía, Lenguaje, Validación, Modelos, KPIs, Explorar y Calidad (reglas de calidad, completitud por dataset y registro de controles). Además, cada dataset tiene una ficha a la que se llega con clic derecho → Obtener detalles, y al pasar el ratón por las barras de Panorama aparece un resumen del dataset o bloque. Cada insight se obtuvo con el mismo procedimiento, que también sirve para reproducirlo:"),
   vineta([b("Detectar. "), t("Un patrón llama la atención en un gráfico o una tarjeta: una diferencia grande entre categorías o una tendencia que se repite.")]),
   vineta([b("Aislar. "), t("Con los segmentadores (bloque, género, rango de edad y nivel educativo), sincronizados entre Panorama, Demografía y Explorar, y con los filtros cruzados de Power BI se comprueba si el patrón se mantiene en cada subgrupo o desaparece. El árbol de descomposición de la página Explorar permite encadenar esos cortes (por ejemplo, bloque → género → edad) y su opción «Valor alto» busca por sí sola el corte con más estrés Alto.")]),
   vineta([b("Descartar el efecto composición. "), t("Como las fuentes tienen tamaños muy distintos, un patrón global puede deberse solo a qué fuente aporta cada grupo. Por eso cada insight se verificó también dentro de cada dataset.")]),
@@ -162,10 +165,34 @@ const insights = [
   etiqueta("Qué implica", "Los modelos sirven para investigación y para priorizar, no para diagnóstico clínico. Este análisis cubre la parte opcional de la rúbrica (machine learning con Python, notebook 09)."),
   etiqueta("Cautela", "Tres tareas tienen menos de 600 registros, así que sus métricas varían mucho entre particiones."),
   ...figura("p5_modelos.png", "Página 5 (Modelos predictivos): AUC del mejor modelo por dataset, alertas y detalle de protocolo y métricas."),
+
+  h2("Insight 8. Los datos de origen son de buena calidad, pero la completitud demográfica limita los cruces"),
+  etiqueta("Qué muestra", "De las 49 reglas de calidad evaluadas sobre los 12 datasets antes de la carga, 39 se cumplen (79,6 %), 10 dan aviso y ninguna da error. Los avisos se concentran en validez (5) y completitud (4), y cada uno tiene un tratamiento documentado. De los 17 controles de carga, ETL, migración, seguridad e informe, 14 se superan y 3 quedan como avisos conocidos. El problema no está en la calidad de los valores sino en lo que cada fuente recoge: sobre los 334.318 registros, el género está informado en el 95,6 %, pero la edad solo en el 20,7 % y el nivel educativo en el 15,3 %."),
+  etiqueta("Cómo se encontró", "En la página 8 (Calidad), las tarjetas resumen el resultado de las reglas y los controles, y el gráfico «Reglas por dimensión de calidad» muestra dónde se concentran los avisos. En la tabla «Completitud por dataset», la columna Edad del Mental Health Dataset marca un 0,0 %: esa fuente, que aporta el 78 % de los registros, no informa la edad ni los estudios."),
+  etiqueta("Comprobación", "Explica el KPI de cobertura demográfica (17,0 %): para tener género y edad a la vez, un registro tiene que venir de una fuente que recoja los dos. Las reglas dejan además rastro en los datos: Dreaddit train tiene 2.838 filas de origen y 2.834 en los hechos, justo los 4 textos corruptos que detecta la regla R7 y que la carga excluye. Las cifras de completitud coinciden con las calculadas en SQL sobre Supabase."),
+  etiqueta("Qué implica", "Las limitaciones de los cruces demográficos (insights 2 a 4) vienen del diseño de las fuentes, no de errores de calidad. Para ampliar el análisis por edad hay que priorizar fuentes que la recojan, y las reglas y los controles deben volver a ejecutarse cada vez que se añada una fuente."),
+  etiqueta("Cautela", "Las reglas comprueban que los datos sean completos, válidos y coherentes, no que sean verdaderos: siguen siendo autorreportados. El aviso con más casos es el de validez del DASS-42: 5.192 respondentes (13,1 %) marcaron palabras inexistentes del control de vocabulario, una señal de respuesta poco atenta que se documenta pero no se excluye."),
+  ...figuraSi("p8_calidad.png", "Página 8 (Calidad): reglas por dimensión y estado, completitud por dataset, reglas con aviso y registro de controles."),
+];
+
+const gobierno = [
+  h1("4. Calidad y gobierno del dato"),
+  p("La página 8 del informe hace visible el trabajo de calidad y gobierno del dato del proyecto. La tabla resume cómo se cubre cada área del marco DAMA-DMBOK y dónde está la evidencia:"),
+  tabla([2300, 6726], ["Área", "Evidencia"], [
+    ["Calidad del dato", "49 reglas antes de la carga (notebook 05), validación después de la carga (notebook 07b) y cifras de control que coinciden en MySQL, Supabase y Power BI. Tablas dwh_calidad_reglas y dwh_calidad_controles, visibles en la página 8"],
+    ["Metadatos", "Diccionario y fichas técnicas por dataset, catálogo de KPIs con definición, unidad y fuente de cálculo, y guía del informe"],
+    ["Linaje", "dim_dataset y tabla_origen identifican el origen de cada registro; dim_mapeo_estres documenta el criterio con el que cada fuente se lleva al nivel común"],
+    ["Datos de referencia", "4 dimensiones conformes (género, edad, nivel educativo y nivel de estrés) con el miembro «No reportado» para los vacíos"],
+    ["Seguridad y acceso", "Usuario tfm_lector de solo lectura; la API pública solo lee vistas agregadas; credenciales fuera del repositorio"],
+    ["Control de cambios", "Versiones en git con ramas por entrega y rama principal protegida; las correcciones quedan trazadas"],
+    ["Aptitud de uso", "Datasets sintéticos marcados y excluidos del modelado; alertas de modelos y cautelas declaradas en el informe"],
+  ]),
+  p(""),
+  p("Quedan como trabajo futuro la asignación formal de roles (responsable y custodio de cada fuente), un glosario de negocio único y la monitorización periódica de las reglas. Los datos de salud mental son una categoría especial según el RGPD (art. 9): el proyecto usa solo fuentes públicas anonimizadas y publica únicamente datos agregados."),
 ];
 
 const limites = [
-  h1("4. Limitaciones generales"),
+  h1("5. Limitaciones generales"),
   vineta("Las fuentes son independientes: no comparten personas, así que no se pueden seguir individuos de una a otra."),
   vineta("Varias poblaciones no son estrictamente estudiantiles (Reddit, encuestas generales de salud mental)."),
   vineta("Solo el 17 % de los registros informa a la vez género y edad, de modo que los cruces demográficos trabajan con una submuestra."),
@@ -184,6 +211,7 @@ const anexo = [
     ["5", "3 Lenguaje", "«Vocabulario de ansiedad (LIWC) por subreddit» y tabla «Detalle por subreddit»"],
     ["6", "1 Panorama · 6 KPIs", "«% estrés Alto global» frente a «% de estrés Alto por dataset»; barras al 100 %"],
     ["7", "5 Modelos · 4 Validación", "«Datasets con alerta», «AUC del mejor modelo por dataset» y tarjeta del KPI 3"],
+    ["8", "8 Calidad", "Tarjetas de reglas y controles, «Reglas por dimensión de calidad» y columna Edad de «Completitud por dataset»"],
     ["2, 3 y 6", "7 Explorar", "Árbol de descomposición (Bloque → Género → Rango de edad, o «Valor alto») e influenciadores clave con «Alto» elegido"],
     ["Todos", "Detalle del dataset", "Clic derecho sobre un dataset → Obtener detalles: ficha con registros, distribución, demografía y mejor modelo"],
   ]),
@@ -211,7 +239,7 @@ const doc = new Document({
     properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1440, bottom: 1440, left: 1440, right: 1440 } } },
     footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.RIGHT, children: [
       t("Insights del informe de Power BI · Entrega 3 · ", { size: 16, color: GRIS }), new TextRun({ children: [PageNumber.CURRENT], font: FUENTE, size: 16, color: GRIS })] })] }) },
-    children: [...portada, ...indice, ...resumen, ...metodo, ...insights, ...limites, ...anexo],
+    children: [...portada, ...indice, ...resumen, ...metodo, ...insights, ...gobierno, ...limites, ...anexo],
   }],
 });
 

@@ -19,7 +19,7 @@ from dotenv import load_dotenv
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 load_dotenv(os.path.join(RAIZ, ".env"))
 E = os.environ.get
-VISTAS = ("tfm_datasets", "tfm_kpis", "tfm_modelos")
+VISTAS = ("tfm_datasets", "tfm_kpis", "tfm_modelos", "tfm_calidad")
 
 if "--probar" not in sys.argv:
     sql = open(os.path.join(RAIZ, "sql", "04_api_lectura_publica.sql"), encoding="utf-8").read()

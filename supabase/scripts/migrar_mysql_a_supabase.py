@@ -3,10 +3,12 @@
 Uso (con XAMPP/MySQL encendido):
     python migrar_mysql_a_supabase.py
 
-Pasos: 1) crea el esquema tfm (01_esquema.sql; si ya existe, lo borra y lo rehace),
-2) copia los datos tabla a tabla con COPY, 3) crea las vistas (02_vistas.sql),
-4) aplica las correcciones de datos (03_correcciones_datos.sql), 5) crea o actualiza el
-usuario de solo lectura y 6) valida filas y cifras de control contra MySQL.
+Pasos: 1) crea el esquema tfm (01_esquema.sql; si ya existe, lo borra y lo rehace) y las tablas
+de calidad del dato (05_calidad_dato.sql), 2) copia los datos tabla a tabla con COPY, 3) crea las
+vistas (02_vistas.sql), 4) aplica las correcciones de datos (03_correcciones_datos.sql), 5) crea o
+actualiza el usuario de solo lectura y vuelve a publicar las vistas de lectura pública de la API
+(04_api_lectura_publica.sql; el DROP SCHEMA del paso 1 las borra) y 6) valida filas y cifras de
+control contra MySQL. Las tablas de calidad deben estar antes en MySQL (local_xampp/scripts/cargar_calidad_dato.py).
 
 Credenciales: ../.env (nunca se imprimen). Requiere psycopg2 y python-dotenv.
 """
@@ -39,6 +41,7 @@ TABLAS = [
     ("dwh_dass_severidad", "dwh_dass_severidad"), ("dwh_kpi_catalogo", "dwh_kpi_catalogo"),
     ("dwh_kpi_resultados", "dwh_kpi_resultados"), ("dwh_modelo_resultados", "dwh_modelo_resultados"),
     ("dwh_nlp_senales", "dwh_nlp_senales"),
+    ("dwh_calidad_reglas", "dwh_calidad_reglas"), ("dwh_calidad_controles", "dwh_calidad_controles"),
 ]
 
 
@@ -126,7 +129,7 @@ def main():
     try:
         with con:
             with con.cursor() as cur:
-                print("1. Esquema"); ejecutar_archivo(cur, "01_esquema.sql")
+                print("1. Esquema"); ejecutar_archivo(cur, "01_esquema.sql"); ejecutar_archivo(cur, "05_calidad_dato.sql")
                 print("2. Datos")
                 cargadas = {}
                 for origen, destino in TABLAS:
@@ -134,7 +137,7 @@ def main():
                     print(f"  {destino:30s} {cargadas[destino]:>8,} filas".replace(",", "."))
                 print("3. Vistas"); ejecutar_archivo(cur, "02_vistas.sql")
                 print("4. Correcciones de datos"); ejecutar_archivo(cur, "03_correcciones_datos.sql")
-                print("5. Permisos"); lector(cur)
+                print("5. Permisos"); lector(cur); ejecutar_archivo(cur, "04_api_lectura_publica.sql")
 
         print("6. Validación contra MySQL")
         errores = 0
