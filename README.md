@@ -11,6 +11,7 @@ El problema, el enfoque, los objetivos y los hallazgos principales están en [`i
 ```
 tfm-estres-estudiantil/
 ├── README.md
+├── LICENSE                 MIT para el código; CC BY 4.0 para documentación y figuras
 ├── SEGUIMIENTO.md          retroalimentación del tutor por entrega, limitaciones y pendientes
 ├── investigacion/
 │   └── problema.md         problema, enfoque, objetivos y hallazgos
@@ -130,3 +131,11 @@ Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `gi
 
 - **Entrega 1 (EDA, calidad, modelo de datos) y Entrega 2 (ingesta, ETL, KPIs, modelado):** completadas. Se cargaron 334.318 filas; 319.318 pertenecen a las 9 fuentes incluidas en el modelado.
 - **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (8 páginas, cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (7 insights); base de datos migrada a Supabase y validada (17/17 tablas, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v8). Siguiente fase: memoria y defensa.
+
+## Licencia
+
+- **Código** (notebooks, scripts, SQL, proyecto de Power BI y prototipo web): [MIT](LICENSE).
+- **Documentación y figuras** (documentos, informes, gráficos y documento de insights): [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es). Se pueden reutilizar citando a los autores.
+- **Quedan fuera:**
+  - los datasets de origen, que no están en el repositorio y conservan la licencia de quien los publicó (ver [Fuentes de datos](#fuentes-de-datos));
+  - los logos de UNIE e INESDI, que son marcas de sus titulares.

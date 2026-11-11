@@ -1,0 +1,43 @@
+MIT License
+
+Copyright (c) 2026 Obed Isaí Alvarado Núñez, Roberto Mario Brochero López,
+Raúl Cervantes Iglesias, Andrés Francisco García Grajales,
+Santiago Nicolas Viuche Pinilla
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+Scope / Alcance
+
+The MIT License above applies to the source code: notebooks, Python and
+JavaScript scripts, SQL, the Power BI project files and the web prototype.
+
+Documentation, reports, figures and the insights document (docs/,
+investigacion/, figuras/, resultados/, tests/ and the Markdown files) are
+licensed under Creative Commons Attribution 4.0 International (CC BY 4.0):
+https://creativecommons.org/licenses/by/4.0/
+
+Not covered by this license:
+- The source datasets, which are not included in this repository and keep
+  the licenses of their original publishers (see "Fuentes de datos" in
+  README.md).
+- The UNIE and INESDI logos (recursos/logos/ and the images derived from
+  them), which are trademarks of their owners and are used only to identify
+  the academic programme.
