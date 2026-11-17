@@ -28,6 +28,7 @@
               },
               "queryRef": "dwh_calidad_reglas.dimension",
               "nativeQueryRef": "dimension",
+              "active": true,
               "displayName": "Dimensión"
             }
           ]

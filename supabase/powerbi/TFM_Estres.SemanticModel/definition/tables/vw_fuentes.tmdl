@@ -1,0 +1,65 @@
+table vw_fuentes
+	lineageTag: 871dac3e-da5c-5b02-85f4-a51ba9a9184b
+
+	measure Datasets = COUNTROWS ( vw_fuentes )
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: c38bbc04-1cca-58d4-8e61-962159b7dc37
+
+	measure 'Datasets incluidos' = CALCULATE ( COUNTROWS ( vw_fuentes ), vw_dim_dataset[uso_modelado] = "incluido" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 2ec44802-edfb-5ecb-9c11-c1bf22f4257e
+
+	measure 'Datasets sintéticos' = CALCULATE ( COUNTROWS ( vw_fuentes ), vw_dim_dataset[uso_modelado] = "excluido" ) + 0
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: 4b5bd35f-15e6-525e-9061-5a833dd0bf21
+
+	measure 'Columnas originales' = SUM ( vw_fuentes[n_columnas] )
+		formatString: #,0
+		displayFolder: Calidad del dato
+		lineageTag: acd14ed5-5595-5c70-82bf-ec8709b12fb7
+
+	column id_dataset
+		dataType: double
+		isHidden
+		lineageTag: 372d0589-d14f-5e24-8384-b224c5119f5b
+		summarizeBy: none
+		sourceColumn: id_dataset
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fuente
+		dataType: string
+		lineageTag: 536ff69b-da21-50fa-ac1b-e8c7c706da85
+		summarizeBy: none
+		sourceColumn: fuente
+
+	column n_columnas
+		dataType: double
+		formatString: #,0
+		lineageTag: 54bad058-7828-57ea-b8c1-30a2b6c673c9
+		summarizeBy: none
+		sourceColumn: n_columnas
+
+	column variable_nativa
+		dataType: string
+		lineageTag: 30b94df1-92b0-5704-91f3-88b81617745e
+		summarizeBy: none
+		sourceColumn: variable_nativa
+
+	column criterio
+		dataType: string
+		lineageTag: 0a0aebfb-17b7-5d19-935f-653cebcecc34
+		summarizeBy: none
+		sourceColumn: criterio
+
+	partition vw_fuentes = m
+		mode: import
+		source =
+				let
+					Origen = fnTabla("vw_fuentes")
+				in
+					Origen
+

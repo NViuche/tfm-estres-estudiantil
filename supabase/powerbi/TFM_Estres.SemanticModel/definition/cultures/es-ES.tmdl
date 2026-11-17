@@ -2049,6 +2049,16 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.97
 			          }
+			        },
+			        {
+			          "Filas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -4329,6 +4339,16 @@ cultureInfo es-ES
 			            "State": "Generated",
 			            "Weight": 0.97
 			          }
+			        },
+			        {
+			          "Respondentes (18-25)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -5869,6 +5889,16 @@ cultureInfo es-ES
 			            },
 			            "Weight": 0.9
 			          }
+			        },
+			        {
+			          "Registros cargados": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -5946,6 +5976,141 @@ cultureInfo es-ES
 			      "Terms": [
 			        {
 			          "Nivel de estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_dass_severidad.depresión_media_dass": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_dass_severidad",
+			          "ConceptualProperty": "Depresión media DASS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Depresión": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Depresión media": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_dass_severidad.ansiedad_media_dass": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_dass_severidad",
+			          "ConceptualProperty": "Ansiedad media DASS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Ansiedad": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Ansiedad media": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dwh_dass_severidad.estrés_medio_dass": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "dwh_dass_severidad",
+			          "ConceptualProperty": "Estrés medio DASS"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Estrés": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Estrés medio": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.familia": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "familia"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Algoritmo": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_modelo_resultados.brecha_de_accuracy_media": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_modelo_resultados",
+			          "ConceptualProperty": "Brecha de accuracy media"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Brecha": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -6313,6 +6478,174 @@ cultureInfo es-ES
 			      "Terms": [
 			        {
 			          "Controles con aviso": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.datasets": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "Datasets"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Datasets": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.datasets_incluidos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "Datasets incluidos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Incluidos en las medidas": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.datasets_sintéticos": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "Datasets sintéticos"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sintéticos (excluidos)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.columnas_originales": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "Columnas originales"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Columnas originales": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.variable_nativa": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "variable_nativa"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Variable de estrés de la fuente": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.criterio": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "criterio"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Criterio Bajo / Moderado / Alto": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.fuente": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "fuente"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Fuente": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "vw_fuentes.n_columnas": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "vw_fuentes",
+			          "ConceptualProperty": "n_columnas"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Columnas": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",

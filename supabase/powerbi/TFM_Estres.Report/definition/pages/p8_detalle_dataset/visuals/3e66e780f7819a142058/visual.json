@@ -99,7 +99,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -128,9 +128,6 @@
       ],
       "columnWidth": [
         {
-          "selector": {
-            "metadata": "vw_dim_dataset.dataset"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -139,12 +136,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_dim_dataset.dataset"
           }
         },
         {
-          "selector": {
-            "metadata": "vw_dim_dataset.bloque"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -153,26 +150,26 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_dim_dataset.bloque"
           }
         },
         {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "75D"
+                }
+              }
+            }
+          },
           "selector": {
             "metadata": "vw_dim_dataset.calidad"
-          },
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "75D"
-                }
-              }
-            }
           }
         },
         {
-          "selector": {
-            "metadata": "vw_dim_dataset.uso_modelado"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -181,6 +178,9 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_dim_dataset.uso_modelado"
           }
         }
       ]

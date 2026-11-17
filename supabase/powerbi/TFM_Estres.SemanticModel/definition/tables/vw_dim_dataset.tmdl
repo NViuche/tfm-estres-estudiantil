@@ -53,11 +53,12 @@ table vw_dim_dataset
 
 	column n_filas
 		dataType: double
+		formatString: #,0
 		lineageTag: b152495f-200a-5f1e-a6d1-e70a9966e9d1
-		summarizeBy: sum
+		summarizeBy: none
 		sourceColumn: n_filas
 
-		annotation SummarizationSetBy = Automatic
+		annotation SummarizationSetBy = User
 
 		annotation PBI_FormatHint = {"isGeneralNumber":true}
 

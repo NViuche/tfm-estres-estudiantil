@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "173adb4248c0ec254bef",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 100,
+    "width": 1248,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "Datasets"
+                }
+              },
+              "queryRef": "vw_fuentes.Datasets",
+              "nativeQueryRef": "Datasets",
+              "displayName": "Datasets"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "Datasets incluidos"
+                }
+              },
+              "queryRef": "vw_fuentes.Datasets incluidos",
+              "nativeQueryRef": "Datasets incluidos",
+              "displayName": "Incluidos en las medidas"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "Datasets sintéticos"
+                }
+              },
+              "queryRef": "vw_fuentes.Datasets sintéticos",
+              "nativeQueryRef": "Datasets sintéticos",
+              "displayName": "Sintéticos (excluidos)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_hechos_estres"
+                    }
+                  },
+                  "Property": "Registros (12 fuentes)"
+                }
+              },
+              "queryRef": "vw_hechos_estres.Registros (12 fuentes)",
+              "nativeQueryRef": "Registros (12 fuentes)",
+              "displayName": "Registros cargados"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "Columnas originales"
+                }
+              },
+              "queryRef": "vw_fuentes.Columnas originales",
+              "nativeQueryRef": "Columnas originales",
+              "displayName": "Columnas originales"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

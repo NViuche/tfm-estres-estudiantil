@@ -1,0 +1,182 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "4bdf81b6f574e2b46a0b",
+  "position": {
+    "x": 16,
+    "y": 648,
+    "z": 31,
+    "height": 326,
+    "width": 1248,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_dataset"
+                    }
+                  },
+                  "Property": "dataset"
+                }
+              },
+              "queryRef": "vw_dim_dataset.dataset",
+              "nativeQueryRef": "dataset",
+              "displayName": "Dataset"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "variable_nativa"
+                }
+              },
+              "queryRef": "vw_fuentes.variable_nativa",
+              "nativeQueryRef": "variable_nativa",
+              "displayName": "Variable de estrés de la fuente"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_fuentes"
+                    }
+                  },
+                  "Property": "criterio"
+                }
+              },
+              "queryRef": "vw_fuentes.criterio",
+              "nativeQueryRef": "criterio",
+              "displayName": "Criterio Bajo / Moderado / Alto"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "autoSizeColumnWidth": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "260D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "vw_dim_dataset.dataset"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "270D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "vw_fuentes.variable_nativa"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "690D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "vw_fuentes.criterio"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Cómo se lleva cada fuente al nivel de estrés común (por eso se comparan tendencias, no niveles)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

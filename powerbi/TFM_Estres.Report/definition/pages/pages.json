@@ -10,8 +10,10 @@
     "p6_kpis",
     "p7_explorar",
     "p10_calidad",
+    "p11_fuentes",
+    "p12_dass",
     "p8_detalle_dataset",
     "p9_tooltip_dataset"
   ],
-  "activePageName": "p0_inicio"
+  "activePageName": "p7_explorar"
 }

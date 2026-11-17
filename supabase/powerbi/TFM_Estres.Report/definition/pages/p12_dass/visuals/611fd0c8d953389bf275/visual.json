@@ -1,0 +1,216 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "611fd0c8d953389bf275",
+  "position": {
+    "x": 648,
+    "y": 184,
+    "z": 31,
+    "height": 300,
+    "width": 616,
+    "tabOrder": 31
+  },
+  "visual": {
+    "visualType": "clusteredColumnChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "vw_dim_nivel_educativo"
+                    }
+                  },
+                  "Property": "nivel"
+                }
+              },
+              "queryRef": "vw_dim_nivel_educativo.nivel",
+              "nativeQueryRef": "nivel",
+              "active": true,
+              "displayName": "Nivel educativo"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Depresión media DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Depresión media DASS",
+              "nativeQueryRef": "Depresión media DASS",
+              "displayName": "Depresión"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Ansiedad media DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Ansiedad media DASS",
+              "nativeQueryRef": "Ansiedad media DASS",
+              "displayName": "Ansiedad"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Estrés medio DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Estrés medio DASS",
+              "nativeQueryRef": "Estrés medio DASS",
+              "displayName": "Estrés"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "vw_dim_nivel_educativo"
+                  }
+                },
+                "Property": "nivel"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "labels": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "valueAxis": [
+        {
+          "properties": {
+            "showAxisTitle": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Las tres escalas por nivel educativo (18-25 años)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "fda8637943d914005c21",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "vw_dim_nivel_educativo"
+              }
+            },
+            "Property": "nivel"
+          }
+        },
+        "type": "Categorical",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "vw_dim_nivel_educativo",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Not": {
+                  "Expression": {
+                    "In": {
+                      "Expressions": [
+                        {
+                          "Column": {
+                            "Expression": {
+                              "SourceRef": {
+                                "Source": "t"
+                              }
+                            },
+                            "Property": "nivel"
+                          }
+                        }
+                      ],
+                      "Values": [
+                        [
+                          {
+                            "Literal": {
+                              "Value": "'No reportado'"
+                            }
+                          }
+                        ]
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

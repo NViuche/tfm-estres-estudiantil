@@ -26,6 +26,11 @@ table vw_modelo_resultados
 		displayFolder: 6 Modelos
 		lineageTag: b9a23908-f77d-52f8-a262-8393a7dc953e
 
+	measure 'Brecha de accuracy media' = AVERAGE ( vw_modelo_resultados[brecha_acc] )
+		formatString: 0.000
+		displayFolder: Comparación de modelos
+		lineageTag: 3d066831-2ec6-5c0e-ac7f-e2f8992e17ef
+
 	column id_resultado_modelo
 		dataType: double
 		isHidden
@@ -180,6 +185,13 @@ table vw_modelo_resultados
 			isDefault
 			relationship: c3044fdd-b47d-4395-b87d-c676dfc56627
 			defaultHierarchy: LocalDateTable_442b04b3-3707-4e8b-975b-4f51a1c3312d.'Jerarquía de fechas'
+
+	column familia = SWITCH ( TRUE (), CONTAINSSTRING ( vw_modelo_resultados[modelo], "Baseline" ), "Baseline", CONTAINSSTRING ( vw_modelo_resultados[modelo], "brido" ), "Híbrido texto", CONTAINSSTRING ( vw_modelo_resultados[modelo], "TF-IDF" ), "Texto (TF-IDF)", CONTAINSSTRING ( vw_modelo_resultados[modelo], "Regresi" ), "Regresión Logística", CONTAINSSTRING ( vw_modelo_resultados[modelo], "Random Forest" ), "Random Forest", CONTAINSSTRING ( vw_modelo_resultados[modelo], "XGBoost" ), "XGBoost", "Otro" )
+		dataType: string
+		lineageTag: d7dbabfc-ff5b-5f4e-9aef-1538dff77ab2
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	partition vw_modelo_resultados = m
 		mode: import
