@@ -2,9 +2,9 @@
 
 Versión web del informe de Power BI en un único HTML: las mismas páginas, filtros y medidas. Los datos van incrustados en el archivo, así que se abre sin conexión.
 
-Cada versión vive en su propia carpeta (`v1/`, `v2/`, …); las anteriores no se modifican. La versión final es **`v11/`**.
+Cada versión vive en su propia carpeta (`v1/`, `v2/`, …); las anteriores no se modifican. La versión final es **`v12/`**.
 
-**Versión publicada:** https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b. Muestra la versión final (`v11/`); cada corrección o versión nueva se publica en este mismo enlace.
+**Versión publicada:** https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b. Muestra la versión final (`v12/`); cada corrección o versión nueva se publica en este mismo enlace.
 
 | Versión | Fecha | Contenido |
 |---|---|---|
@@ -18,7 +18,8 @@ Cada versión vive en su propia carpeta (`v1/`, `v2/`, …); las anteriores no s
 | `v8/` | 10/11/2026 | La v7 con los logos más grandes (INESDI 24 px y UNIE 44 px de alto) y el subtítulo de Inicio acortado a «TFM · Business Analytics e IA», como la banda del Power BI |
 | `v9/` | 11/11/2026 | La v8 con enlaces a la base de datos en la nube, en la pestaña «Arquitectura»: el recuadro **Supabase** del recorrido de los datos abre su documentación, y debajo hay tres enlaces a los datos en vivo, de solo lectura y en formato JSON: catálogo de datasets, KPIs y mejor modelo por dataset (vistas públicas de `supabase/sql/04_api_lectura_publica.sql`) |
 | `v10/` | 11/11/2026 | La v9 con enlaces al repositorio: en Inicio y en el pie, el código en GitHub y el documento de insights; en la ficha de cada dataset, su fuente original (Kaggle o GitHub) y su ficha técnica; en «Arquitectura», cada caja del recorrido de los datos abre su notebook, script SQL o documentación |
-| `v11/` | 11/11/2026 | **Versión final.** La v10 con la página **8 Calidad**, como en el Power BI: tarjetas de reglas y controles, reglas por dimensión de calidad (DAMA) y estado, completitud de cada dataset por campo, reglas con aviso y su tratamiento, y el registro de controles de carga, ETL, migración, seguridad e informe (tablas `dwh_calidad_*`). Suma un cuarto enlace de datos en vivo: las reglas de calidad |
+| `v11/` | 11/11/2026 | La v10 con la página **8 Calidad**, como en el Power BI: tarjetas de reglas y controles, reglas por dimensión de calidad (DAMA) y estado, completitud de cada dataset por campo, reglas con aviso y su tratamiento, y el registro de controles de carga, ETL, migración, seguridad e informe (tablas `dwh_calidad_*`). Suma un cuarto enlace de datos en vivo: las reglas de calidad |
+| `v12/` | 16/11/2026 | **Versión final.** La v11 con las mejoras del Power BI: página **9 Fuentes** (catálogo de los 12 datasets con su enlace de descarga y el criterio con que cada variable nativa se lleva a Bajo / Moderado / Alto), página **10 DASS-42** (depresión, ansiedad y estrés por género y estudios, y estrés Alto por edad) y, en **5 Modelos**, la comparación de los tres algoritmos clásicos en las 8 fuentes (AUC y sobreajuste) |
 
 ## Archivos de cada versión
 
@@ -26,4 +27,4 @@ Cada versión vive en su propia carpeta (`v1/`, `v2/`, …); las anteriores no s
 |---|---|---|
 | `prototipo_estres.html` | todas | El prototipo. Se abre con doble clic |
 | `construir_prototipo.py` | todas | Vuelve a incrustar los datos. Desde la v11 también incrusta las tablas de calidad del dato y la completitud por dataset. Desde la v9 rellena los enlaces a Supabase con `SUPABASE_URL` y la clave pública de `supabase/.env` (`--solo-enlaces` actualiza solo los enlaces). Por defecto lee de Supabase con el usuario de solo lectura (`../../supabase/.env`); con `--fuente csv` lee los CSV que usa el Power BI local. Desde la v3 también incrusta los iconos y el logo de `local_xampp/powerbi/imagenes` |
-| `exportar_arquitectura.py` | v2 a v11 | Vuelve a incrustar la estructura de tablas de la pestaña «Arquitectura» (columnas, claves y filas) leyendo MySQL. Solo hace falta si cambia la estructura de la base |
+| `exportar_arquitectura.py` | v2 a v12 | Vuelve a incrustar la estructura de tablas de la pestaña «Arquitectura» (columnas, claves y filas) leyendo MySQL. Solo hace falta si cambia la estructura de la base |
