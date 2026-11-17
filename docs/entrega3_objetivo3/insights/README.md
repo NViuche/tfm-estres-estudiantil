@@ -2,10 +2,10 @@
 
 | Archivo | Qué es |
 |---|---|
-| `Insights_PowerBI_TFM_Estres.docx` | **Entregable de la Entrega 3**: el documento Word con los insights que pide la rúbrica. Contiene: resumen, método de exploración (con la página Explorar del informe), 8 insights (qué muestran, cómo se encontraron, comprobación, implicación y cautela, con capturas del informe), una sección de calidad y gobierno del dato, limitaciones y un anexo para reproducirlos. Enlaza la versión web interactiva del informe (https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b) |
+| `Insights_PowerBI_TFM_Estres.docx` | **Entregable de la Entrega 3**: el documento Word con los insights que pide la rúbrica. Contiene: resumen, método de exploración (con la página Explorar del informe), 9 insights (qué muestran, cómo se encontraron, comprobación, implicación y cautela, con capturas del informe), una sección de calidad y gobierno del dato, limitaciones y un anexo para reproducirlos. Enlaza la versión web interactiva del informe (https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b) |
 | `generar_insights.js` | Genera el `.docx` con la librería `docx` de Node. Solo hace falta si cambian las cifras o el texto |
 
-Los 8 insights:
+Los 9 insights:
 1. Buscar ayuda depende de los antecedentes familiares, no del nivel de estrés.
 2. Las mujeres reportan más estrés que los hombres en casi todas las fuentes.
 3. El estrés Alto disminuye con la edad.
@@ -14,6 +14,7 @@ Los 8 insights:
 6. El porcentaje global lo marca una sola fuente: se comparan tendencias, no niveles.
 7. La señal predictiva es real pero moderada, y dos fuentes exigen cautela.
 8. Los datos de origen son de buena calidad, pero la completitud demográfica limita los cruces.
+9. Un modelo simple basta: la Regresión Logística iguala a los algoritmos complejos sin sobreajustar.
 
 Todas las cifras se comprobaron con los datos del informe (Supabase), también dentro de cada dataset para descartar efectos de composición.
 

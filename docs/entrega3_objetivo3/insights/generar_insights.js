@@ -78,7 +78,7 @@ const indice = [
 const resumen = [
   h1("1. Resumen"),
   p("El informe de Power BI reúne 12 datasets públicos sobre estrés estudiantil, organizados en 4 bloques (factores internos, hábitos digitales, percepción emocional y validación psicológica). Las 9 fuentes con señal real suman 319.318 registros; los 3 datasets sintéticos se excluyen de las medidas. Cada fuente se compara con las demás a través de un nivel de estrés común (Bajo / Moderado / Alto) y de las dimensiones conformes de género, edad y nivel educativo."),
-  p("Explorando el informe encontramos ocho insights. Los cuatro primeros describen a quién afecta más el estrés y quién busca ayuda; los tres siguientes explican cómo deben leerse las cifras y hasta dónde llegan los modelos, y el último evalúa la calidad de los propios datos."),
+  p("Explorando el informe encontramos nueve insights. Los cuatro primeros describen a quién afecta más el estrés y quién busca ayuda; los tres siguientes explican cómo deben leerse las cifras y hasta dónde llegan los modelos; el octavo evalúa la calidad de los propios datos y el noveno compara los algoritmos de predicción."),
   tabla([600, 4300, 2826, 1300], ["N.º", "Insight", "Dato clave", "Página"], [
     ["1", "Buscar ayuda depende de los antecedentes familiares, no del nivel de estrés", "≈ 72 % frente a ≈ 35 %, igual en los tres niveles", "4 Validación"],
     ["2", "Las mujeres reportan más estrés que los hombres en casi todas las fuentes", "39,1 % frente a 32,0 %; en 3 de 4 bloques", "2 Demografía y 4 Validación"],
@@ -88,6 +88,7 @@ const resumen = [
     ["6", "El porcentaje global lo marca una sola fuente: se comparan tendencias, no niveles", "Mental Health Dataset = 81,8 % de los registros", "1 Panorama y 6 KPIs"],
     ["7", "La señal predictiva es real pero moderada, y dos fuentes exigen cautela", "AUC medio 0,786; 2 datasets con alerta", "5 Modelos"],
     ["8", "Los datos de origen son de buena calidad, pero la completitud demográfica limita los cruces", "39 de 49 reglas OK, 0 errores; edad informada en el 20,7 %", "8 Calidad"],
+    ["9", "Un modelo simple basta: la Regresión Logística iguala a los algoritmos complejos sin sobreajustar", "A menos de 0,015 de AUC del mejor en las 8 fuentes", "5 Modelos"],
   ]),
   p(""),
   p([b("Versión web interactiva. "), t("Los insights también pueden comprobarse desde el navegador, sin instalar Power BI: "), enlace(URL_WEB),
@@ -96,7 +97,7 @@ const resumen = [
 
 const metodo = [
   h1("2. Cómo se exploró el informe"),
-  p("El informe tiene nueve páginas en el menú: Inicio (menú principal con los 6 KPIs del DWH), Panorama, Demografía, Lenguaje, Validación, Modelos, KPIs, Explorar y Calidad (reglas de calidad, completitud por dataset y registro de controles). Además, cada dataset tiene una ficha a la que se llega con clic derecho → Obtener detalles, y al pasar el ratón por las barras de Panorama aparece un resumen del dataset o bloque. Cada insight se obtuvo con el mismo procedimiento, que también sirve para reproducirlo:"),
+  p("El informe tiene once páginas en el menú: Inicio (menú principal con los 6 KPIs del DWH), Panorama, Demografía, Lenguaje, Validación, Modelos (con la comparación de algoritmos), KPIs, Explorar, Calidad (reglas de calidad, completitud por dataset y registro de controles), Fuentes (catálogo de los 12 datasets y criterio con que cada uno define el estrés) y DASS-42 (perfil de depresión, ansiedad y estrés). Además, cada dataset tiene una ficha a la que se llega con clic derecho → Obtener detalles, y al pasar el ratón por las barras de Panorama aparece un resumen del dataset o bloque. Cada insight se obtuvo con el mismo procedimiento, que también sirve para reproducirlo:"),
   vineta([b("Detectar. "), t("Un patrón llama la atención en un gráfico o una tarjeta: una diferencia grande entre categorías o una tendencia que se repite.")]),
   vineta([b("Aislar. "), t("Con los segmentadores (bloque, género, rango de edad y nivel educativo), sincronizados entre Panorama, Demografía y Explorar, y con los filtros cruzados de Power BI se comprueba si el patrón se mantiene en cada subgrupo o desaparece. El árbol de descomposición de la página Explorar permite encadenar esos cortes (por ejemplo, bloque → género → edad) y su opción «Valor alto» busca por sí sola el corte con más estrés Alto.")]),
   vineta([b("Descartar el efecto composición. "), t("Como las fuentes tienen tamaños muy distintos, un patrón global puede deberse solo a qué fuente aporta cada grupo. Por eso cada insight se verificó también dentro de cada dataset.")]),
@@ -125,6 +126,8 @@ const insights = [
   etiqueta("Qué implica", "La perspectiva de género debe estar presente en cualquier programa de bienestar estudiantil, con atención especial a la ansiedad."),
   etiqueta("Cautela", "El 91 % de los registros masculinos procede del Mental Health Dataset, y la categoría «Otro» (49,3 %) tiene solo 677 registros. Los datos son autorreportados, y parte de la diferencia puede deberse a que las mujeres declaran más el malestar."),
   ...figura("p2_demografia.png", "Página 2 (Demografía): estrés Alto por género, rango de edad y nivel educativo, y matriz género × edad."),
+  p("La página 10 (DASS-42) precisa la diferencia por escalas: entre los 18 y los 25 años, la ansiedad y el estrés separan a mujeres y hombres casi 3 puntos (31,0 frente a 28,1 y 35,7 frente a 32,8, en escalas de 14 a 56), mientras que la depresión apenas los separa (35,1 frente a 34,4). La diferencia de género está en la ansiedad y el estrés, no en el ánimo."),
+  ...figuraSi("p10_dass.png", "Página 10 (DASS-42): depresión, ansiedad y estrés por género y por nivel educativo, y estrés Alto por edad en el DASS-42 completo."),
 
   h2("Insight 3. El estrés Alto disminuye con la edad"),
   etiqueta("Qué muestra", "El porcentaje de estrés Alto baja de forma continua con la edad: 48,3 % en menores de 18, 29,7 % entre 18 y 25, 28,4 % entre 26 y 35, 25,5 % entre 36 y 50 y 18,0 % en mayores de 50."),
@@ -151,12 +154,13 @@ const insights = [
   h2("Insight 6. El porcentaje global lo marca una sola fuente: se comparan tendencias, no niveles"),
   etiqueta("Qué muestra", "El Mental Health Dataset aporta 261.328 de los 319.318 registros (81,8 %), así que el 33,7 % de estrés Alto global coincide prácticamente con su propio valor (33,8 %). Entre fuentes, el porcentaje de estrés Alto va del 17,5 % (Student Anxiety GAD-7) al 63,6 % (Academic Stress)."),
   etiqueta("Cómo se encontró", "En la página 1 (Panorama), la tarjeta «% estrés Alto global» se compara con el gráfico «% de estrés Alto por dataset». En la página 6 (KPIs), las barras al 100 % muestran que Student Anxiety GAD-7 tiene un 55,3 % de registros en Bajo y Academic Stress solo un 10,7 %."),
-  etiqueta("Comprobación", "La diferencia procede del criterio de cada fuente: GAD-7 usa un umbral clínico (≥ 10 puntos), mientras que Academic Stress usa un índice autopercibido (4–5 sobre 5). No es que unos estudiantes estén mucho más estresados que otros."),
+  etiqueta("Comprobación", "La diferencia procede del criterio de cada fuente, que la página 9 (Fuentes) muestra dataset a dataset: GAD-7 usa un umbral clínico (≥ 10 puntos), mientras que Academic Stress usa un índice autopercibido (4–5 sobre 5) y Depression Student una respuesta Sí / No. No es que unos estudiantes estén mucho más estresados que otros."),
   etiqueta("Qué implica", "Esto valida el diseño del proyecto: un constructo común para poder cruzar fuentes, pero leyendo cada fuente por separado. Para comparar grupos, el informe permite filtrar por bloque, bajar de bloque a dataset en Panorama y abrir la ficha de cada dataset con Obtener detalles."),
   etiqueta("Lo confirman los influenciadores clave", "En la página Explorar, los dos factores que más elevan la probabilidad de estrés Alto son «Género es No reportado» (1,70x) y «Bloque es Percepción emocional» (1,68x). No describen a las personas sino a las fuentes: las que no informan el género, o las del bloque de texto y NLP, tienen más estrés Alto según su propio criterio. Es el mismo efecto composición, y por eso los influenciadores se leen siempre junto al desglose por dataset."),
   etiqueta("Cautela", "Cualquier cifra global debe acompañarse de su desglose por fuente."),
   ...figura("p1_panorama.png", "Página 1 (Panorama): KPIs con segmentadores y % de estrés Alto por bloque y por dataset."),
   ...figura("p6_kpis.png", "Página 6 (KPIs): histórico y catálogo de los 6 KPIs y distribución Bajo / Moderado / Alto por dataset."),
+  ...figuraSi("p9_fuentes.png", "Página 9 (Fuentes): catálogo de los 12 datasets y criterio con que cada variable nativa se lleva a Bajo / Moderado / Alto."),
 
   h2("Insight 7. La señal predictiva es real pero moderada, y dos fuentes exigen cautela"),
   etiqueta("Qué muestra", "En las seis fuentes sin alertas, el mejor modelo de cada una obtiene un AUC de entre 0,763 (DASS-42) y 0,838 (Dreaddit), con una media de 0,786. Dos fuentes tienen alerta: Depression Student (AUC 0,998) y Academic Stress (140 registros, cuyo accuracy no supera al baseline)."),
@@ -164,7 +168,7 @@ const insights = [
   etiqueta("Comprobación", "Un AUC de 0,998 en datos de encuesta no es creíble: apunta a que la etiqueta se generó con una fórmula a partir de las propias variables. Por eso el KPI 3 de riesgo crítico (72,69 %), calculado sobre Depression Student, se muestra con advertencia en la página 4. Los KPIs son reproducibles: las 3 ejecuciones guardadas dan los mismos valores (página 6)."),
   etiqueta("Qué implica", "Los modelos sirven para investigación y para priorizar, no para diagnóstico clínico. Este análisis cubre la parte opcional de la rúbrica (machine learning con Python, notebook 09)."),
   etiqueta("Cautela", "Tres tareas tienen menos de 600 registros, así que sus métricas varían mucho entre particiones."),
-  ...figura("p5_modelos.png", "Página 5 (Modelos predictivos): AUC del mejor modelo por dataset, alertas y detalle de protocolo y métricas."),
+  ...figura("p5_modelos.png", "Página 5 (Modelos predictivos): AUC del mejor modelo por dataset, alertas, detalle de protocolo y métricas, y comparación de los tres algoritmos (AUC y sobreajuste)."),
 
   h2("Insight 8. Los datos de origen son de buena calidad, pero la completitud demográfica limita los cruces"),
   etiqueta("Qué muestra", "De las 49 reglas de calidad evaluadas sobre los 12 datasets antes de la carga, 39 se cumplen (79,6 %), 10 dan aviso y ninguna da error. Los avisos se concentran en validez (5) y completitud (4), y cada uno tiene un tratamiento documentado. De los 17 controles de carga, ETL, migración, seguridad e informe, 14 se superan y 3 quedan como avisos conocidos. El problema no está en la calidad de los valores sino en lo que cada fuente recoge: sobre los 334.318 registros, el género está informado en el 95,6 %, pero la edad solo en el 20,7 % y el nivel educativo en el 15,3 %."),
@@ -173,6 +177,13 @@ const insights = [
   etiqueta("Qué implica", "Las limitaciones de los cruces demográficos (insights 2 a 4) vienen del diseño de las fuentes, no de errores de calidad. Para ampliar el análisis por edad hay que priorizar fuentes que la recojan, y las reglas y los controles deben volver a ejecutarse cada vez que se añada una fuente."),
   etiqueta("Cautela", "Las reglas comprueban que los datos sean completos, válidos y coherentes, no que sean verdaderos: siguen siendo autorreportados. El aviso con más casos es el de validez del DASS-42: 5.192 respondentes (13,1 %) marcaron palabras inexistentes del control de vocabulario, una señal de respuesta poco atenta que se documenta pero no se excluye."),
   ...figuraSi("p8_calidad.png", "Página 8 (Calidad): reglas por dimensión y estado, completitud por dataset, reglas con aviso y registro de controles."),
+
+  h2("Insight 9. Un modelo simple basta: la Regresión Logística iguala a los algoritmos complejos sin sobreajustar"),
+  etiqueta("Qué muestra", "En las 8 fuentes modeladas, la Regresión Logística queda a menos de 0,015 de AUC del mejor modelo, y en Student Anxiety GAD-7 y Depression Student es la mejor. Además es la que menos sobreajusta en 7 de las 8 fuentes (en la otra empata con XGBoost): su accuracy casi no cambia entre entrenamiento y prueba, mientras que Random Forest y XGBoost memorizan en las fuentes pequeñas, con brechas de hasta 0,56 (XGBoost en Academic Stress, 140 registros) y 0,38 (Random Forest en Student Mental Health Survey y en DASS-42)."),
+  etiqueta("Cómo se encontró", "En la página 5 (Modelos), el gráfico «AUC por algoritmo y dataset» muestra en cada fuente tres barras casi iguales; el gráfico «Sobreajuste» muestra, en cambio, barras muy distintas: las de la Regresión Logística son las más cortas. La nota de lectura de la página resume la comparación."),
+  etiqueta("Comprobación", "Diferencia de AUC entre el mejor modelo y la Regresión Logística: 0,014 en Academic Stress y en Student Mental Health Survey, 0,005 en Mental Health Dataset y en Social Media and Mental Health, 0,003 en Dreaddit (frente al modelo híbrido) y 0,001 en DASS-42. El accuracy engaña con clases desbalanceadas: en Student Anxiety GAD-7, XGBoost logra 0,832 de accuracy frente al 0,827 del baseline que siempre predice la clase mayoritaria, aunque su AUC es 0,756. Por eso el informe compara los modelos por AUC."),
+  etiqueta("Qué implica", "En un tema sensible como la salud mental conviene un modelo interpretable: los coeficientes de la Regresión Logística explican qué factores pesan, con el mismo rendimiento y sin memorizar los datos."),
+  etiqueta("Cautela", "No se ajustaron hiperparámetros, así que Random Forest y XGBoost podrían mejorar con regularización. El AUC de Depression Student (0,998) sigue siendo sospechoso en todos los algoritmos (insight 7)."),
 ];
 
 const gobierno = [
@@ -212,6 +223,9 @@ const anexo = [
     ["6", "1 Panorama · 6 KPIs", "«% estrés Alto global» frente a «% de estrés Alto por dataset»; barras al 100 %"],
     ["7", "5 Modelos · 4 Validación", "«Datasets con alerta», «AUC del mejor modelo por dataset» y tarjeta del KPI 3"],
     ["8", "8 Calidad", "Tarjetas de reglas y controles, «Reglas por dimensión de calidad» y columna Edad de «Completitud por dataset»"],
+    ["9", "5 Modelos", "«AUC por algoritmo y dataset» y «Sobreajuste: accuracy de entrenamiento − prueba»"],
+    ["6", "9 Fuentes", "«Cómo se lleva cada fuente al nivel de estrés común»: variable nativa y criterio de cada dataset"],
+    ["2 y 4", "10 DASS-42", "«Las tres escalas por género» y «… por nivel educativo» (18-25 años); estrés Alto por edad"],
     ["2, 3 y 6", "7 Explorar", "Árbol de descomposición (Bloque → Género → Rango de edad, o «Valor alto») e influenciadores clave con «Alto» elegido"],
     ["Todos", "Detalle del dataset", "Clic derecho sobre un dataset → Obtener detalles: ficha con registros, distribución, demografía y mejor modelo"],
   ]),
