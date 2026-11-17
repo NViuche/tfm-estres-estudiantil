@@ -12,6 +12,8 @@ El problema, el enfoque, los objetivos y los hallazgos principales están en [`i
 tfm-estres-estudiantil/
 ├── README.md
 ├── LICENSE                 MIT para el código; CC BY 4.0 para documentación y figuras
+├── CITATION.cff            cómo citar el trabajo (GitHub muestra «Cite this repository»)
+├── .github/workflows/      tarea programada que mantiene activo el proyecto de Supabase
 ├── SEGUIMIENTO.md          retroalimentación del tutor por entrega, limitaciones y pendientes
 ├── investigacion/
 │   └── problema.md         problema, enfoque, objetivos y hallazgos
@@ -21,7 +23,7 @@ tfm-estres-estudiantil/
 ├── notebooks/              EDA, calidad, armonización, ingesta, ETL/KPIs y modelado
 ├── modelos/                modelos entrenados (.pkl) con su metadata (.json)
 ├── resultados/             métricas del modelado
-├── powerbi/                informe de Power BI (proyecto PBIP: modelo TMDL, medidas DAX, 9 páginas + 2 ocultas, tema e imágenes)
+├── powerbi/                informe de Power BI (proyecto PBIP: modelo TMDL, medidas DAX, 11 páginas + 2 ocultas, tema e imágenes)
 ├── scripts/                exportación de MySQL a CSV, generador de las páginas y de las imágenes del informe
 ├── supabase/               base de datos en la nube (PostgreSQL): esquema, migración y Power BI conectado
 ├── prototipo/              versión web del informe en un único HTML, una carpeta por versión (v1, v2…)
@@ -35,13 +37,13 @@ tfm-estres-estudiantil/
 | Carpeta | Contenido |
 |---|---|
 | `notebooks/` | `TFM_Notebook_Entrega1_y_Entrega2.ipynb` (notebook integrado de las entregas 1 y 2), EDA 01–04, reglas de calidad 05, armonización 06, ingesta 07, validación de la carga 07b, ETL/KPIs 08 y modelado 09 |
-| `sql/` | `modelo_datos_mysql.sql` (modelo v2), `esquema_estrella_powerbi.sql` (capa estrella definitiva) y `dwh_estrella.sql`. Sus diagramas están en [`figuras/diagramas/`](figuras/diagramas/README.md): `corregidos/` (versión vigente) y `entregados/` (tal como se presentaron). Los documentos entregados citan los dos primeros con sus nombres de entonces: `modelo_datos_mysql_v2.sql` y `esquema_estrella_powerbi_DEFINITIVO.sql` |
+| `sql/` | `modelo_datos_mysql.sql` (modelo v2), `esquema_estrella_powerbi.sql` (capa estrella definitiva), `dwh_estrella.sql` y `vw_fuentes_mysql.sql` (metadatos de las fuentes para la página Fuentes del informe). Sus diagramas están en [`figuras/diagramas/`](figuras/diagramas/README.md): `corregidos/` (versión vigente) y `entregados/` (tal como se presentaron). Los documentos entregados citan los dos primeros con sus nombres de entonces: `modelo_datos_mysql_v2.sql` y `esquema_estrella_powerbi_DEFINITIVO.sql` |
 | `docs/entrega1_objetivo1/` | [Síntesis del Objetivo 1](docs/entrega1_objetivo1/01_sintesis_objetivo1_final.md), [diccionario de datos](docs/entrega1_objetivo1/03_diccionario_de_datos.md) (Excel y Markdown), [respuesta a la retroalimentación del tutor](docs/entrega1_objetivo1/02_respuesta_retroalimentacion_entrega1_v3.md) |
 | `docs/entrega2_objetivo2/` | [Síntesis de ETL y KPIs](docs/entrega2_objetivo2/02_sintesis_entrega2_etl_kpis.md), [definición de KPIs](docs/entrega2_objetivo2/03_kpis_definicion.md), [síntesis del modelado](docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) |
-| `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (17 tablas, 17 relaciones, 45 medidas) (más la columna calculada `nivel_estres`) y 9 páginas en el menú: inicio (menú principal), panorama, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos, KPIs, **Explorar** (árbol de descomposición e influenciadores clave) y **Calidad** (calidad y gobierno del dato). Dos páginas ocultas: la ficha de cada dataset (*Obtener detalles*) y el tooltip del dataset. Tema de colores «Bienestar» e imágenes en `powerbi/imagenes/` (iconos, fondo y logos) |
-| `scripts/` | `exportar_mysql_cli.py` (MySQL → 17 CSV para Power BI), `cargar_calidad_dato.py` (tablas de calidad del dato: reglas y controles), `generar_imagenes.py` (iconos de los bloques, fondo de Inicio y logos en blanco) y `generar_paginas_pbir.py` (reconstruye las páginas, registra las imágenes y ajusta el modelo) |
+| `powerbi/` | `TFM_Estres.pbip` con el modelo semántico (21 tablas, 20 relaciones, 53 medidas y las columnas calculadas `nivel_estres` y `familia`) y 11 páginas en el menú: inicio (menú principal), panorama, demografía, lenguaje (Dreaddit), validación psicológica, modelos predictivos (con la comparación de algoritmos), KPIs, **Explorar** (árbol de descomposición e influenciadores clave), **Calidad** (calidad y gobierno del dato), **Fuentes** (catálogo de los 12 datasets y criterio de cada uno) y **DASS-42** (perfil de depresión, ansiedad y estrés). Dos páginas ocultas: la ficha de cada dataset (*Obtener detalles*) y el tooltip del dataset. Tema de colores «Bienestar» e imágenes en `powerbi/imagenes/` (iconos, fondo y logos) |
+| `scripts/` | `exportar_mysql_cli.py` (MySQL → 18 CSV para Power BI), `cargar_calidad_dato.py` (tablas de calidad del dato: reglas y controles), `generar_imagenes.py` (iconos de los bloques, fondo de Inicio y logos en blanco) y `generar_paginas_pbir.py` (reconstruye las páginas, registra las imágenes y ajusta el modelo) |
 | `supabase/` | [Base de datos en Supabase](supabase/README.md): esquema PostgreSQL `tfm` (dimensiones, DWH y hechos de la capa estrella), migración validada contra MySQL, correcciones de texto y el informe de Power BI conectado con un usuario de solo lectura |
-| `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v8/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos), `v9/` (datos en vivo de Supabase), `v10/` (enlazada con este repositorio y con las fuentes de cada dataset) y `v11/`, la final, con la página de calidad del dato |
+| `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v8/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos), `v9/` (datos en vivo de Supabase), `v10/` (enlazada con este repositorio y con las fuentes de cada dataset), `v11/` (página de calidad del dato) y `v12/`, la final, con las páginas Fuentes y DASS-42 y la comparación de algoritmos |
 | `docs/entrega3_objetivo3/` | [Guía del informe de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) (datos, modelo, medidas, páginas y valores de control), el informe exportado a PDF y el [documento de insights](docs/entrega3_objetivo3/insights/README.md) en Word (entregable de la Entrega 3) |
 
 ## Arquitectura de los datos
@@ -54,7 +56,7 @@ flowchart LR
     B --> C["Modelo v2 · MySQL<br/>20 tablas"]
     C --> D["Capa de consumo<br/>7 vistas vw_*"]
     C --> E["ETL y KPIs<br/>notebook 08 → 8 tablas dwh_*"]
-    D --> F["Supabase<br/>esquema tfm · 17 tablas + 7 vistas"]
+    D --> F["Supabase<br/>esquema tfm · 19 tablas + 8 vistas"]
     E --> F
     F --> G["Power BI y prototipo web<br/>usuario de solo lectura"]
 ```
@@ -76,7 +78,7 @@ Los tres diagramas del modelo (modelo v2 en MySQL, capa de consumo y DWH), con s
 
 ## Informe de Power BI
 
-Ocho páginas en el menú: una de inicio, que hace de menú principal, seis de análisis y **Explorar**, con los visuales de inteligencia artificial de Power BI. Los segmentadores por bloque, género, edad y nivel educativo están sincronizados entre Panorama, Demografía y Explorar. Clic derecho sobre un dataset → *Obtener detalles* abre su ficha, y al pasar el ratón por las barras de Panorama aparece su resumen. También puedes ver el [informe completo en PDF](docs/entrega3_objetivo3/informe_powerbi_TFM_Estres.pdf).
+Once páginas en el menú: una de inicio, que hace de menú principal, seis de análisis, **Explorar**, con los visuales de inteligencia artificial de Power BI, y tres de contexto: **Calidad**, **Fuentes** y **DASS-42**. Los segmentadores por bloque, género, edad y nivel educativo están sincronizados entre Panorama, Demografía y Explorar. Clic derecho sobre un dataset → *Obtener detalles* abre su ficha, y al pasar el ratón por las barras de Panorama aparece su resumen. También puedes ver el [informe completo en PDF](docs/entrega3_objetivo3/informe_powerbi_TFM_Estres.pdf).
 
 **Inicio** (menú principal): qué analiza el informe, los 6 KPIs del DWH y los 4 bloques con su icono y su página principal.
 
@@ -86,7 +88,7 @@ Ocho páginas en el menú: una de inicio, que hace de menú principal, seis de a
 |---|---|
 | **1 Panorama general**: % de estrés Alto por bloque y por dataset ![Panorama general](figuras/powerbi/p1_panorama.png) | **2 Demografía**: estrés Alto por género, edad y nivel educativo ![Demografía](figuras/powerbi/p2_demografia.png) |
 | **3 Lenguaje (Dreaddit)**: vocabulario de ansiedad (LIWC) por subreddit ![Lenguaje](figuras/powerbi/p3_lenguaje.png) | **4 Validación psicológica**: DASS-42 y búsqueda de tratamiento ![Validación psicológica](figuras/powerbi/p4_validacion.png) |
-| **5 Modelos predictivos**: AUC del mejor modelo por dataset ![Modelos predictivos](figuras/powerbi/p5_modelos.png) | **6 KPIs**: histórico y catálogo de los 6 KPIs y distribución Bajo / Moderado / Alto por dataset ![KPIs](figuras/powerbi/p6_kpis.png) |
+| **5 Modelos predictivos**: AUC del mejor modelo por dataset y comparación de los tres algoritmos (AUC y sobreajuste) ![Modelos predictivos](figuras/powerbi/p5_modelos.png) | **6 KPIs**: histórico y catálogo de los 6 KPIs y distribución Bajo / Moderado / Alto por dataset ![KPIs](figuras/powerbi/p6_kpis.png) |
 
 **7 Explorar**: árbol de descomposición del % de estrés Alto (aquí, la ruta Validación psicológica → Femenino → 18-25 → Nivel educativo) e influenciadores clave del estrés Alto.
 
@@ -95,6 +97,10 @@ Ocho páginas en el menú: una de inicio, que hace de menú principal, seis de a
 **8 Calidad**: calidad y gobierno del dato. Resultado de las 49 reglas de calidad por dimensión (39 superadas, 10 avisos y ninguna con error), completitud de cada dataset por campo, reglas con aviso y su tratamiento, y el registro de los 17 controles de carga, ETL, migración, seguridad e informe.
 
 ![Calidad del dato](figuras/powerbi/p8_calidad.png)
+
+| | |
+|---|---|
+| **9 Fuentes**: catálogo de los 12 datasets (fuente, filas, columnas, calidad y uso en el modelado) y criterio con que cada variable nativa se lleva a Bajo / Moderado / Alto ![Fuentes](figuras/powerbi/p9_fuentes.png) | **10 DASS-42**: depresión, ansiedad y estrés por género y nivel educativo (18-25 años) y estrés Alto por edad ![DASS-42](figuras/powerbi/p10_dass.png) |
 
 Los insights que salen de estas páginas, y cómo se llegó a cada uno, están en el [documento de insights](docs/entrega3_objetivo3/insights/README.md).
 
@@ -133,10 +139,10 @@ Requisitos: Python 3 con Jupyter, y MySQL (probado con XAMPP; base de datos `tfm
 5. `sql/dwh_estrella.sql` (opcional; el notebook 08 crea las tablas si faltan)
 6. ETL y KPIs: `notebooks/08_etl_transformaciones_kpis.ipynb` (o la sección B.2 del notebook integrado)
 7. Modelado: `notebooks/09_modelado_objetivo2.ipynb`
-8. Datos para Power BI: `python scripts/cargar_calidad_dato.py` (tablas de calidad del dato, a partir de los resultados del notebook 05) y `python scripts/exportar_mysql_cli.py`, que escribe 17 CSV en `powerbi_csv/`, que no se versiona.
+8. Datos para Power BI: `python scripts/cargar_calidad_dato.py` (tablas de calidad del dato, a partir de los resultados del notebook 05), la vista `sql/vw_fuentes_mysql.sql` y `python scripts/exportar_mysql_cli.py`, que escribe 18 CSV en `powerbi_csv/`, que no se versiona.
 9. Informe: abre `powerbi/TFM_Estres.pbip` en Power BI Desktop. En *Transformar datos → Parámetros*, pon en `RutaCSV` la ruta absoluta de tu carpeta `powerbi_csv/` y pulsa *Actualizar*. Detalles en [la guía](docs/entrega3_objetivo3/guia_power_bi.md).
 10. Nube (opcional): copia `supabase/.env.ejemplo` como `supabase/.env` con las credenciales de tu proyecto de Supabase y ejecuta `python supabase/scripts/migrar_mysql_a_supabase.py`; después `python supabase/scripts/preparar_powerbi_supabase.py` y abre `supabase/powerbi/TFM_Estres.pbip`. Ver [supabase/README.md](supabase/README.md).
-11. Prototipo web (versión final): `python prototipo/v10/construir_prototipo.py` (lee de Supabase; `--fuente csv` para los CSV locales) y abre `prototipo/v10/prototipo_estres.html`. Para los enlaces a los datos en vivo: `python supabase/scripts/publicar_api_lectura.py` con `SUPABASE_URL` y `SUPABASE_ANON_KEY` en `supabase/.env`.
+11. Prototipo web (versión final): `python prototipo/v12/construir_prototipo.py` (lee de Supabase; `--fuente csv` para los CSV locales) y abre `prototipo/v12/prototipo_estres.html`. Para los enlaces a los datos en vivo: `python supabase/scripts/publicar_api_lectura.py` con `SUPABASE_URL` y `SUPABASE_ANON_KEY` en `supabase/.env`.
 
 Para regenerar el informe: `python scripts/generar_imagenes.py` y `python scripts/generar_paginas_pbir.py` (con Power BI cerrado); después `python supabase/scripts/preparar_powerbi_supabase.py` para la copia de Supabase.
 
@@ -161,13 +167,14 @@ Los notebooks y scripts SQL que pasaron por varias versiones se guardan con un �
 | `entrega3/prototipo-v9-supabase` | `prototipo/`, `supabase/` | vistas de lectura pública en Supabase → prototipo v9 con enlaces a los datos en vivo |
 | `entrega3/prototipo-v10-diagramas` | `prototipo/`, `figuras/diagramas/`, `README.md` | prototipo v10 enlazado con el repositorio → diagramas visibles en los README |
 | `entrega3/calidad-dato` | `scripts/`, `powerbi/`, `supabase/`, `prototipo/`, `docs/entrega3_objetivo3/` | tablas de calidad del dato → página 8 Calidad → prototipo v11 → insight 8 y sección de gobierno en el Word |
+| `entrega3/fuentes-dass-modelos` | `sql/`, `scripts/`, `powerbi/`, `supabase/`, `prototipo/`, `docs/`, `.github/` | vista de fuentes → páginas Fuentes y DASS-42 y comparación de algoritmos → prototipo v12 → insight 9 → cita, tarea de Supabase y documentación |
 
 Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `git show <commit>:notebooks/<archivo>`, o desde la pestaña *History* del archivo en GitHub.
 
 ## Estado
 
 - **Entrega 1 (EDA, calidad, modelo de datos) y Entrega 2 (ingesta, ETL, KPIs, modelado):** completadas. Se cargaron 334.318 filas; 319.318 pertenecen a las 9 fuentes incluidas en el modelado.
-- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (9 páginas, con una de calidad y gobierno del dato; cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (7 insights); base de datos migrada a Supabase y validada (17/17 tablas, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v10, con enlaces a los datos en vivo de Supabase, al repositorio y a las fuentes). Siguiente fase: memoria y defensa.
+- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (11 páginas, con calidad y gobierno del dato, fuentes, perfil DASS-42 y comparación de algoritmos; cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (9 insights); base de datos migrada a Supabase y validada (19 tablas y la vista de fuentes con las mismas filas que MySQL, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v12, con enlaces a los datos en vivo de Supabase, al repositorio y a las fuentes). Siguiente fase: memoria y defensa.
 
 ## Licencia
 

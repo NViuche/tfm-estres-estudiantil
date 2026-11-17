@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "Si usas este trabajo, cítalo con estos datos."
+title: "Análisis multidimensional del estrés estudiantil"
+abstract: >-
+  Trabajo de Fin de Máster (Business Analytics e Inteligencia Artificial, UNIE / INESDI).
+  Integra 12 datasets públicos sobre estrés estudiantil en un modelo de datos común
+  (MySQL y Supabase), con ETL, KPIs, modelos predictivos, un informe de Power BI y
+  una versión web interactiva.
+type: software
+authors:
+  - given-names: "Obed Isaí"
+    family-names: "Alvarado Núñez"
+  - given-names: "Roberto Mario"
+    family-names: "Brochero López"
+  - given-names: "Raúl"
+    family-names: "Cervantes Iglesias"
+  - given-names: "Andrés Francisco"
+    family-names: "García Grajales"
+  - given-names: "Santiago Nicolas"
+    family-names: "Viuche Pinilla"
+repository-code: "https://github.com/NViuche/tfm-estres-estudiantil"
+url: "https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b"
+license: MIT
+date-released: "2026-11-16"
+keywords:
+  - estrés estudiantil
+  - salud mental
+  - business analytics
+  - power bi
+  - data warehouse
+  - machine learning

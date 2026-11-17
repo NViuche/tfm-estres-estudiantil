@@ -1,10 +1,10 @@
 # Base de datos en la nube (Supabase)
 
-Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema `tfm`. Contiene lo que consumen el informe de Power BI y el prototipo web: 8 dimensiones, las 8 tablas del DWH, las 2 tablas de calidad del dato y los hechos de la capa estrella (`hechos_estres`, 334.318 filas), con las 7 vistas `vw_*`. Las tablas originales de cada dataset (`b1_*` … `b4_*`) se quedan en MySQL.
+Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema `tfm`. Contiene lo que consumen el informe de Power BI y el prototipo web: 8 dimensiones, las 8 tablas del DWH, las 2 tablas de calidad del dato y los hechos de la capa estrella (`hechos_estres`, 334.318 filas), con las 7 vistas `vw_*` y la vista de metadatos `vw_fuentes` (fuente, columnas originales y criterio de mapeo de cada dataset). Las tablas originales de cada dataset (`b1_*` … `b4_*`) se quedan en MySQL.
 
 | Carpeta | Contenido |
 |---|---|
-| `sql/` | `01_esquema.sql` (tablas en PostgreSQL), `02_vistas.sql` (vistas `vw_*`), `03_correcciones_datos.sql` (tildes y «Yes» → «Sí», solo en Supabase), `04_api_lectura_publica.sql` (vistas de lectura pública para la API), `05_calidad_dato.sql` (tablas de calidad del dato: reglas y controles) |
+| `sql/` | `01_esquema.sql` (tablas en PostgreSQL), `02_vistas.sql` (vistas `vw_*`), `03_correcciones_datos.sql` (tildes y «Yes» → «Sí», solo en Supabase), `04_api_lectura_publica.sql` (vistas de lectura pública para la API), `05_calidad_dato.sql` (tablas de calidad del dato: reglas y controles), `06_vista_fuentes.sql` (vista `vw_fuentes` para la página Fuentes del informe) |
 | `scripts/` | `migrar_mysql_a_supabase.py` (migración y validación), `probar_lector.py` (prueba del usuario de solo lectura), `preparar_powerbi_supabase.py` (genera `powerbi/`), `publicar_api_lectura.py` (publica y prueba las vistas de lectura pública) |
 | `powerbi/` | El informe de Power BI conectado a Supabase con el conector PostgreSQL. El fichero de entrega `TFM_Estres_supabase.pbix` se guarda en `powerbi/Entrega/` (no se versiona: lleva los datos dentro) |
 
@@ -15,6 +15,8 @@ Versión en la nube de la base de datos del TFM: PostgreSQL en Supabase, esquema
 3. `python scripts/preparar_powerbi_supabase.py` (con Power BI cerrado) y abre `powerbi/TFM_Estres.pbip` con el usuario `tfm_lector.<ref del proyecto>`.
 
 Validación de la migración (05/11/2026): 17 de 17 tablas con las mismas filas que MySQL y 7 de 7 cifras de control iguales (319.318 registros, 33,68 % de estrés Alto, 17,0 % de cobertura, 49,41 % de tratamiento, 3.549 posts, AUC 0,786 y 2 datasets con alerta).
+
+Comprobación del 17/11/2026, tras añadir la calidad del dato y `vw_fuentes`: las 19 tablas y la vista `vw_fuentes` tienen las mismas filas en Supabase (leídas con `tfm_lector`) que en MySQL.
 
 ## Datos en vivo (lectura pública)
 
