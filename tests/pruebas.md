@@ -31,12 +31,12 @@ Comprobaciones hechas antes de dar por bueno el informe ([`powerbi/`](../powerbi
 
 | Comprobación | Resultado |
 |---|---|
-| Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 15 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
-| Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 17 tablas |
-| Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 45 medidas, sin conflictos de nombres ni referencias DAX rotas |
-| Campos usados por los objetos visuales de las 11 páginas (informe local y de Supabase) | Todos existen en el modelo, incluida la columna calculada `vw_hechos_estres[nivel_estres]` |
-| Posición de los objetos visuales | Todos caben en su página (1280 × 720; Explorar 1280 × 1000; Calidad 1280 × 1450; tooltip 320 × 240) |
-| Revisión en Power BI Desktop | Validado: menú sin páginas ocultas, logos, tooltip de página, *Obtener detalles* con botón Volver, filtros sincronizados, árbol de descomposición e influenciadores clave |
+| Exportación MySQL → CSV (`scripts/exportar_mysql_cli.py`) | 18 objetos; filas idénticas a MySQL; ningún nulo exportado como texto «NULL» |
+| Columnas del modelo semántico frente a las cabeceras de los CSV | Coinciden en las 18 tablas (17/11/2026) |
+| Modelo TMDL cargado con la biblioteca de Power BI Desktop | Sin errores: 53 medidas, sin conflictos de nombres ni referencias DAX rotas |
+| Campos usados por los objetos visuales de las 13 páginas (informe local y de Supabase) | Todos existen en el modelo, incluidas las columnas calculadas `vw_hechos_estres[nivel_estres]` y `vw_modelo_resultados[familia]` |
+| Posición de los objetos visuales | Todos caben en su página (1280 × 720; Modelos 1280 × 1230; Explorar 1280 × 1000; Calidad 1280 × 1450; Fuentes 1280 × 990; tooltip 320 × 240) |
+| Revisión en Power BI Desktop | Validado: menú de 11 botones en una línea y sin páginas ocultas, logos, tooltip de página, *Obtener detalles* con botón Volver, filtros sincronizados, árbol de descomposición e influenciadores clave; tablas de Fuentes y nota de Modelos sin barras de desplazamiento (PDF del 17/11/2026) |
 | KPIs de la página Inicio frente a `dwh_kpi_resultados` | Coinciden con la última ejecución; las 3 ejecuciones guardadas dan los mismos valores |
 | Página 8 (Calidad) frente a SQL sobre Supabase y MySQL | 49 reglas (39 OK, 10 avisos, 0 errores) y 17 controles (14 OK, 3 avisos) en las dos bases, sin claves huérfanas hacia `dim_dataset`; completitud de los 12 datasets: género 95,6 %, edad 20,7 %, nivel educativo 15,3 % y nivel de estrés 100 % |
 | Tablas de calidad por las dos vías (`cargar_calidad_dato.py` y exportación desde MySQL) | Mismo contenido; solo cambia el formato decimal |
@@ -54,6 +54,11 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Datasets con alerta | 2 |
 | Reglas de calidad superadas | 39 de 49 (79,6 %) |
 | Controles de validación superados | 14 de 17 |
+| Datasets en Fuentes (incluidos / sintéticos) · columnas originales | 12 (9 / 3) · 576 |
+| DASS-42, 18-25 años: depresión · ansiedad · estrés medios | 35,0 · 30,4 · 35,2 (23.039 respondentes; 35,5 % con estrés severo) |
+| DASS-42, 18-25 años: ansiedad y estrés, mujeres frente a hombres | 31,0 frente a 28,1 · 35,7 frente a 32,8 |
+| DASS-42: estrés Alto por edad (<18 → >50) | 48,3 % → 35,5 % → 30,0 % → 26,1 % → 18,0 % |
+| Comparación de algoritmos | Regresión Logística a menos de 0,015 de AUC del mejor en las 8 fuentes; menor sobreajuste en 7 de 8 |
 
 ## 4. Validación de la migración a Supabase
 
@@ -67,20 +72,21 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Correcciones de texto | Bloques, KPIs y modelos con tildes; antecedentes familiares «No / Sí» |
 | Informe de Power BI conectado a Supabase | Mismos valores de control que el informe local |
 | Prototipo web construido desde Supabase | Mismas cifras que el informe (319.318 registros, 33,7 % de estrés Alto) |
+| Filas por tabla tras la calidad del dato y `vw_fuentes` (17/11/2026, leídas con `tfm_lector`) | 19 tablas y la vista `vw_fuentes`: 20 de 20 coinciden con MySQL |
 | Influenciadores clave del prototipo frente a Power BI | Mismo orden de factores (No reportado, Percepción emocional, Otro, <18, Hábitos digitales); valores algo menores porque Power BI aplica su propio modelo |
 | Ruta de ejemplo del árbol (prototipo frente al PDF entregado) | Mismas cifras en cada nivel: 34,1 % → 39,0 % → 37,6 % → 40,4 / 35,8 / 35,2 / 35,0 % |
-| API de lectura pública (`publicar_api_lectura.py`, 11/11/2026) | `tfm_datasets`, `tfm_kpis` y `tfm_modelos` responden con 12, 6 y 8 filas; crear, modificar o borrar por la API da error; la clave pública no accede al esquema `tfm` ni a sus tablas |
+| API de lectura pública (`publicar_api_lectura.py`, 11/11/2026; repetida el 17/11/2026) | `tfm_datasets`, `tfm_kpis`, `tfm_modelos` y `tfm_calidad` responden con 12, 6, 8 y 49 filas; crear, modificar o borrar por la API da error; la clave pública no accede al esquema `tfm` ni a sus tablas |
 
 ## 5. Revisión general del repositorio
 
-Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2026):
+Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2026; repetidas el 17/11/2026 tras añadir las páginas Fuentes y DASS-42):
 
 | Comprobación | Resultado |
 |---|---|
-| Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 20 tablas, 19 relaciones, 45 medidas y la columna calculada `nivel_estres` |
+| Los dos modelos TMDL (`powerbi/` y `supabase/powerbi/`) cargados con la biblioteca de Power BI | Sin errores: 21 tablas, 20 relaciones, 53 medidas y las columnas calculadas `nivel_estres` y `familia` |
 | Campos y posición de los objetos visuales en los dos informes | Todos existen en el modelo y caben en su página |
-| Scripts de Python (29) y ficheros JSON del informe (235) | Compilan y se leen sin errores |
-| Prototipo final (`prototipo/v11`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien; las 17 rutas del repositorio que enlaza existen y los 9 datasets de la ficha tienen su fuente |
+| Scripts de Python (31) y ficheros JSON de los dos informes (254) | Compilan y se leen sin errores |
+| Prototipo final (`prototipo/v12`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien; las rutas del repositorio que enlaza existen y los 9 datasets de la ficha tienen su fuente |
 | Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
 | Enlaces relativos entre los documentos Markdown | 142 enlaces, ninguno roto |
 | Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |

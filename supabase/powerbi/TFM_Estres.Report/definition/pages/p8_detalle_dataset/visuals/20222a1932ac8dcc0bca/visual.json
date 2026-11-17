@@ -144,7 +144,7 @@
             "autoSizeColumnWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "false"
+                  "Value": "true"
                 }
               }
             },
@@ -173,9 +173,6 @@
       ],
       "columnWidth": [
         {
-          "selector": {
-            "metadata": "vw_modelo_resultados.modelo"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -184,12 +181,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_modelo_resultados.modelo"
           }
         },
         {
-          "selector": {
-            "metadata": "vw_modelo_resultados.protocolo"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -198,12 +195,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_modelo_resultados.protocolo"
           }
         },
         {
-          "selector": {
-            "metadata": "vw_modelo_resultados.n_registros"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -212,12 +209,26 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_modelo_resultados.n_registros"
           }
         },
         {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "50D"
+                }
+              }
+            }
+          },
           "selector": {
             "metadata": "vw_modelo_resultados.auc"
-          },
+          }
+        },
+        {
           "properties": {
             "value": {
               "expr": {
@@ -226,26 +237,12 @@
                 }
               }
             }
-          }
-        },
-        {
+          },
           "selector": {
             "metadata": "vw_modelo_resultados.f1"
-          },
-          "properties": {
-            "value": {
-              "expr": {
-                "Literal": {
-                  "Value": "50D"
-                }
-              }
-            }
           }
         },
         {
-          "selector": {
-            "metadata": "vw_modelo_resultados.accuracy"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -254,12 +251,12 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_modelo_resultados.accuracy"
           }
         },
         {
-          "selector": {
-            "metadata": "vw_modelo_resultados.alerta"
-          },
           "properties": {
             "value": {
               "expr": {
@@ -268,6 +265,9 @@
                 }
               }
             }
+          },
+          "selector": {
+            "metadata": "vw_modelo_resultados.alerta"
           }
         }
       ]

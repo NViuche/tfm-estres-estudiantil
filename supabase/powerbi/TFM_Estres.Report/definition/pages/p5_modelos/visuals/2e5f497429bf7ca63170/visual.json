@@ -1,0 +1,46 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "2e5f497429bf7ca63170",
+  "position": {
+    "x": 16,
+    "y": 1110,
+    "z": 40,
+    "height": 106,
+    "width": 1248,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Lectura de la comparación",
+                    "textStyle": {
+                      "fontSize": "11pt",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Un modelo simple basta: la Regresión Logística queda a menos de 0,015 de AUC del mejor modelo en las 8 fuentes, y es la que menos sobreajusta en 7 de ellas (en la otra empata con XGBoost). Random Forest y XGBoost memorizan en las fuentes pequeñas (brecha de hasta 0,56 en Academic Stress; una brecha mayor de 0,15 indica sobreajuste). El accuracy engaña con clases desbalanceadas: en Student Anxiety GAD-7, XGBoost logra 0,832 de accuracy frente al 0,827 del baseline, y por eso los modelos se comparan por AUC.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,13 +1,14 @@
 # Guía Power BI — Entrega 3 (Objetivo 3)
 
-El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 45 medidas DAX, tema de colores «Bienestar», imágenes propias (iconos y logos) y 11 páginas: 9 en el menú (Inicio, 6 de análisis, Explorar y Calidad) y 2 ocultas (Detalle del dataset y Tooltip del dataset). Los datos se leen de 17 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
+El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): modelo semántico en TMDL, 53 medidas DAX, tema de colores «Bienestar», imágenes propias (iconos y logos) y 13 páginas: 11 en el menú (Inicio, 6 de análisis, Explorar, Calidad, Fuentes y DASS-42) y 2 ocultas (Detalle del dataset y Tooltip del dataset). Los datos se leen de 18 CSV exportados del MySQL local (`powerbi_csv/`, no se versionan).
 
 
 ## 1. Preparar los datos
 
 1. En MySQL (XAMPP) deben existir las vistas `vw_*` (`sql/esquema_estrella_powerbi.sql`), las tablas `dwh_*` (`sql/dwh_estrella.sql` + notebook 08) y los resultados del modelado (notebook 09: `dwh_modelo_resultados` y `vw_modelo_resultados`).
 2. Calidad del dato: `python scripts\cargar_calidad_dato.py` carga las tablas `dwh_calidad_reglas` (las 49 reglas del notebook 05, con su dimensión de calidad) y `dwh_calidad_controles` (registro de controles de carga, ETL, migración, seguridad e informe) en MySQL, en Supabase y como CSV. Si XAMPP está apagado, escribe el CSV y Supabase, y avisa para repetir después con `--solo mysql`.
-3. Con MySQL encendido: `python scripts\exportar_mysql_cli.py`. Genera los 17 CSV en `powerbi_csv/` (UTF-8, coma, punto decimal, nulos como celda vacía). Solo necesita Python y el `mysql.exe` de XAMPP. Hay que repetirlo cada vez que cambien los datos en MySQL.
+3. Vista de metadatos de las fuentes: `sql/vw_fuentes_mysql.sql` (une `dim_dataset` con `dim_mapeo_estres`; en Supabase es `06_vista_fuentes.sql`).
+4. Con MySQL encendido: `python scripts\exportar_mysql_cli.py`. Genera los 18 CSV en `powerbi_csv/` (UTF-8, coma, punto decimal, nulos como celda vacía). Solo necesita Python y el `mysql.exe` de XAMPP. Hay que repetirlo cada vez que cambien los datos en MySQL.
 
 ¿Por qué CSV y no MySQL directo? El origen `MySQL` del modelo existe (parámetro `Fuente = "MySQL"`), pero no funciona con el MySQL de XAMPP. Al conectar sin cifrado, Power BI pide el modo SSL `None`, que el conector actual ya no admite (error *No se puede encontrar el valor solicitado 'None'*).
 
@@ -17,14 +18,14 @@ El informe está en `powerbi/` como proyecto de Power BI (`TFM_Estres.pbip`): mo
 2. *Transformar datos → Parámetros*:
    - `Fuente` = `CSV`;
    - `RutaCSV` = **ruta absoluta** de la carpeta `powerbi_csv/` en tu equipo. Power Query no admite rutas relativas, así que hay que actualizarla si se mueve la carpeta.
-3. *Inicio → Actualizar*. Deben cargar 17 tablas.
+3. *Inicio → Actualizar*. Deben cargar 18 tablas.
 4. Comprobación rápida, sin filtros: `Registros` = 319.318 y `% Estrés Alto` = 33,7 %. Si no coinciden, prevalece MySQL y hay que revisar la exportación.
 
 Para ver los números con formato español (319.318 y 33,7 %): *Archivo → Opciones y configuración → Opciones → Configuración regional (Archivo actual) → Configuración regional de cadena de formato = Español (España)*.
 
 ## 3. Regenerar las páginas
 
-Los objetos visuales de las 11 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR, junto con `page.json` (fondo de Inicio, página de obtención de detalles, página de tooltip, Explorar más alta) y `pages.json` (orden del menú, Inicio como página de apertura). Además registra las imágenes en `report.json`, fija en el modelo el orden de rangos de edad y niveles, quita la suma automática de las métricas de los modelos, muestra `fecha_ejecucion` de los KPIs sin segundos (`dd/mm/yyyy hh:nn`) crea la columna calculada `vw_hechos_estres[nivel_estres]` y añade al modelo las dos tablas de calidad del dato (con sus medidas, la relación con `vw_dim_dataset` y sus columnas de texto en `fnTabla`) y las medidas de completitud.
+Los objetos visuales de las 13 páginas los escribe `scripts/generar_paginas_pbir.py` en formato PBIR, junto con `page.json` (fondo de Inicio, página de obtención de detalles, página de tooltip, Explorar más alta) y `pages.json` (orden del menú, Inicio como página de apertura). Además registra las imágenes en `report.json`, fija en el modelo el orden de rangos de edad y niveles, quita la suma automática de las métricas de los modelos, muestra `fecha_ejecucion` de los KPIs sin segundos (`dd/mm/yyyy hh:nn`) crea la columna calculada `vw_hechos_estres[nivel_estres]` y añade al modelo las dos tablas de calidad del dato y la vista `vw_fuentes` (con sus medidas, la relación con `vw_dim_dataset` y sus columnas de texto en `fnTabla`), las medidas de completitud, de comparación de modelos y del perfil DASS-42, y la columna calculada `vw_modelo_resultados[familia]`.
 
 Las imágenes las dibuja antes `scripts/generar_imagenes.py` en `powerbi/imagenes/`: los 4 iconos de los bloques (tipografía Segoe Fluent Icons de Windows), el fondo de Inicio y los logos de INESDI y UNIE en blanco, a partir de `recursos/logos/` (solo los que tienen fondo transparente).
 
@@ -42,12 +43,13 @@ Las imágenes las dibuja antes `scripts/generar_imagenes.py` en `powerbi/imagene
 | `dwh_kpi_catalogo`, `dwh_kpi_resultados` | Definición e histórico de KPIs |
 | `vw_modelo_resultados` | Resultados del Objetivo 2 (última ejecución) |
 | `dwh_calidad_reglas`, `dwh_calidad_controles` | Calidad y gobierno del dato: 49 reglas por dataset y dimensión de calidad, y registro de 17 controles |
+| `vw_fuentes` | Metadatos de cada dataset: fuente, columnas originales, variable nativa de estrés y criterio de mapeo a Bajo / Moderado / Alto |
 
 Relaciones (todas uno a varios, con filtro desde la dimensión hacia los hechos):
 
 | Dimensión (1) | Hechos (*) |
 |---|---|
-| `vw_dim_dataset[id_dataset]` | `vw_hechos_estres`, `vw_modelo_resultados`, `dwh_calidad_reglas` |
+| `vw_dim_dataset[id_dataset]` | `vw_hechos_estres`, `vw_modelo_resultados`, `dwh_calidad_reglas`, `vw_fuentes` |
 | `vw_dim_genero[id_genero]` | `vw_hechos_estres`, `dwh_agg_prevalencia`, `dwh_dass_severidad` |
 | `vw_dim_rango_edad[id_rango_edad]` | `vw_hechos_estres`, `dwh_agg_prevalencia`, `dwh_dass_severidad` |
 | `vw_dim_nivel_educativo[id_nivel_educativo]` | `vw_hechos_estres`, `dwh_dass_severidad` |
@@ -60,6 +62,7 @@ Decisiones de modelado:
 - `vw_hechos_estres` incluye los 3 datasets sintéticos, pero todas las medidas de volumen filtran `vw_dim_dataset[uso_modelado] = "incluido"`. No hay que excluirlos a mano.
 - Las columnas `id_*` están ocultas.
 - Rango de edad, nivel de estrés y nivel educativo se ordenan por su id, no alfabéticamente.
+- `vw_modelo_resultados[familia]`: algoritmo base de cada modelo (Regresión Logística, Random Forest, XGBoost, baseline, texto o híbrido). Agrupa las variantes LIWC de Dreaddit con su algoritmo para comparar los mismos algoritmos en las 8 fuentes; busca subcadenas sin tildes porque en MySQL los nombres no las llevan.
 - `vw_hechos_estres[nivel_estres] = RELATED ( vw_dim_nivel_estres[nivel] )`: columna calculada para los influenciadores clave, que analizan por fila de la tabla del campo objetivo (con el nivel en la dimensión, el análisis se haría sobre 4 filas).
 
 ## 5. Medidas DAX principales
@@ -75,14 +78,15 @@ Brecha de género en ansiedad (puntos) = [Ansiedad media DASS (mujeres)] - [Ansi
 Ratio discriminante LIWC = DIVIDE ( [LIWC ansiedad (estrés Alto)], [LIWC ansiedad (estrés Bajo)] )
 Modelos con alerta = CALCULATE ( COUNTROWS ( vw_modelo_resultados ), vw_modelo_resultados[es_mejor_modelo] = 1, vw_modelo_resultados[alerta] <> BLANK () )
 % reglas superadas = DIVIDE ( [Reglas OK], [Reglas] )
-% edad informada = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_rango_edad] <> 0 ), COUNTROWS ( vw_hechos_estres ) )
+% edad informada = DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_rango_edad] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )
+Estrés medio DASS = DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[estres_medio] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) )
 ```
 
 Las medidas de completitud (`% género informado`, `% edad informada`, `% nivel educativo informado` y `% nivel de estrés asignado`) cuentan los 12 datasets, sin filtrar `uso_modelado`: miden la calidad de la carga, no el análisis.
 
 ## 6. Páginas
 
-Tamaño 1280 × 720 (Explorar, 1280 × 1000, y Calidad, 1280 × 1360, con «Ajustar al ancho»). En todas: banda superior con título y subtítulo y navegador de páginas como menú (9 botones; no muestra las páginas ocultas). Inicio lleva fondo propio y los logos de INESDI y UNIE en la banda. Los segmentadores de Panorama, Demografía y Explorar están sincronizados: la selección se mantiene al cambiar de página. Tema `TFM_Estres_tema_bienestar.json` (teal, arena y coral sobre fondo crema; tarjetas blancas con borde redondeado y sombra). Las tablas tienen anchos fijos con ajuste de texto para que todo se lea sin barras de desplazamiento.
+Tamaño 1280 × 720 (con «Ajustar al ancho»: Modelos 1280 × 1230, Explorar 1280 × 1000, Calidad 1280 × 1450 y Fuentes 1280 × 990). En todas: banda superior con título y subtítulo y navegador de páginas como menú (11 botones con texto de 8 pt; no muestra las páginas ocultas). Inicio lleva fondo propio y los logos de INESDI y UNIE en la banda. Los segmentadores de Panorama, Demografía y Explorar están sincronizados: la selección se mantiene al cambiar de página. Tema `TFM_Estres_tema_bienestar.json` (teal, arena y coral sobre fondo crema; tarjetas blancas con borde redondeado y sombra). Las tablas tienen anchos fijos con ajuste de texto para que todo se lea sin barras de desplazamiento.
 
 | Página | Contenido |
 |---|---|
@@ -91,10 +95,12 @@ Tamaño 1280 × 720 (Explorar, 1280 × 1000, y Calidad, 1280 × 1360, con «Ajus
 | **2 Demografía** | Mismos segmentadores; % estrés Alto por género, edad y estudios (sin «No reportado»); matriz Género × Edad con % Alto y registros; nota de lectura |
 | **3 Lenguaje (Dreaddit)** | Ratio LIWC, sentimiento y posts; vocabulario de ansiedad con y sin estrés por subreddit; tabla por subreddit. Sin filtros demográficos: Dreaddit no tiene género ni edad |
 | **4 Validación psicológica** | Brecha de ansiedad M − H, % estrés severo DASS, % búsqueda de tratamiento y KPI 3; tratamiento por nivel de estrés × antecedentes familiares; estrés severo DASS por estudios × género; advertencia sobre Depression Student |
-| **5 Modelos predictivos** | AUC medio sin alertas y datasets con alerta; AUC del mejor modelo por dataset; tabla del mejor modelo (protocolo, n, AUC, F1, accuracy) |
+| **5 Modelos predictivos** | AUC medio sin alertas y datasets con alerta; AUC del mejor modelo por dataset; tabla del mejor modelo (protocolo, n, AUC, F1, accuracy); comparación de los tres algoritmos clásicos en las 8 fuentes: AUC y sobreajuste (brecha de accuracy entre entrenamiento y prueba), con nota de lectura |
 | **6 KPIs** | Histórico de los 6 KPIs por ejecución (matriz; las 3 ejecuciones del 22/10/2026 dan los mismos valores: cálculo reproducible); catálogo con unidad y definición; distribución Bajo / Moderado / Alto por dataset (barras al 100 %) |
 | **7 Explorar** | Segmentadores sincronizados; árbol de descomposición del % de estrés Alto (Bloque, Dataset, Género, Rango de edad y Nivel educativo, con «Valor alto / bajo»); influenciadores clave del nivel de estrés (elegir «Alto»). Ruta de ejemplo: Validación psicológica → Femenino → 18-25 → Nivel educativo |
 | **8 Calidad** | Calidad y gobierno del dato: tarjetas de reglas (evaluadas, % superadas, avisos y errores) y de controles; reglas por dimensión de calidad (completitud, validez, unicidad, consistencia y conformidad) y estado; completitud por dataset (% de registros con género, edad, nivel educativo y nivel de estrés informados); reglas con aviso y su tratamiento; registro de controles de carga, ETL, migración, seguridad e informe con su origen |
+| **9 Fuentes** | Datasets, incluidos, sintéticos, registros cargados y columnas originales; catálogo de los 12 datasets (bloque, fuente, filas, columnas, calidad y uso en el modelado, con Obtener detalles); variable nativa de estrés y criterio de mapeo a Bajo / Moderado / Alto de cada fuente |
+| **10 DASS-42** | Respondentes de 18-25 años y medias de depresión, ansiedad y estrés (escalas de 14 a 56) y % de estrés severo; las tres escalas por género y por nivel educativo; % de estrés Alto por edad en el DASS-42 completo; nota de lectura |
 | *Detalle del dataset* (oculta) | Destino de Obtener detalles sobre `vw_dim_dataset[dataset]`: ficha, registros, % Alto y % Moderado, cobertura, distribución por nivel (anillo), % Alto por género, edad y estudios y mejor modelo del dataset; botón Volver |
 | *Tooltip del dataset* (oculta, 320 × 240) | Al pasar el ratón por las barras de Panorama: registros, % estrés Alto y distribución por nivel del dataset o bloque |
 
@@ -113,6 +119,8 @@ Valores de control sin filtros (calculados también en SQL):
 | Reglas de calidad superadas | 39 de 49 (79,6 %), 10 avisos, 0 errores |
 | Controles superados | 14 de 17 (3 avisos) |
 | Completitud (12 fuentes, 334.318 registros) | género 95,6 %, edad 20,7 %, nivel educativo 15,3 % |
+| DASS-42 (18-25 años, 23.039 respondentes) | depresión 35,0 · ansiedad 30,4 · estrés 35,2 · estrés severo 35,5 % |
+| Columnas originales de los 12 datasets | 576 |
 | KPI riesgo crítico (última ejecución) | 72,69 % |
 
 ## 7. Mejoras posibles (no hechas)
@@ -138,7 +146,7 @@ La base de datos también está en Supabase (PostgreSQL), en el esquema `tfm`. L
 | Esquema | `sql/01_esquema.sql` | Traduce a PostgreSQL las 8 dimensiones, las 8 tablas `dwh_*` y los hechos de `vw_hechos_estres`, que se guardan como tabla `hechos_estres` (las tablas originales `b1_*`…`b4_*` se quedan en MySQL) |
 | Vistas | `sql/02_vistas.sql` | Vuelve a crear las 7 vistas `vw_*` con los mismos nombres y columnas |
 | Correcciones | `sql/03_correcciones_datos.sql` | Pone las tildes en bloques, KPIs, modelos y descripciones, y cambia «Yes» por «Sí» en los antecedentes familiares. Solo en Supabase: MySQL queda igual |
-| Migración | `scripts/migrar_mysql_a_supabase.py` | Ejecuta los tres SQL, copia los datos desde MySQL, crea el usuario de solo lectura `tfm_lector` y valida contra MySQL (17/17 tablas y 7/7 cifras de control) |
+| Migración | `scripts/migrar_mysql_a_supabase.py` | Ejecuta los SQL (esquema, calidad del dato, vistas, `vw_fuentes` y correcciones), copia los datos desde MySQL, crea el usuario de solo lectura `tfm_lector` y valida contra MySQL (19 tablas y 7 cifras de control) |
 | Power BI | `scripts/preparar_powerbi_supabase.py` | Genera `supabase/powerbi/` a partir del Power BI local: `Fuente = "Supabase"`, conector PostgreSQL y la medida de antecedentes con «Sí» |
 | Lectura pública | `sql/04_api_lectura_publica.sql` y `scripts/publicar_api_lectura.py` | Publica por la API REST tres vistas de datos agregados (`tfm_datasets`, `tfm_kpis` y `tfm_modelos`), con solo permiso de lectura para la clave pública. El prototipo web (v9) las enlaza como «datos en vivo» |
 

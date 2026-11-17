@@ -7,7 +7,7 @@ Pasos: 1) crea el esquema tfm (01_esquema.sql; si ya existe, lo borra y lo rehac
 de calidad del dato (05_calidad_dato.sql), 2) copia los datos tabla a tabla con COPY, 3) crea las
 vistas (02_vistas.sql), 4) aplica las correcciones de datos (03_correcciones_datos.sql), 5) crea o
 actualiza el usuario de solo lectura y vuelve a publicar las vistas de lectura pública de la API
-(04_api_lectura_publica.sql; el DROP SCHEMA del paso 1 las borra) y 6) valida filas y cifras de
+(04_api_lectura_publica.sql; el DROP SCHEMA del paso 1 las borra). La vista vw_fuentes sale de 06_vista_fuentes.sql y 6) valida filas y cifras de
 control contra MySQL. Las tablas de calidad deben estar antes en MySQL (local_xampp/scripts/cargar_calidad_dato.py).
 
 Credenciales: ../.env (nunca se imprimen). Requiere psycopg2 y python-dotenv.
@@ -135,7 +135,7 @@ def main():
                 for origen, destino in TABLAS:
                     cargadas[destino] = copiar(cur, origen, destino)
                     print(f"  {destino:30s} {cargadas[destino]:>8,} filas".replace(",", "."))
-                print("3. Vistas"); ejecutar_archivo(cur, "02_vistas.sql")
+                print("3. Vistas"); ejecutar_archivo(cur, "02_vistas.sql"); ejecutar_archivo(cur, "06_vista_fuentes.sql")
                 print("4. Correcciones de datos"); ejecutar_archivo(cur, "03_correcciones_datos.sql")
                 print("5. Permisos"); lector(cur); ejecutar_archivo(cur, "04_api_lectura_publica.sql")
 

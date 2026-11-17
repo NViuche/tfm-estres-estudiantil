@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "a786192e8808939ebabb",
+  "position": {
+    "x": 648,
+    "y": 496,
+    "z": 40,
+    "height": 210,
+    "width": 616,
+    "tabOrder": 40
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Cómo leer esta página",
+                    "textStyle": {
+                      "fontSize": "12pt",
+                      "fontWeight": "bold"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Cada escala suma 14 ítems (de 14 a 56 puntos). En estrés, 14-28 es normal, 29-39 leve o moderado y 40-56 severo: la media (35,2) está en el tramo leve o moderado.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Ansiedad y estrés separan a mujeres y hombres casi 3 puntos; la depresión, menos de 1. Las tres escalas son más altas con secundaria o menos y en «Otro» (248 respondentes: leer con cautela).",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "El estrés Alto baja de forma continua con la edad: del 48,3 % en menores de 18 al 18,0 % en mayores de 50.",
+                    "textStyle": {
+                      "fontSize": "10pt"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

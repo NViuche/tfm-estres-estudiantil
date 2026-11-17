@@ -26,6 +26,21 @@ table dwh_dass_severidad
 		displayFolder: 4 Validación psicológica
 		lineageTag: 21874b00-7ab2-5d9b-8641-e3c99e92c36e
 
+	measure 'Depresión media DASS' = DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[depresion_media] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) )
+		formatString: 0.0
+		displayFolder: Perfil DASS-42
+		lineageTag: 4539c0de-2abc-56b2-8610-90215fd50eca
+
+	measure 'Ansiedad media DASS' = DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[ansiedad_media] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) )
+		formatString: 0.0
+		displayFolder: Perfil DASS-42
+		lineageTag: cc585df4-05f7-5ecd-8860-eaef983b937d
+
+	measure 'Estrés medio DASS' = DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[estres_medio] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) )
+		formatString: 0.0
+		displayFolder: Perfil DASS-42
+		lineageTag: 69d8f211-c826-572a-a77b-a1cf1cca2f3f
+
 	column id_dass_sev
 		dataType: double
 		isHidden

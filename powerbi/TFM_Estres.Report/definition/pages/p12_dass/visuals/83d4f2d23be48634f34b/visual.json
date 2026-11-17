@@ -1,0 +1,113 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "83d4f2d23be48634f34b",
+  "position": {
+    "x": 16,
+    "y": 72,
+    "z": 20,
+    "height": 100,
+    "width": 1248,
+    "tabOrder": 20
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Respondentes DASS 18-25"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Respondentes DASS 18-25",
+              "nativeQueryRef": "Respondentes DASS 18-25",
+              "displayName": "Respondentes (18-25)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Depresión media DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Depresión media DASS",
+              "nativeQueryRef": "Depresión media DASS",
+              "displayName": "Depresión media"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Ansiedad media DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Ansiedad media DASS",
+              "nativeQueryRef": "Ansiedad media DASS",
+              "displayName": "Ansiedad media"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "Estrés medio DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.Estrés medio DASS",
+              "nativeQueryRef": "Estrés medio DASS",
+              "displayName": "Estrés medio"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "dwh_dass_severidad"
+                    }
+                  },
+                  "Property": "% Estrés severo DASS"
+                }
+              },
+              "queryRef": "dwh_dass_severidad.% Estrés severo DASS",
+              "nativeQueryRef": "% Estrés severo DASS",
+              "displayName": "% estrés severo"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "value": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

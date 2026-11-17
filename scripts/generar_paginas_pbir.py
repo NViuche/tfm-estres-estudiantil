@@ -242,8 +242,13 @@ def banda(visual, fondo=None):
 
 def navegador():
     # Sin páginas ocultas (Detalle del dataset) ni de tooltip: solo se llega a ellas desde los gráficos
+    # Con 11 páginas en el menú cada botón mide ~81 px: a 9 pt «2 Demografía» pasaba a dos líneas, por eso 8 pt
     return {"visualType": "pageNavigator",
-            "objects": {"pages": [{"properties": {"showHiddenPages": lit("false"), "showTooltipPages": lit("false")}}]}}
+            "objects": {"pages": [{"properties": {"showHiddenPages": lit("false"), "showTooltipPages": lit("false")}}],
+                        # Cada estado del botón tiene su formato: sin «selected» y «hover» la página activa
+                        # vuelve a la letra grande del tema y «2 Demografía» pasa a dos líneas
+                        "text": [{"selector": {"id": estado}, "properties": {"fontSize": lit("8D")}}
+                                 for estado in ("default", "hover", "selected")]}}
 
 
 # ---------------------------------------------------------------- imágenes y funciones avanzadas
@@ -355,9 +360,9 @@ BANDA = "#2A7F7F"  # teal del tema «Bienestar» (TFM_Estres_tema_bienestar.json
 
 def cabecera(pid, titulo, subtitulo):
     # La caja del título ocupa todo el ancho como banda de color (68 px: título 16 pt + subtítulo 9 pt
-    # sin barra de desplazamiento); el navegador va encima, a la derecha: 9 botones de ~94 px, así que los
-    # títulos de la banda deben caber en ~400 px (16 pt) y los subtítulos en ~400 px (9 pt)
-    x_nav = 420
+    # sin barra de desplazamiento); el navegador va encima, a la derecha: 11 botones de ~81 px, así que los
+    # títulos de la banda deben caber en ~350 px (16 pt) y los subtítulos en ~350 px (9 pt)
+    x_nav = 370
     return [
         contenedor(_id(pid, "titulo"), 0, 0, ANCHO, 68, 0,
                    banda(texto([(titulo, 16, True), (subtitulo, 9, False)], color="#FFFFFF"), BANDA)),
@@ -387,12 +392,13 @@ def pagina0():
     # Subtítulo corto: no llega bajo los logos, que ya identifican a UNIE e INESDI
     v = cabecera(p, "Estrés estudiantil", "TFM · Business Analytics e IA")
     # Logos en blanco sobre la banda, centrados en su alto (generar_imagenes.py los crea desde recursos/logos).
-    # Caben entre el título (~200 px) y el menú (x = 420); el subtítulo corto no llega hasta ellos
+    # Caben entre el título (~200 px) y el menú (x = 370); el subtítulo corto no llega hasta ellos
     hay = lambda f: os.path.exists(os.path.join(RAIZ, "imagenes", f))
     if hay("logo_inesdi_blanco.png") and hay("logo_unie_blanco.png"):
-        v.append(contenedor(_id(p, "logo"), 212, 24, 120, 20, 2, imagen("logo_inesdi_blanco.png")))
-        v.append(contenedor(_id(p, "logo_sep"), 340, 14, 3, 40, 2, imagen("separador_blanco.png")))
-        v.append(contenedor(_id(p, "logo_unie"), 350, 15, 69, 38, 2, imagen("logo_unie_blanco.png")))
+        # Con el menú en x = 370, los logos terminan en 364 (UNIE algo más pequeño, misma proporción)
+        v.append(contenedor(_id(p, "logo"), 196, 26, 102, 17, 2, imagen("logo_inesdi_blanco.png")))
+        v.append(contenedor(_id(p, "logo_sep"), 304, 16, 3, 36, 2, imagen("separador_blanco.png")))
+        v.append(contenedor(_id(p, "logo_unie"), 312, 19, 52, 29, 2, imagen("logo_unie_blanco.png")))
     elif hay("logo_inesdi_blanco.png"):
         v.append(contenedor(_id(p, "logo"), 216, 12, 150, 25, 2, imagen("logo_inesdi_blanco.png")))
     v.append(contenedor(_id(p, "intro"), M, 84, 600, 212, 10, texto([
@@ -468,9 +474,11 @@ def pagina6():
 
 
 EXPLORAR, DETALLE, TOOLTIP = "p7_explorar", "p8_detalle_dataset", "p9_tooltip_dataset"
-CALIDAD = "p10_calidad"
+CALIDAD, FUENTES, DASS_P = "p10_calidad", "p11_fuentes", "p12_dass"
 ALTO_EXPLORAR = 1000
 ALTO_CALIDAD = 1450
+ALTO_MODELOS = 1230    # página 5 con la comparación de algoritmos
+ALTO_FUENTES = 990
 FILTRO_DETALLE = "filtro_detalle_dataset"
 NIVELES = incluir(NE, "nivel", ["Bajo", "Moderado", "Alto"])
 INCLUIDOS = incluir(DS, "uso_modelado", ["incluido"])
@@ -500,7 +508,7 @@ def pagina7():
 def pagina8():
     """Detalle del dataset: página de obtención de detalles (drill-through) sobre vw_dim_dataset[dataset]."""
     p = "p8"
-    v = cabecera(p, "Detalle del dataset", "Ficha del dataset elegido · «Volver» regresa a la página anterior")
+    v = cabecera(p, "Detalle del dataset", "Ficha del dataset · «Volver» regresa a la página anterior")
     v.append(contenedor(_id(p, "volver"), M, 80, 120, 34, 5, boton_volver()))
     v.append(contenedor(_id(p, "ficha"), M, 124, 560, 112, 10,
                         tabla([(col(DS, "dataset"), "Dataset"), (col(DS, "bloque"), "Bloque"),
@@ -588,6 +596,71 @@ def pagina10():
                               anchos=[(col(CC, "fase"), 90), (col(CC, "control"), 220), (col(CC, "resultado"), 600),
                                       (col(CC, "estado"), 70), (col(CC, "origen"), 200)]),
                         titulo="Registro de controles de validación: carga, ETL, migración, seguridad e informe"))
+    return v
+
+
+FU = "vw_fuentes"
+
+
+def pagina11():
+    """Fuentes: catálogo de los 12 datasets y criterio con el que cada variable nativa se lleva a Bajo / Moderado / Alto.
+    Página alta (990 px, «Ajustar al ancho»): las dos tablas se ven completas."""
+    p = "p11"
+    v = cabecera(p, "Fuentes de datos", "12 datasets públicos y cómo se mide el estrés en cada uno")
+    v.append(contenedor(_id(p, "kpis"), M, 72, ANCHO - 2 * M, 100, 20, tarjetas([
+        (med(FU, "Datasets"), "Datasets"), (med(FU, "Datasets incluidos"), "Incluidos en las medidas"),
+        (med(FU, "Datasets sintéticos"), "Sintéticos (excluidos)"), (med(H, "Registros (12 fuentes)"), "Registros cargados"),
+        (med(FU, "Columnas originales"), "Columnas originales")])))
+    v.append(contenedor(_id(p, "catalogo"), M, 184, ANCHO - 2 * M, 452, 30,
+                        tabla([(col(DS, "dataset"), "Dataset"), (col(DS, "bloque"), "Bloque"), (col(FU, "fuente"), "Fuente"),
+                               (col(DS, "n_filas"), "Filas"), (col(FU, "n_columnas"), "Columnas"),
+                               (col(DS, "calidad"), "Calidad"), (col(DS, "uso_modelado"), "Modelado")],
+                              anchos=[(col(DS, "dataset"), 240), (col(DS, "bloque"), 160), (col(FU, "fuente"), 430),
+                                      (col(DS, "n_filas"), 80), (col(FU, "n_columnas"), 80), (col(DS, "calidad"), 95),
+                                      (col(DS, "uso_modelado"), 95)]),
+                        titulo="Catálogo de datasets (clic derecho → Obtener detalles abre la ficha)"))
+    v.append(contenedor(_id(p, "mapeo"), M, 648, ANCHO - 2 * M, 326, 31,
+                        tabla([(col(DS, "dataset"), "Dataset"), (col(FU, "variable_nativa"), "Variable de estrés de la fuente"),
+                               (col(FU, "criterio"), "Criterio Bajo / Moderado / Alto")],
+                              anchos=[(col(DS, "dataset"), 260), (col(FU, "variable_nativa"), 270), (col(FU, "criterio"), 690)]),
+                        titulo="Cómo se lleva cada fuente al nivel de estrés común (por eso se comparan tendencias, no niveles)"))
+    return v
+
+
+def pagina12():
+    """Perfil DASS-42: las tres escalas (depresión, ansiedad y estrés) por género y estudios (18-25 años) y el
+    gradiente del estrés Alto por edad en el DASS-42 completo."""
+    p = "p12"
+    v = cabecera(p, "Perfil DASS-42", "Depresión, ansiedad y estrés: escalas de 14 a 56 puntos")
+    escalas = [(med(DASS, "Depresión media DASS"), "Depresión"), (med(DASS, "Ansiedad media DASS"), "Ansiedad"),
+               (med(DASS, "Estrés medio DASS"), "Estrés")]
+    v.append(contenedor(_id(p, "kpis"), M, 72, ANCHO - 2 * M, 100, 20, tarjetas(
+        [(med(DASS, "Respondentes DASS 18-25"), "Respondentes (18-25)")]
+        + [(m, et) for (m, _), et in zip(escalas, ("Depresión media", "Ansiedad media", "Estrés medio"))] + [(med(DASS, "% Estrés severo DASS"), "% estrés severo")])))
+    w = (ANCHO - 2 * M - 16) / 2
+
+    def sin_titulo_y(v):
+        # La leyenda ya nombra las tres escalas: el título del eje Y («Depresión, Ansiedad y…») se cortaba
+        v["objects"]["valueAxis"] = [{"properties": {"showAxisTitle": lit("false")}}]
+        return v
+    v.append(contenedor(_id(p, "genero"), M, 184, w, 300, 30,
+                        sin_titulo_y(barras(col(G, "nombre"), "Género", escalas, tipo="clusteredColumnChart", orden=col(G, "nombre"))),
+                        filtros=[excluir(G, "nombre", ["No reportado"])], titulo="Las tres escalas por género (18-25 años)"))
+    v.append(contenedor(_id(p, "estudios"), M + w + 16, 184, w, 300, 31,
+                        sin_titulo_y(barras(col(ED, "nivel"), "Nivel educativo", escalas, tipo="clusteredColumnChart", orden=col(ED, "nivel"))),
+                        filtros=[excluir(ED, "nivel", ["No reportado"])], titulo="Las tres escalas por nivel educativo (18-25 años)"))
+    v.append(contenedor(_id(p, "edad"), M, 496, w, 210, 32,
+                        barras(col(E, "rango"), "Rango de edad", [(med(H, "% Estrés Alto"), "% estrés Alto")],
+                               tipo="clusteredColumnChart", orden=col(E, "rango")),
+                        filtros=[incluir(DS, "dataset", ["DASS-42"]), excluir(E, "rango", ["No reportado"])],
+                        titulo="% de estrés Alto por edad (DASS-42, todas las edades)"))
+    v.append(contenedor(_id(p, "nota"), M + w + 16, 496, w, 210, 40, texto([
+        ("Cómo leer esta página", 12, True),
+        ("Cada escala suma 14 ítems (de 14 a 56 puntos). En estrés, 14-28 es normal, 29-39 leve o moderado y 40-56 severo: "
+         "la media (35,2) está en el tramo leve o moderado.", 10, False),
+        ("Ansiedad y estrés separan a mujeres y hombres casi 3 puntos; la depresión, menos de 1. Las tres escalas son más "
+         "altas con secundaria o menos y en «Otro» (248 respondentes: leer con cautela).", 10, False),
+        ("El estrés Alto baja de forma continua con la edad: del 48,3 % en menores de 18 al 18,0 % en mayores de 50.", 10, False)])))
     return v
 
 
@@ -730,6 +803,23 @@ def pagina5():
                                (col(MOD, "auc"), "AUC"), (col(MOD, "f1"), "F1"),
                                (col(MOD, "accuracy"), "Accuracy")]),
                         filtros=mejores, titulo="Detalle del mejor modelo"))
+    # Comparación de algoritmos (página más alta, «Ajustar al ancho»): los tres algoritmos clásicos en las 8 fuentes.
+    # En Dreaddit se comparan sus variantes LIWC + algoritmo; el baseline (AUC 0,5) y los modelos de texto quedan fuera
+    algoritmos = [incluir(MOD, "familia", ["Regresión Logística", "Random Forest", "XGBoost"])]
+    w = (ANCHO - 2 * M - 16) / 2
+    for i, (medida, nombre, titulo) in enumerate([
+            ("AUC medio", "AUC", "AUC por algoritmo y dataset"),
+            ("Brecha de accuracy media", "Brecha", "Sobreajuste: accuracy de entrenamiento − prueba")]):
+        v.append(contenedor(_id(p, "comparar", nombre), M + i * (w + 16), 678, w, 420, 32 + i,
+                            barras(col(MOD, "dataset"), "Dataset", [(med(MOD, medida), nombre)],
+                                   serie=(col(MOD, "familia"), "Algoritmo"), orden=col(MOD, "dataset"), largo=45),
+                            filtros=algoritmos, titulo=titulo))
+    v.append(contenedor(_id(p, "comparar_nota"), M, 1110, ANCHO - 2 * M, 106, 40, texto([
+        ("Lectura de la comparación", 11, True),
+        ("Un modelo simple basta: la Regresión Logística queda a menos de 0,015 de AUC del mejor modelo en las 8 fuentes, y es "
+         "la que menos sobreajusta en 7 de ellas (en la otra empata con XGBoost). Random Forest y XGBoost memorizan en las fuentes pequeñas (brecha de hasta 0,56 "
+         "en Academic Stress; una brecha mayor de 0,15 indica sobreajuste). El accuracy engaña con clases desbalanceadas: en Student Anxiety GAD-7, XGBoost logra 0,832 de "
+         "accuracy frente al 0,827 del baseline, y por eso los modelos se comparan por AUC.", 10, False)])))
     return v
 
 
@@ -745,22 +835,25 @@ def ajustar_modelo():
             t = t.replace(f"\t\tsourceColumn: {columna}\n",
                           f"\t\tsourceColumn: {columna}\n\t\tsortByColumn: {por}\n", 1)
             open(ruta, "w", encoding="utf-8", newline="\n").write(t)
-    ruta = os.path.join(TABLAS, "vw_modelo_resultados.tmdl")
-    t = open(ruta, encoding="utf-8").read()
-    formatos = {"n_registros": "#,0", "accuracy": "0.000", "f1": "0.000", "auc": "0.000",
-                "auc_desv": "0.000", "brecha_acc": "0.000", "es_mejor_modelo": None}
-    for c, fmt in formatos.items():
-        patron = re.compile(rf"(\tcolumn {c}\n(?:\t\t.*\n|\n)*?)(?=\tcolumn |\tpartition |\tmeasure )")
+    # Formatos de columna (y sin suma automática): métricas con 3 decimales, recuentos sin decimales
+    for archivo, formatos in (
+            ("vw_modelo_resultados.tmdl", {"n_registros": "#,0", "accuracy": "0.000", "f1": "0.000", "auc": "0.000",
+                                           "auc_desv": "0.000", "brecha_acc": "0.000", "es_mejor_modelo": None}),
+            ("vw_dim_dataset.tmdl", {"n_filas": "#,0"})):
+        ruta = os.path.join(TABLAS, archivo)
+        t = open(ruta, encoding="utf-8").read()
+        for c, fmt in formatos.items():
+            patron = re.compile(rf"(\tcolumn {c}\n(?:\t\t.*\n|\n)*?)(?=\tcolumn |\tpartition |\tmeasure )")
 
-        def arreglar(m, fmt=fmt):
-            b = (m.group(1).replace("summarizeBy: sum", "summarizeBy: none")
-                 .replace("SummarizationSetBy = Automatic", "SummarizationSetBy = User"))
-            if fmt and "formatString:" not in b:
-                b = re.sub(r"(\t\tdataType: \w+\n)", rf"\1\t\tformatString: {fmt}\n", b, count=1)
-            return b
+            def arreglar(m, fmt=fmt):
+                b = (m.group(1).replace("summarizeBy: sum", "summarizeBy: none")
+                     .replace("SummarizationSetBy = Automatic", "SummarizationSetBy = User"))
+                if fmt and "formatString:" not in b:
+                    b = re.sub(r"(\t\tdataType: \w+\n)", rf"\1\t\tformatString: {fmt}\n", b, count=1)
+                return b
 
-        t = patron.sub(arreglar, t)
-    open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+            t = patron.sub(arreglar, t)
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
     # Fecha de ejecución de los KPIs sin segundos (22/10/2026 13:36 en lugar de 22/10/2026 13:36:30)
     ruta = os.path.join(TABLAS, "dwh_kpi_resultados.tmdl")
     t = open(ruta, encoding="utf-8").read()
@@ -827,7 +920,19 @@ TABLAS_CALIDAD = {
          [("Controles", "COUNTROWS ( dwh_calidad_controles )", "#,0"),
           ("Controles superados", 'CALCULATE ( [Controles], dwh_calidad_controles[estado] = "OK" ) + 0', "#,0"),
           ("Controles con aviso", 'CALCULATE ( [Controles], dwh_calidad_controles[estado] = "AVISO" ) + 0', "#,0")]),
+    # Metadatos de cada dataset (vista vw_fuentes): página «9 Fuentes»
+    "vw_fuentes": ([("id_dataset", "numero", None, True), ("fuente", "texto", None, False),
+                    ("n_columnas", "numero", "#,0", False), ("variable_nativa", "texto", None, False),
+                    ("criterio", "texto", None, False)],
+                   [("Datasets", "COUNTROWS ( vw_fuentes )", "#,0"),
+                    ("Datasets incluidos", 'CALCULATE ( COUNTROWS ( vw_fuentes ), vw_dim_dataset[uso_modelado] = "incluido" ) + 0', "#,0"),
+                    ("Datasets sintéticos", 'CALCULATE ( COUNTROWS ( vw_fuentes ), vw_dim_dataset[uso_modelado] = "excluido" ) + 0', "#,0"),
+                    ("Columnas originales", "SUM ( vw_fuentes[n_columnas] )", "#,0")]),
 }
+# Relaciones de las tablas añadidas con la dimensión de datasets
+RELACIONES_EXTRA = [(CR, "id_dataset"), ("vw_fuentes", "id_dataset")]
+TEXTO_EXTRA = ("regla", "dimension", "estado", "accion", "fase", "control", "resultado", "origen",
+               "fuente", "variable_nativa", "criterio")
 # Completitud sobre los 12 datasets (sin filtrar uso_modelado): el id 0 es «No reportado» / «No aplica»
 MEDIDAS_COMPLETITUD = [
     ("Registros (12 fuentes)", "COUNTROWS ( vw_hechos_estres )", "#,0"),
@@ -835,6 +940,17 @@ MEDIDAS_COMPLETITUD = [
     ("% edad informada", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_rango_edad] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
     ("% nivel educativo informado", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_educativo] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
     ("% nivel de estrés asignado", "DIVIDE ( CALCULATE ( COUNTROWS ( vw_hechos_estres ), vw_hechos_estres[id_nivel_estres] <> 0 ) + 0, COUNTROWS ( vw_hechos_estres ) )", "0.0%"),
+]
+# Media ponderada por respondentes de cada escala del DASS-42 (dwh_dass_severidad guarda la media por grupo)
+_media_dass = "DIVIDE ( SUMX ( dwh_dass_severidad, dwh_dass_severidad[{c}] * dwh_dass_severidad[n_respondentes] ), SUM ( dwh_dass_severidad[n_respondentes] ) )"
+MEDIDAS_EXTRA = [
+    ("vw_hechos_estres", "6 Calidad del dato", MEDIDAS_COMPLETITUD),
+    ("vw_modelo_resultados", "Comparación de modelos",
+     [("Brecha de accuracy media", "AVERAGE ( vw_modelo_resultados[brecha_acc] )", "0.000")]),
+    ("dwh_dass_severidad", "Perfil DASS-42",
+     [("Depresión media DASS", _media_dass.format(c="depresion_media"), "0.0"),
+      ("Ansiedad media DASS", _media_dass.format(c="ansiedad_media"), "0.0"),
+      ("Estrés medio DASS", _media_dass.format(c="estres_medio"), "0.0")]),
 ]
 
 
@@ -858,32 +974,56 @@ def modelo_calidad():
     # 3. Relación reglas → dataset
     ruta = os.path.join(definicion, "relationships.tmdl")
     t = open(ruta, encoding="utf-8").read()
-    if f"fromColumn: {CR}.id_dataset" not in t:
-        t = t.rstrip("\n") + f"\n\nrelationship {_tag('rel', CR, 'id_dataset')}\n\tfromColumn: {CR}.id_dataset\n\ttoColumn: {DS}.id_dataset\n"
-        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    for tabla, c in RELACIONES_EXTRA:
+        if f"fromColumn: {tabla}.{c}" not in t:
+            t = t.rstrip("\n") + f"\n\nrelationship {_tag('rel', tabla, c)}\n\tfromColumn: {tabla}.{c}\n\ttoColumn: {DS}.{c}\n"
+    open(ruta, "w", encoding="utf-8", newline="\n").write(t)
     # 4. Columnas de texto del origen CSV (fnTabla tipa el resto como número)
     ruta = os.path.join(definicion, "expressions.tmdl")
     t = open(ruta, encoding="utf-8").read()
-    nuevas = [c for c in ("regla", "dimension", "estado", "accion", "fase", "control", "resultado", "origen")
-              if f'"{c}"' not in t.split("TextoCols = {", 1)[1].split("}", 1)[0]]
+    nuevas = [c for c in TEXTO_EXTRA if f'"{c}"' not in t.split("TextoCols = {", 1)[1].split("}", 1)[0]]
     if nuevas:
-        t = t.replace('"tarea_modelado"}', '"tarea_modelado",' + ",".join(f'"{c}"' for c in nuevas) + "}", 1)
+        t = re.sub(r"(TextoCols = \{[^}]*)\}", lambda x: x.group(1) + "," + ",".join(f'"{c}"' for c in nuevas) + "}", t, count=1)
         open(ruta, "w", encoding="utf-8", newline="\n").write(t)
-    # 5. Medidas de completitud en la tabla de hechos
-    ruta = os.path.join(TABLAS, "vw_hechos_estres.tmdl")
+    # 5. Medidas añadidas a tablas que ya existían (completitud, comparación de modelos y perfil DASS)
+    for tabla, carpeta, medidas in MEDIDAS_EXTRA:
+        medidas_en(tabla, carpeta, medidas)
+    # 6. Familia del algoritmo de cada modelo (columna calculada): agrupa las variantes de Dreaddit (LIWC + …)
+    #    con su algoritmo base, para comparar los mismos algoritmos en las 8 fuentes. Subcadenas sin tildes:
+    #    en MySQL los nombres de los modelos no llevan tildes y en Supabase sí
+    ruta = os.path.join(TABLAS, "vw_modelo_resultados.tmdl")
+    t = open(ruta, encoding="utf-8").read()
+    if "column familia" not in t:
+        columna = ("\tcolumn familia = SWITCH ( TRUE (), CONTAINSSTRING ( vw_modelo_resultados[modelo], \"Baseline\" ), \"Baseline\", "
+                   "CONTAINSSTRING ( vw_modelo_resultados[modelo], \"brido\" ), \"Híbrido texto\", "
+                   "CONTAINSSTRING ( vw_modelo_resultados[modelo], \"TF-IDF\" ), \"Texto (TF-IDF)\", "
+                   "CONTAINSSTRING ( vw_modelo_resultados[modelo], \"Regresi\" ), \"Regresión Logística\", "
+                   "CONTAINSSTRING ( vw_modelo_resultados[modelo], \"Random Forest\" ), \"Random Forest\", "
+                   "CONTAINSSTRING ( vw_modelo_resultados[modelo], \"XGBoost\" ), \"XGBoost\", \"Otro\" )\n"
+                   "\t\tdataType: string\n"
+                   f"\t\tlineageTag: {_tag('vw_modelo_resultados', 'familia')}\n"
+                   "\t\tsummarizeBy: none\n\n"
+                   "\t\tannotation SummarizationSetBy = Automatic\n\n")
+        i = t.index("\tpartition ")
+        t = t[:i] + columna + t[i:]
+        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+
+
+def medidas_en(tabla, carpeta, medidas):
+    """Inserta o actualiza medidas en una tabla del modelo (el generador es la fuente de verdad de su expresión)."""
+    ruta = os.path.join(TABLAS, tabla + ".tmdl")
     t = open(ruta, encoding="utf-8").read()
     bloque = ""
-    for m, dax, fmt in MEDIDAS_COMPLETITUD:
-        if f"measure '{m}'" in t:   # ya existe: se actualiza su expresión (el generador es la fuente de verdad)
+    for m, dax, fmt in medidas:
+        if f"measure '{m}'" in t:
             t = re.sub(rf"(\tmeasure '{re.escape(m)}' = )[^\n]*", lambda x: x.group(1) + dax, t, count=1)
-            open(ruta, "w", encoding="utf-8", newline="\n").write(t)
         else:
-            bloque += (f"\tmeasure '{m}' = {dax}\n\t\tformatString: {fmt}\n\t\tdisplayFolder: 6 Calidad del dato\n"
-                       f"\t\tlineageTag: {_tag('vw_hechos_estres', 'medida', m)}\n\n")
+            bloque += (f"\tmeasure '{m}' = {dax}\n\t\tformatString: {fmt}\n\t\tdisplayFolder: {carpeta}\n"
+                       f"\t\tlineageTag: {_tag(tabla, 'medida', m)}\n\n")
     if bloque:
-        i = t.index("\tmeasure ")
+        i = t.index("\tmeasure ") if "\tmeasure " in t else t.index("\tcolumn ")
         t = t[:i] + bloque + t[i:]
-        open(ruta, "w", encoding="utf-8", newline="\n").write(t)
+    open(ruta, "w", encoding="utf-8", newline="\n").write(t)
 
 
 # ---------------------------------------------------------------- escritura
@@ -925,7 +1065,7 @@ PAGINAS_INFORME = [("p0_inicio", "Inicio", pagina0), ("p1_panorama", "1 Panorama
                    ("p2_demografia", "2 Demografía", pagina2), ("p3_lenguaje", "3 Lenguaje", pagina3),
                    ("p4_validacion", "4 Validación", pagina4), ("p5_modelos", "5 Modelos", pagina5),
                    ("p6_kpis", "6 KPIs", pagina6), (EXPLORAR, "7 Explorar", pagina7),
-                   (CALIDAD, "8 Calidad", pagina10),
+                   (CALIDAD, "8 Calidad", pagina10), (FUENTES, "9 Fuentes", pagina11), (DASS_P, "10 DASS-42", pagina12),
                    (DETALLE, "Detalle del dataset", pagina8), (TOOLTIP, "Tooltip del dataset", pagina9)]
 
 IMAGENES = os.path.normpath(os.path.join(RAIZ, "imagenes"))
@@ -944,6 +1084,10 @@ def config_pagina(carpeta):
         return {"displayOption": "FitToWidth", "height": ALTO_EXPLORAR}
     if carpeta == CALIDAD:
         return {"displayOption": "FitToWidth", "height": ALTO_CALIDAD}
+    if carpeta == "p5_modelos":
+        return {"displayOption": "FitToWidth", "height": ALTO_MODELOS}
+    if carpeta == FUENTES:
+        return {"displayOption": "FitToWidth", "height": ALTO_FUENTES}
     if carpeta == DETALLE:
         campo = col(DS, "dataset")
         return {"type": "Drillthrough", "visibility": "HiddenInViewMode",

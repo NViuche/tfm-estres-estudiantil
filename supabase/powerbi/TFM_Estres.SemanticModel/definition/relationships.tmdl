@@ -76,3 +76,7 @@ relationship cd7e828d-7fc5-5507-8aab-11468a4071ba
 	fromColumn: dwh_calidad_reglas.id_dataset
 	toColumn: vw_dim_dataset.id_dataset
 
+relationship f7c64b19-b8f0-590c-9ca7-447613bef42e
+	fromColumn: vw_fuentes.id_dataset
+	toColumn: vw_dim_dataset.id_dataset
+
