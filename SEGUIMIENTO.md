@@ -56,6 +56,7 @@ Entregables listos; pendiente de la retroalimentación del tutor. Avance:
 - No se usó deep learning, búsqueda de hiperparámetros ni ajuste de umbrales.
 - Los modelos son de investigación, no de diagnóstico clínico.
 - Depression Student obtiene un AUC de 0,998, lo que indica una posible etiqueta generada por fórmula. Se reporta con cautela.
+- **Síntesis de la Entrega 3** ([`docs/entrega3_objetivo3/`](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md)): PDF de 11 páginas con el formato de las síntesis anteriores. Explica la arquitectura, los modelos SQL, el Power BI local y en la nube, el diseño del informe, los insights, la analítica avanzada, el servicio web, la calidad y el gobierno del dato, cómo se atiende cada retroalimentación del tutor y la verificación. Aclara que el `.pbix` de la nube se abre sin credenciales y que las del usuario de solo lectura se dan al tutor por un canal privado.
 - 67 respondentes del DASS (0,17 %) sin género informado quedaron como «Otro» en lugar de «No reportado» (efecto de 0,02 puntos en la cobertura demográfica).
 
 ## Pendiente
@@ -67,4 +68,4 @@ Entregables listos; pendiente de la retroalimentación del tutor. Avance:
 
 ---
 <!-- relacionado -->
-**Relacionado:** [README](README.md) · [Problema y objetivos](investigacion/problema.md) · [Respuesta a la Entrega 1](docs/entrega1_objetivo1/02_respuesta_retroalimentacion_entrega1_v3.md) · [Síntesis ETL y KPIs](docs/entrega2_objetivo2/02_sintesis_entrega2_etl_kpis.md) · [Síntesis del modelado](docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) · [Guía de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) · [Pruebas](tests/pruebas.md)
+**Relacionado:** [README](README.md) · [Problema y objetivos](investigacion/problema.md) · [Respuesta a la Entrega 1](docs/entrega1_objetivo1/02_respuesta_retroalimentacion_entrega1_v3.md) · [Síntesis ETL y KPIs](docs/entrega2_objetivo2/02_sintesis_entrega2_etl_kpis.md) · [Síntesis del modelado](docs/entrega2_objetivo2/01_sintesis_objetivo2_modelado.md) · [Síntesis de la Entrega 3](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md) · [Guía de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) · [Pruebas](tests/pruebas.md)

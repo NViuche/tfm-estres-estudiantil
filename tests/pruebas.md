@@ -73,13 +73,15 @@ Valores de control, sin filtros, en el informe y en SQL sobre MySQL:
 | Informe de Power BI conectado a Supabase | Mismos valores de control que el informe local |
 | Prototipo web construido desde Supabase | Mismas cifras que el informe (319.318 registros, 33,7 % de estrés Alto) |
 | Filas por tabla tras la calidad del dato y `vw_fuentes` (17/11/2026, leídas con `tfm_lector`) | 19 tablas y la vista `vw_fuentes`: 20 de 20 coinciden con MySQL |
+| Cifras de control en Supabase (19/11/2026, leídas con `tfm_lector`) | 19 tablas y 8 vistas en `tfm`; 334.318 hechos, 319.318 incluidos, 33,68 % de estrés Alto, 49 reglas y 12 fuentes; el lector no puede crear tablas |
+| Tarea programada `supabase-activo.yml` | Ejecución manual del 17/11/2026 y primera automática (jueves 19/11/2026) correctas |
 | Influenciadores clave del prototipo frente a Power BI | Mismo orden de factores (No reportado, Percepción emocional, Otro, <18, Hábitos digitales); valores algo menores porque Power BI aplica su propio modelo |
 | Ruta de ejemplo del árbol (prototipo frente al PDF entregado) | Mismas cifras en cada nivel: 34,1 % → 39,0 % → 37,6 % → 40,4 / 35,8 / 35,2 / 35,0 % |
-| API de lectura pública (`publicar_api_lectura.py`, 11/11/2026; repetida el 17/11/2026) | `tfm_datasets`, `tfm_kpis`, `tfm_modelos` y `tfm_calidad` responden con 12, 6, 8 y 49 filas; crear, modificar o borrar por la API da error; la clave pública no accede al esquema `tfm` ni a sus tablas |
+| API de lectura pública (`publicar_api_lectura.py`, 11/11/2026; repetida el 17/11/2026 y el 19/11/2026) | `tfm_datasets`, `tfm_kpis`, `tfm_modelos` y `tfm_calidad` responden con 12, 6, 8 y 49 filas; crear, modificar o borrar por la API da error; la clave pública no accede al esquema `tfm` ni a sus tablas |
 
 ## 5. Revisión general del repositorio
 
-Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2026; repetidas el 17/11/2026 tras añadir las páginas Fuentes y DASS-42):
+Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2026; repetidas el 17/11/2026 tras añadir las páginas Fuentes y DASS-42 y el 19/11/2026 tras añadir la síntesis):
 
 | Comprobación | Resultado |
 |---|---|
@@ -88,7 +90,7 @@ Comprobaciones hechas sobre el repositorio antes de cerrar la Entrega 3 (11/11/2
 | Scripts de Python (31) y ficheros JSON de los dos informes (254) | Compilan y se leen sin errores |
 | Prototipo final (`prototipo/v12`) | JavaScript válido; los tres bloques de datos incrustados (datos, imágenes y arquitectura) se leen bien; las rutas del repositorio que enlaza existen y los 9 datasets de la ficha tienen su fuente |
 | Imágenes del informe regeneradas con `scripts/generar_imagenes.py` | Idénticas a las del repositorio |
-| Enlaces relativos entre los documentos Markdown | 142 enlaces, ninguno roto |
+| Enlaces relativos entre los documentos Markdown | 162 enlaces, ninguno roto |
 | Usuario `tfm_lector` en Supabase | Lee bloques, KPIs, antecedentes y modelos con tildes; la escritura sigue bloqueada |
 | Ficheros que no deben subirse (CSV, `.env`, `.pbix`, caché de Power BI) y credenciales | Ninguno en el repositorio; los scripts leen las credenciales del `.env` local y los parámetros de conexión llevan valores de ejemplo |
 
