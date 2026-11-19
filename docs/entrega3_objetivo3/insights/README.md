@@ -26,7 +26,7 @@ Con Node y la librería `docx` instalada (`npm install docx`), desde esta carpet
 node generar_insights.js ../../../figuras/powerbi Insights_PowerBI_TFM_Estres.docx
 ```
 
-Las capturas (`figuras/powerbi/p0_inicio.png` … `p8_calidad.png`) salen del PDF del informe entregado ([`../informe_powerbi_TFM_Estres.pdf`](../informe_powerbi_TFM_Estres.pdf)), con la ruta de ejemplo desplegada en Explorar. Al abrir el `.docx` en Word, si el índice aparece vacío: clic derecho → *Actualizar campos*.
+Las capturas (las 11 páginas, `figuras/powerbi/p0_inicio.png` … `p10_dass.png`) salen del PDF del informe entregado ([`../informe_powerbi_TFM_Estres.pdf`](../informe_powerbi_TFM_Estres.pdf)), con la ruta de ejemplo desplegada en Explorar. Al abrir el `.docx` en Word, si el índice aparece vacío: clic derecho → *Actualizar campos*.
 
 ---
 <!-- relacionado -->
