@@ -31,7 +31,7 @@ tfm-estres-estudiantil/
 │   └── pruebas.md          reglas de calidad, validación de la carga y del informe
 ├── recursos/               logos de UNIE e INESDI de origen (las versiones del informe salen de aquí)
 ├── figuras/                gráficos del EDA y del modelado, diagramas ERD y capturas del informe
-└── docs/                   documentos de las entregas 1, 2 y 3
+└── docs/                   documentos de las entregas 1, 2 y 3, y de la memoria final y la defensa
 ```
 
 | Carpeta | Contenido |
@@ -45,6 +45,7 @@ tfm-estres-estudiantil/
 | `supabase/` | [Base de datos en Supabase](supabase/README.md): esquema PostgreSQL `tfm` (dimensiones, DWH y hechos de la capa estrella), migración validada contra MySQL, correcciones de texto y el informe de Power BI conectado con un usuario de solo lectura |
 | `prototipo/` | [Prototipo web](prototipo/README.md), [publicado aquí](https://claude.ai/artifact/7DuVNnNh38qLgELbcKAG8b): las páginas del informe en un HTML sin dependencias, con los datos de Supabase. Una carpeta por versión: `v1/` (primera), `v2/` (pestaña de arquitectura), `v3/`–`v8/` (mejoras del Power BI: Explorar, ficha del dataset, tooltip, logos), `v9/` (datos en vivo de Supabase), `v10/` (enlazada con este repositorio y con las fuentes de cada dataset), `v11/` (página de calidad del dato) y `v12/`, la final, con las páginas Fuentes y DASS-42 y la comparación de algoritmos |
 | `docs/entrega3_objetivo3/` | [Síntesis de la Entrega 3](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md) (PDF y Markdown: arquitectura, modelos SQL, Power BI local y en la nube, servicio web, insights y verificación), [guía del informe de Power BI](docs/entrega3_objetivo3/guia_power_bi.md) (datos, modelo, medidas, páginas y valores de control), el informe exportado a PDF y el [documento de insights](docs/entrega3_objetivo3/insights/README.md) en Word (entregable de la Entrega 3) |
+| `docs/memoria_final/` | [Memoria final y defensa](docs/memoria_final/README.md): índice de trabajo de la memoria (apartados, origen, estado, páginas y responsables) y guía de estudio para la defensa en Word y PDF (guion de 25 minutos y una parte por integrante, con cifras y preguntas probables del tribunal), con sus generadores |
 
 ## Arquitectura de los datos
 
@@ -169,13 +170,15 @@ Los notebooks y scripts SQL que pasaron por varias versiones se guardan con un �
 | `entrega3/calidad-dato` | `scripts/`, `powerbi/`, `supabase/`, `prototipo/`, `docs/entrega3_objetivo3/` | tablas de calidad del dato → página 8 Calidad → prototipo v11 → insight 8 y sección de gobierno en el Word |
 | `entrega3/fuentes-dass-modelos` | `sql/`, `scripts/`, `powerbi/`, `supabase/`, `prototipo/`, `docs/`, `.github/` | vista de fuentes → páginas Fuentes y DASS-42 y comparación de algoritmos → prototipo v12 → insight 9 → cita, tarea de Supabase y documentación |
 | `entrega3/sintesis` | `docs/entrega3_objetivo3/`, `tests/` | síntesis de la Entrega 3 en PDF y Markdown con sus scripts → referencias y pruebas del 19/11/2026 |
+| `memoria/indice-guia-defensa` | `docs/memoria_final/` | índice de trabajo de la memoria y guía de la defensa con sus generadores |
 
 Para ver una versión anterior: `git log --oneline -- notebooks/<archivo>` y `git show <commit>:notebooks/<archivo>`, o desde la pestaña *History* del archivo en GitHub.
 
 ## Estado
 
 - **Entrega 1 (EDA, calidad, modelo de datos) y Entrega 2 (ingesta, ETL, KPIs, modelado):** completadas. Se cargaron 334.318 filas; 319.318 pertenecen a las 9 fuentes incluidas en el modelado.
-- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (11 páginas, con calidad y gobierno del dato, fuentes, perfil DASS-42 y comparación de algoritmos; cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (9 insights); base de datos migrada a Supabase y validada (19 tablas y la vista de fuentes con las mismas filas que MySQL, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v12, con enlaces a los datos en vivo de Supabase, al repositorio y a las fuentes); [síntesis de la entrega](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md) en PDF. Siguiente fase: memoria y defensa.
+- **Entrega 3 (Power BI e insights):** completada. Informe de Power BI (11 páginas, con calidad y gobierno del dato, fuentes, perfil DASS-42 y comparación de algoritmos; cifras validadas contra MySQL) con imágenes, obtener detalles, tooltips, filtros sincronizados, árbol de descomposición e influenciadores clave; documento de insights en Word (9 insights); base de datos migrada a Supabase y validada (19 tablas y la vista de fuentes con las mismas filas que MySQL, 7/7 cifras de control), con el informe conectado a la nube; prototipo web (versión final v12, con enlaces a los datos en vivo de Supabase, al repositorio y a las fuentes); [síntesis de la entrega](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md) en PDF. Enviada el 20/11/2026.
+- **Memoria final y defensa:** en curso. [Índice de trabajo de la memoria y guía de la defensa](docs/memoria_final/README.md).
 
 ## Licencia
 
