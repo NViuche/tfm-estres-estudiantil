@@ -16,6 +16,9 @@ import stat
 import sys
 
 from dotenv import load_dotenv
+from pathlib import Path
+# El .env vive en Propuesta/privado, fuera de la carpeta compartida con el grupo; si no está, se usa supabase/.env
+ENV_PRIVADO = next((str(p / "privado" / ".env") for p in Path(__file__).resolve().parents if (p / "privado" / ".env").is_file()), None)
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SUPA = os.path.normpath(os.path.join(AQUI, ".."))
@@ -23,7 +26,7 @@ SUPA = os.path.normpath(os.path.join(AQUI, ".."))
 ORIGEN = next(p for p in (os.path.normpath(os.path.join(SUPA, "..", "local_xampp", "powerbi")),
                          os.path.normpath(os.path.join(SUPA, "..", "powerbi"))) if os.path.isdir(p))
 DESTINO = os.path.join(SUPA, "powerbi")
-load_dotenv(os.path.join(SUPA, ".env"))
+load_dotenv(ENV_PRIVADO or os.path.join(SUPA, ".env"))
 
 
 def largo(p):

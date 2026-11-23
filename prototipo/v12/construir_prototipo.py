@@ -19,12 +19,15 @@ import time
 from collections import Counter
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
+# El .env vive en Propuesta/privado, fuera de la carpeta compartida con el grupo; si no está, se usa supabase/.env
+ENV_PRIVADO = next((str(p / "privado" / ".env") for p in Path(__file__).resolve().parents if (p / "privado" / ".env").is_file()), None)
 # Funciona en la carpeta de trabajo (Objetivo3/prototipo/vN) y en el repositorio (prototipo/vN)
 RAIZ = os.path.normpath(os.path.join(AQUI, "..", ".."))
 CSV = next((p for p in (os.path.join(RAIZ, "local_xampp", "powerbi_csv"), os.path.join(RAIZ, "powerbi_csv"))
             if os.path.isdir(p)), os.path.join(RAIZ, "powerbi_csv"))
 HTML = os.path.join(AQUI, "prototipo_estres.html")
-ENV = os.path.join(RAIZ, "supabase", ".env")
+ENV = ENV_PRIVADO or os.path.join(RAIZ, "supabase", ".env")
 PG = None  # conexión a Supabase cuando --fuente supabase
 
 

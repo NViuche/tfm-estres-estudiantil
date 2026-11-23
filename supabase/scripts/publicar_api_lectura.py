@@ -15,9 +15,12 @@ import urllib.request
 
 import psycopg2
 from dotenv import load_dotenv
+from pathlib import Path
+# El .env vive en Propuesta/privado, fuera de la carpeta compartida con el grupo; si no está, se usa supabase/.env
+ENV_PRIVADO = next((str(p / "privado" / ".env") for p in Path(__file__).resolve().parents if (p / "privado" / ".env").is_file()), None)
 
 RAIZ = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-load_dotenv(os.path.join(RAIZ, ".env"))
+load_dotenv(ENV_PRIVADO or os.path.join(RAIZ, ".env"))
 E = os.environ.get
 VISTAS = ("tfm_datasets", "tfm_kpis", "tfm_modelos", "tfm_calidad")
 

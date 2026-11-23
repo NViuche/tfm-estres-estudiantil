@@ -19,11 +19,14 @@ import subprocess
 import sys
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
+from pathlib import Path
+# El .env vive en Propuesta/privado, fuera de la carpeta compartida con el grupo; si no está, se usa supabase/.env
+ENV_PRIVADO = next((str(p / "privado" / ".env") for p in Path(__file__).resolve().parents if (p / "privado" / ".env").is_file()), None)
 # Rutas válidas en la carpeta de trabajo (Objetivo3/local_xampp/scripts) y en el repositorio (scripts/)
 CANDIDATOS_REGLAS = [os.path.join(AQUI, "..", "..", "..", "Objetivo1", "Reglas de Calidad", "resultado_reglas_calidad.csv"),
                      os.path.join(AQUI, "..", "salidas", "objetivo1", "Reglas de Calidad", "resultado_reglas_calidad.csv")]
 CANDIDATOS_CSV = [os.path.join(AQUI, "..", "powerbi_csv"), os.path.join(AQUI, "..", "powerbi_csv")]
-CANDIDATOS_ENV = [os.path.join(AQUI, "..", "..", "supabase", ".env"), os.path.join(AQUI, "..", "supabase", ".env")]
+CANDIDATOS_ENV = [p for p in [ENV_PRIVADO] if p] + [os.path.join(AQUI, "..", "..", "supabase", ".env"), os.path.join(AQUI, "..", "supabase", ".env")]
 CANDIDATOS_SQL = [os.path.join(AQUI, "..", "..", "supabase", "sql", "05_calidad_dato.sql"),
                   os.path.join(AQUI, "..", "supabase", "sql", "05_calidad_dato.sql")]
 MYSQL_EXE = r"C:\xampp\mysql\bin\mysql.exe"
