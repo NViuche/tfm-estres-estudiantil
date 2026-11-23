@@ -20,11 +20,14 @@ import sys
 
 import psycopg2
 from dotenv import load_dotenv
+from pathlib import Path
+# El .env vive en Propuesta/privado, fuera de la carpeta compartida con el grupo; si no está, se usa supabase/.env
+ENV_PRIVADO = next((str(p / "privado" / ".env") for p in Path(__file__).resolve().parents if (p / "privado" / ".env").is_file()), None)
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 RAIZ = os.path.normpath(os.path.join(AQUI, ".."))
 SQL = os.path.join(RAIZ, "sql")
-load_dotenv(os.path.join(RAIZ, ".env"))
+load_dotenv(ENV_PRIVADO or os.path.join(RAIZ, ".env"))
 E = os.environ.get
 
 MYSQL_EXE = next((p for p in (r"C:\xampp\mysql\bin\mysql.exe", "mysql") if p == "mysql" or os.path.exists(p)))
