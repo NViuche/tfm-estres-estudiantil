@@ -58,6 +58,11 @@ Entregables listos; pendiente de la retroalimentación del tutor. Avance:
 - Depression Student obtiene un AUC de 0,998, lo que indica una posible etiqueta generada por fórmula. Se reporta con cautela.
 - **Síntesis de la Entrega 3** ([`docs/entrega3_objetivo3/`](docs/entrega3_objetivo3/01_sintesis_entrega3_powerbi.md)): PDF de 11 páginas con el formato de las síntesis anteriores. Explica la arquitectura, los modelos SQL, el Power BI local y en la nube, el diseño del informe, los insights, la analítica avanzada, el servicio web, la calidad y el gobierno del dato, cómo se atiende cada retroalimentación del tutor y la verificación. Aclara que el `.pbix` de la nube se abre sin credenciales y que las del usuario de solo lectura se dan al tutor por un canal privado.
 - 67 respondentes del DASS (0,17 %) sin género informado quedaron como «Otro» en lugar de «No reportado» (efecto de 0,02 puntos en la cobertura demográfica).
+- **La regla de calidad B1.3** (cgpa en formato texto-rango, Mental Health Survey) depende de la versión de pandas:
+  - Comprueba `dtype == object`. El resultado entregado se generó con pandas 3, donde el texto tiene el tipo `str`, y por eso da 0 de 87 (OK). Con pandas 2 da 87 de 87 (aviso), que es lo correcto.
+  - Se mantiene como se entregó, para no cambiar las cifras presentadas. Con la regla bien, el recuento sería 38 OK y 11 avisos, en lugar de 39 y 10, y seguiría sin haber errores.
+  - El tratamiento que pide la regla sí se aplicó: el notebook 07 carga cgpa como rango (`cgpa_rango`) y el 09 lo recodifica a ordinal.
+  - Trabajo futuro: comprobar `not pd.api.types.is_numeric_dtype(...)` y fijar las versiones de las librerías.
 
 ## Pendiente
 
