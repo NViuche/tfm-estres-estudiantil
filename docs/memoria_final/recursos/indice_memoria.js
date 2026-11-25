@@ -85,7 +85,7 @@ const filas = [
   ["sec", "E.3 DESARROLLO · FASE 1: DATOS, CALIDAD Y MODELO RELACIONAL (Entrega 1)"],
   ["1.1", "Fuentes y bloques", "Los 11 datasets en 4 bloques: qué aporta cada uno, filas y columnas, y si es real o sintético.", [S1 + " (Bloques 1 a 4)", "Objetivo1\\Diccionario de datos.xlsx", "..\\Enlaces.txt"], "Reutilizar", 1.5],
   ["1.2", "Perfilado y análisis exploratorio", "Resumen del EDA por bloque y la síntesis transversal (4 hallazgos). Solo las gráficas clave; el resto, a anexos.", [D1 + " §1 a §6", S1 + " (Síntesis transversal)", "Objetivo1\\figurasObje1"], "Reutilizar", 2.5],
-  ["1.3", "Calidad del dato", "Las 49 reglas de calidad, resultados y decisiones de preprocesamiento.", [D1 + " §7", "Objetivo1\\Reglas de Calidad", S3 + " §9"], "Reutilizar", 1.5],
+  ["1.3", "Calidad del dato", "Las 49 reglas de calidad, resultados y decisiones de preprocesamiento. Incluir como limitación la regla B1.3 (cgpa en texto-rango): depende de la versión de pandas y da 0/87 (OK) cuando debería dar 87/87 (aviso); se mantiene la cifra entregada.", [D1 + " §7", "Objetivo1\\Reglas de Calidad", S3 + " §9", SEG + " (Limitaciones)"], "Reutilizar", 1.5],
   ["1.4", "Modelo relacional y respuesta al tutor", "Modelo MySQL (20 tablas, modelo v2): claves renombradas, dimensiones conformes y capa en estrella, como respuesta a la retroalimentación de la Entrega 1.", [R1 + " §1 a §6", "Objetivo1\\Modelo MySQL"], "Reutilizar", 2.5],
   ["1.5", "Armonización", "Cómo se unifican edad, género y nivel educativo entre fuentes.", ["Objetivo1\\Armonizacion", "Notebook 06 (Respaldo Notebooks)"], "Adaptar", 1],
   ["sec", "E.3 DESARROLLO · FASE 2: ETL, DATAWAREHOUSE Y KPIs (Entrega 2)"],
@@ -107,7 +107,7 @@ const filas = [
   ["4.5", "Analítica avanzada", "Correlaciones y modelos integrados en el informe (parte opcional).", [S3 + " §7"], "Reutilizar", 0.5],
   ["4.6", "Gobierno y retroalimentación", "Gobierno del dato y cómo se atendió cada retroalimentación del tutor, incluida la de la Entrega 3.", [S3 + " §9 y §10", INS + " §4", "Retroalimentación de la Entrega 3 (pendiente)"], "Adaptar", 1],
   ["sec", "PARTES FINALES"],
-  ["F", "Conclusiones", "Aportaciones principales, conclusión por objetivo, recomendaciones (para universidades) y trabajo futuro (datos longitudinales con ID común, RACI, glosario y monitorización de reglas).", [M2 + " §8", INS + " §5", PROB + " (Hallazgos)", SEG + " (Pendiente)"], "Redactar", 2.5],
+  ["F", "Conclusiones", "Aportaciones principales, conclusión por objetivo, recomendaciones (para universidades) y trabajo futuro (datos longitudinales con ID común, RACI, glosario, monitorización de reglas y versiones de librerías fijadas).", [M2 + " §8", INS + " §5", PROB + " (Hallazgos)", SEG + " (Pendiente y Limitaciones)"], "Redactar", 2.5],
   ["G", "Bibliografía", "Formato APA 7: datasets (Kaggle y GitHub) y referencias académicas.", ["..\\Enlaces.txt", "Bibliografía candidata (este documento)"], "Redactar", 2],
 ];
 
@@ -205,6 +205,7 @@ const doc = new Document({
       vi("334.318 registros de hechos, de los que 319.318 se incluyen en el modelado."),
       vi("33,68 % de estrés Alto sobre los registros incluidos."),
       vi("49 reglas de calidad, 6 KPIs y 9 insights."),
+      vi("Reglas de calidad: 39 OK, 10 avisos y 0 errores. Es la cifra oficial; con la regla B1.3 bien evaluada serían 38 OK y 11 avisos (ver 1.3)."),
       vi("Informe de Power BI con 11 páginas visibles, en versión local y en la nube."),
 
       h1("6. Bibliografía candidata"),
