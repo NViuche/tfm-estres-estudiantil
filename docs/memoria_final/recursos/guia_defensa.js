@@ -6,8 +6,9 @@ const path = require("path");
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell, WidthType, ShadingType,
   AlignmentType, LevelFormat, BorderStyle, Footer, PageNumber, HeadingLevel, TableOfContents, VerticalAlign,
-  ExternalHyperlink,
+  ExternalHyperlink, FootnoteReferenceRun,
 } = require("docx");
+const GLOSARIO = require("./glosario_defensa.js");
 
 const [, , SALIDA] = process.argv;
 // En el repositorio, las figuras se leen desde la raíz (3 niveles por encima de esta carpeta).
@@ -22,15 +23,55 @@ const URL_REPO = "https://github.com/NViuche/tfm-estres-estudiantil";
 const t = (text, o = {}) => new TextRun({ text, font: SERIF, size: 22, color: TINTA, ...o });
 const b = (text, o = {}) => t(text, { bold: true, ...o });
 const i = (text, o = {}) => t(text, { italics: true, ...o });
+// ---- Notas al pie con definiciones (glosario_defensa.js)
+// Cada término lleva nota en su primera aparición dentro de cada sección (h1 o parte), para que
+// quien lea solo su parte tenga todas las definiciones en la misma página.
+const NOTAS = {};            // id -> { children: [Paragraph] } para el Document
+let idNota = 0, notasActivas = true, usadosSeccion = new Set();
+const nuevaSeccion = () => { usadosSeccion = new Set(); };
+const TERMINOS = GLOSARIO.map(([termino, patron, def]) => ({
+  termino, def,
+  re: new RegExp((patron.startsWith("\\.") ? "" : "(?<![\\p{L}\\p{N}_])") + "(?:" + patron + ")(?![\\p{L}\\p{N}_])", "giu"),
+}));
+const nota_al_pie = (k) => {
+  const { termino, def } = TERMINOS[k];
+  NOTAS[++idNota] = { children: [new Paragraph({ spacing: { after: 20, line: 228 },
+    children: [new TextRun({ text: " " + termino + ": ", font: SERIF, size: 17, bold: true }), new TextRun({ text: def, font: SERIF, size: 17 })] })] };
+  return new FootnoteReferenceRun(idNota);
+};
+// Parte un texto en runs y añade la nota tras la primera aparición de cada término en la sección.
+// Todos los patrones compiten (el que empieza antes gana; si empatan, el que va antes en la lista),
+// así «dimensiones conformes» nunca queda partido en «dimensiones» + «conformes».
+const conNotas = (s, hacer) => {
+  if (!notasActivas) return [hacer(s)];
+  const out = [];
+  let resto = s;
+  while (resto) {
+    let mejor = null;
+    TERMINOS.forEach((x, k) => {
+      x.re.lastIndex = 0;
+      const m = x.re.exec(resto);
+      if (m && (!mejor || m.index < mejor.i)) mejor = { i: m.index, fin: m.index + m[0].length, k };
+    });
+    if (!mejor) { out.push(hacer(resto)); break; }
+    const nueva = !usadosSeccion.has(mejor.k);
+    if (nueva) {
+      usadosSeccion.add(mejor.k);
+      out.push(hacer(resto.slice(0, mejor.fin)), nota_al_pie(mejor.k));
+    } else out.push(hacer(resto.slice(0, mejor.fin)));
+    resto = resto.slice(mejor.fin);
+  }
+  return out.filter(Boolean);
+};
 // Texto con **negritas** marcadas así
-const md = (s, o = {}) => s.split(/(\*\*[^*]+\*\*|`[^`]+`)/).filter(Boolean).map((x) =>
-  x.startsWith("**") ? b(x.slice(2, -2), o)
-    : x.startsWith("`") ? t(x.slice(1, -1), { ...o, font: "Consolas", size: Math.round((o.size || 22) * 0.86) })
-      : t(x, o));
+const md = (s, o = {}) => s.split(/(\*\*[^*]+\*\*|`[^`]+`)/).filter(Boolean).flatMap((x) =>
+  x.startsWith("**") ? conNotas(x.slice(2, -2), (y) => y && b(y, o))
+    : x.startsWith("`") ? [t(x.slice(1, -1), { ...o, font: "Consolas", size: Math.round((o.size || 22) * 0.86) })]
+      : conNotas(x, (y) => y && t(y, o)));
 const p = (s, o = {}) => new Paragraph({ alignment: AlignmentType.JUSTIFIED, spacing: { after: 120, line: 276 }, children: typeof s === "string" ? md(s) : s, ...o });
 const vi = (s, nivel = 0) => new Paragraph({ numbering: { reference: "vinetas", level: nivel }, spacing: { after: 60, line: 264 }, children: typeof s === "string" ? md(s) : s });
 const num = (s, ref = "numeros") => new Paragraph({ numbering: { reference: ref, level: 0 }, spacing: { after: 60, line: 264 }, children: typeof s === "string" ? md(s) : s });
-const h1 = (text, salto = true) => new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: salto, children: [new TextRun(text)] });
+const h1 = (text, salto = true, reinicia = true) => (reinicia && nuevaSeccion()) || new Paragraph({ heading: HeadingLevel.HEADING_1, pageBreakBefore: salto, children: [new TextRun(text)] });
 const h2 = (text) => new Paragraph({ heading: HeadingLevel.HEADING_2, children: [new TextRun(text)] });
 const h3 = (text) => new Paragraph({ heading: HeadingLevel.HEADING_3, children: [new TextRun(text)] });
 const enlace = (texto, url) => new ExternalHyperlink({ link: url, children: [t(texto, { color: AZUL, underline: {} })] });
@@ -63,10 +104,14 @@ const tabla = (cabecera, filas, cols, o = {}) => {
     children: [new Paragraph({ spacing: { after: 0, line: 240 }, alignment: extra.centro ? AlignmentType.CENTER : AlignmentType.LEFT,
       children: md(String(txt), { size: o.size || 18, color: extra.color || TINTA, bold: !!extra.negrita }) })],
   });
+  // La cabecera se repite en cada página: sin notas al pie
+  const activas = notasActivas; notasActivas = false;
+  const filaCabecera = new TableRow({ tableHeader: true, children: cabecera.map((h, n) => celda(h, n, { fill: AZUL, color: "FFFFFF", negrita: true })) });
+  notasActivas = activas;
   return new Table({
     width: { size: total, type: WidthType.DXA }, columnWidths: cols,
     rows: [
-      new TableRow({ tableHeader: true, children: cabecera.map((h, n) => celda(h, n, { fill: AZUL, color: "FFFFFF", negrita: true })) }),
+      filaCabecera,
       ...filas.map((f, k) => new TableRow({ cantSplit: true, children: f.map((x, n) => celda(x, n, {
         fill: (o.resaltar && o.resaltar(f)) || (k % 2 ? "F5F7FA" : undefined), negrita: o.primeraNegrita && n === 0,
         centro: o.centrar && o.centrar.includes(n) })) })),
@@ -96,7 +141,7 @@ const preguntas = (lista) => lista.flatMap(([q, r]) => [
 
 // Cabecera de cada parte: banda con número, título, integrante y tiempo
 const portadaParte = (n, titulo, entrega, minutos, objetivo) => [
-  new Paragraph({ pageBreakBefore: true, heading: HeadingLevel.HEADING_1, spacing: { after: 60 },
+  nuevaSeccion() || new Paragraph({ pageBreakBefore: true, heading: HeadingLevel.HEADING_1, spacing: { after: 60 },
     children: [new TextRun(`Parte ${n}. ${titulo}`)] }),
   new Table({ width: { size: ANCHO, type: WidthType.DXA }, columnWidths: [3023, 3023, 3024], rows: [new TableRow({ children:
     [["Integrante", "______________________"], ["Corresponde a", entrega], ["Tiempo en la defensa", `${minutos} minutos`]].map(([k, v]) =>
@@ -146,6 +191,7 @@ const comoUsar = [
   vi("**Qué mostrar en pantalla:** la figura o la página del informe que apoya la explicación."),
   vi("**Preguntas probables del tribunal:** con una respuesta preparada."),
   vi("**Transición:** la frase que da paso a la siguiente parte."),
+  p("**Notas al pie con definiciones.** Cada concepto técnico, sigla o herramienta lleva un número pequeño que remite a su definición, al pie de la misma página. La nota aparece la primera vez que el término sale **en cada parte**, así que quien estudie solo su parte tiene todas las definiciones a mano. El Anexo B las reúne todas por orden alfabético."),
   h2("Requisitos de la defensa"),
   vi("**25 minutos** de exposición y después **15 minutos** de preguntas de un tribunal de 3 personas (dos docentes y la dirección del programa)."),
   vi("**Asistencia obligatoria** de los 5 integrantes, con **cámara y micrófono encendidos** toda la sesión, por la videoconferencia del aula TFM."),
@@ -172,7 +218,7 @@ const comoUsar = [
 
 // ---------------- El proyecto en dos minutos
 const resumen = [
-  h1("El proyecto en dos minutos", false),
+  h1("El proyecto en dos minutos", false, false), // misma sección de notas que «Cómo usar»
   p("**El problema.** El estrés estudiantil depende de factores académicos, conductuales, digitales y emocionales que casi nunca se miden juntos. Los datos públicos están dispersos: cada fuente recoge una faceta, con escalas, poblaciones y calidades distintas. Una sola fuente da una visión parcial."),
   p("**La propuesta.** Analizar el estrés desde **cuatro ángulos** a la vez, con **11 datasets públicos** (12 ficheros, porque Dreaddit viene en entrenamiento y prueba) organizados en cuatro bloques: factores internos, hábitos digitales, percepción emocional (texto) y validación psicológica (escalas clínicas). En total, **334.318 registros**."),
   p("**La idea central.** Las fuentes no comparten un identificador de persona, así que **no se fusionan**: cada una se analiza por separado (análisis en paralelo), pero todas se llevan a un **constructo común**, el nivel de estrés Bajo / Moderado / Alto, y a **dimensiones conformes** (género, rango de edad y nivel educativo). Así un mismo filtro, como «mujeres de 18 a 25 años», actúa sobre todas las fuentes."),
@@ -188,7 +234,7 @@ const resumen = [
 
 // ---------------- Línea de tiempo
 const lineaTiempo = [
-  h1("Cómo se hizo: el recorrido completo"),
+  h1("Cómo se hizo: el recorrido completo", true, false),
   p("El proyecto avanzó en fases que se apoyan unas en otras. Cada una tomó como base la anterior y se corrigió con la retroalimentación del tutor. Esta es la historia que cuentan, juntas, las cinco partes de la defensa:"),
   tabla(["Fase", "Qué se hizo", "Entregable", "Parte"], [
     ["Propuesta", "Tema, objetivos y tres datasets iniciales (estrés académico, redes sociales y sueño, Dreaddit)", "Plantilla de propuesta", "1"],
@@ -666,6 +712,8 @@ const transversales = [
   ]),
 ];
 
+// Los anexos ya son material de consulta: sin notas al pie
+notasActivas = false;
 const chuleta = [
   h1("Anexo A. Chuleta de cifras"),
   p("Las cifras oficiales del proyecto. Usad siempre estas, con los mismos redondeos."),
@@ -692,28 +740,11 @@ const chuleta = [
 
 const glosario = [
   h1("Anexo B. Glosario"),
+  p("Las mismas definiciones que aparecen en las notas al pie, reunidas por orden alfabético."),
   tabla(["Término", "Significado"], [
-    ["AUC", "Área bajo la curva ROC: probabilidad de que el modelo puntúe más alto un caso positivo que uno negativo (0,5 azar, 1 perfecto)"],
-    ["Baseline", "Modelo de referencia que predice siempre la clase más frecuente"],
-    ["Brecha (sobreajuste)", "Accuracy de entrenamiento menos accuracy de prueba; > 0,15 indica sobreajuste"],
-    ["Constelación", "Varias tablas de hechos que comparten dimensiones"],
-    ["Constructo común", "El nivel de estrés Bajo / Moderado / Alto al que se lleva la variable de cada fuente"],
-    ["DAMA-DMBOK", "Marco de referencia de gestión y gobierno del dato"],
-    ["DASS-42", "Escala clínica de 42 ítems para depresión, ansiedad y estrés (Lovibond y Lovibond, 1995)"],
-    ["Dimensión conforme", "Dimensión compartida por varias tablas de hechos con el mismo significado"],
-    ["Esquema en estrella", "Una tabla de hechos central rodeada de dimensiones planas"],
-    ["ETL", "Extraer, transformar y cargar datos"],
-    ["Fuga de datos", "Usar como predictor información que contiene la respuesta"],
-    ["GAD-7", "Escala clínica de 7 ítems para la ansiedad generalizada (≥ 10: ansiedad moderada o más)"],
-    ["Hold-out 80/20", "Separar el 80 % para entrenar y el 20 % para evaluar"],
-    ["Hub-and-spoke", "Arquitectura de centro y radios: las fuentes conservan su detalle y convergen en dimensiones comunes"],
-    ["LIWC", "Diccionario psicolingüístico que cuenta palabras por categoría (ansiedad, emoción negativa, pronombres…)"],
-    ["NLP", "Procesamiento de lenguaje natural"],
-    ["PBIP / TMDL / PBIR", "Formato de proyecto de Power BI en texto: modelo en TMDL y páginas en PBIR"],
-    ["SPIN · SWL", "Escalas de ansiedad social y de satisfacción con la vida"],
-    ["TF-IDF", "Representación del texto que pondera cada palabra por su frecuencia en el documento y su rareza en el corpus"],
-    ["Validación cruzada 5×3", "5 particiones repetidas 3 veces: 15 evaluaciones del modelo"],
-  ], [2300, 6770], { primeraNegrita: true }),
+    ...GLOSARIO.map(([termino, , def]) => [termino, def]),
+    ["Brecha (sobreajuste)", "Accuracy de entrenamiento menos accuracy de prueba. Por encima de 0,15 indica sobreajuste."],
+  ].sort((x, y) => x[0].localeCompare(y[0], "es")), [2300, 6770], { primeraNegrita: true }),
 ];
 
 const fuentes = [
@@ -733,6 +764,7 @@ const fuentes = [
 // ------------------------------------------------------------------ documento
 const doc = new Document({
   creator: "Grupo LUHN", title: "Guía del proyecto para la defensa",
+  footnotes: NOTAS,
   styles: {
     default: { document: { run: { font: SERIF, size: 22 } } },
     paragraphStyles: [
